@@ -17,6 +17,8 @@ namespace Hovel
 	public:
 		HovelModel(QObject *parent = 0);
 
+		void newProject();
+
 		QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
 		QModelIndex parent(const QModelIndex &child) const;
 		int rowCount(const QModelIndex &parent = QModelIndex()) const;

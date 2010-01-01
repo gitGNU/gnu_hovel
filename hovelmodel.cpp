@@ -15,6 +15,12 @@ namespace Hovel
 	HovelModel::HovelModel(QObject *parent)
 		: QAbstractItemModel(parent)
 	{
+		rootItem = 0;
+	}
+
+	void HovelModel::newProject()
+	{
+		delete rootItem;
 		rootItem = new ProjectItem();
 		QModelIndex rootItemIndex = index(0, 0, QModelIndex());
 		BookItem *bi = new BookItem(rootItem, "New book");
