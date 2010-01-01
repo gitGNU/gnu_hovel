@@ -1,0 +1,12 @@
+#object files
+*.o
+
+#docs directory
+docs/
+
+#executable file
+hovel
+
+#meta object auto-generated files
+moc_*
+

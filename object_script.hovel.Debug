@@ -1,0 +1,16 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\hovelmodel.o
+./debug\projecttreeview.o
+./debug\folderitem.o
+./debug\textitem.o
+./debug\projectitem.o
+./debug\bookitem.o
+./debug\hovelitem.o
+./debug\propertiesview.o
+./debug\propertiesproxymodel.o
+./debug\chapteritem.o
+./debug\moc_mainwindow.o
+./debug\qrc_hovel.o
+);

@@ -1,0 +1,16 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\hovelmodel.o
+./release\projecttreeview.o
+./release\folderitem.o
+./release\textitem.o
+./release\projectitem.o
+./release\bookitem.o
+./release\hovelitem.o
+./release\propertiesview.o
+./release\propertiesproxymodel.o
+./release\chapteritem.o
+./release\moc_mainwindow.o
+./release\qrc_hovel.o
+);

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg3183"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="add.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs3185">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective3191" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.43901235"
+     inkscape:cx="372.04724"
+     inkscape:cy="526.18109"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="830"
+     inkscape:window-height="667"
+     inkscape:window-x="176"
+     inkscape:window-y="232" />
+  <metadata
+     id="metadata3188">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3710"
+       style="stroke:none;stroke-opacity:1"
+       inkscape:export-filename="C:\temp\dev\qt\hovel\images\add.png"
+       inkscape:export-xdpi="4.3800001"
+       inkscape:export-ydpi="4.3800001">
+      <path
+         style="opacity:1;fill:#00a1d2;fill-opacity:1;stroke:#006a8a;stroke-width:34.99999619;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 336.71503,195.55736 C 301.3735,195.55736 272.9255,224.00538 272.9255,259.34689 L 272.9255,407.80447 L 124.49476,407.80447 C 89.153237,407.80447 60.678394,436.25249 60.678394,471.594 L 60.678394,542.73664 C 60.678394,578.07816 89.153237,606.52615 124.49476,606.52617 L 272.9255,606.52617 L 272.9255,754.98375 C 272.9255,790.32527 301.37351,818.77325 336.71503,818.77328 L 407.8845,818.77328 C 443.22602,818.77328 471.67401,790.32529 471.67403,754.98375 L 471.67403,606.52617 L 620.10477,606.52617 C 655.4463,606.52617 683.8943,578.07814 683.8943,542.73664 L 683.8943,471.594 C 683.8943,436.25248 655.44629,407.80447 620.10477,407.80447 L 471.67403,407.80447 L 471.67403,259.34689 C 471.67403,224.00537 443.22602,195.55736 407.8845,195.55736 L 336.71503,195.55736 z"
+         id="rect3193" />
+    </g>
+  </g>
+</svg>
