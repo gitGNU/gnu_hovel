@@ -27,6 +27,8 @@ namespace Hovel
 
 	QVariant HovelItem::data(int role) const
 	{
+		if(role == Qt::EditRole)
+			role = TitleRole;
 		return _roleData.value(role);
 	}
 
