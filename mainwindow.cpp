@@ -160,8 +160,10 @@ namespace Hovel
 		fileName = settings.value("lastFile", QVariant()).toString();
 		if(fileName.length() > 0)
 			projectModel->open(fileName);
-		else
+		else {
 			projectModel->newProject();
+			fileName.clear();
+		}
 		settings.endGroup();
 	}
 
