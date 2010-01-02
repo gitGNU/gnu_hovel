@@ -48,6 +48,9 @@ namespace Hovel
 	{
 		QDomElement e = doc.createElement("Text");
 		e.setAttribute("Title", _roleData[TitleRole].toString());
+		QString text = _roleData[TextRole].toString();
+		QDomText textNode = doc.createTextNode(text);
+		e.appendChild(textNode);
 
 		foreach(HovelItem * item, _childItems) {
 			e.appendChild(item->toQDomElement(doc));
@@ -56,8 +59,11 @@ namespace Hovel
 		return e;
 	}
 
-	void TextItem::fromQDomElement(QDomElement &)
+	void TextItem::fromQDomElement(QDomElement &el)
 	{
+		QDomText dt = el.firstChild().toText();
+		if(dt.isNull()) return;
+		_roleData[TextRole] = dt.data();
 	}
 
 }

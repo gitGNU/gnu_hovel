@@ -29,10 +29,13 @@ namespace Hovel
 		: QTextEdit ( text, parent ), _index ( idx )
 	{
 		document()->setDocumentMargin(30);
+		connect(this, SIGNAL(textChanged()), this, SLOT(textChanged()));
 	}
 
-	void TextEdit::contentChanged ( )
+	void TextEdit::textChanged ( )
 	{
+		QString html = toHtml();
+		emit contentChanged( _index, html );
 		setWindowModified ( true );
 	}
 
@@ -40,7 +43,5 @@ namespace Hovel
 	{
 		setViewportMargins ( 250, 50, 250, 50 );
 	}
-
-
 
 }

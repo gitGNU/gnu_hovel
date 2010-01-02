@@ -63,8 +63,9 @@ namespace Hovel
 			HovelItem *newItem = 0;
 			if (n.isElement()) {
 				QDomElement childElement = n.toElement();
-				if(childElement.tagName() == "Text")
+				if(childElement.tagName() == "Text") {
 					newItem = new TextItem(this, childElement.attribute("Title"));
+				}
 				else continue;
 
 				newItem->fromQDomElement(childElement);

@@ -25,6 +25,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "chapteritem.h"
 #include "textitem.h"
 #include "textedit.h"
+#include "hovelitem.h"
 
 #include <QSettings>
 #include <QtGui>
@@ -158,6 +159,18 @@ namespace Hovel
 		addToolButton->setPopupMode(QToolButton::InstantPopup);
 		mainToolBar->addWidget(addToolButton);
 
+	}
+
+	QMdiSubWindow * MainWindow::sceneIsOpen(const QModelIndex& index)
+	{
+		foreach(QMdiSubWindow* win, mdiArea->subWindowList()) {
+			TextEdit *te = (TextEdit*)win->widget();
+			if(!te) continue;
+			if(index == te->index())
+				return win;
+		}
+
+		return 0;
 	}
 
 	/*!
@@ -296,40 +309,35 @@ namespace Hovel
 	 */
 	void MainWindow::openScene(const QModelIndex & index)
 	{
+		QMdiSubWindow * sw = sceneIsOpen(index);
+		if(sw) {
+			mdiArea->setActiveSubWindow(sw);
+			return;
+		}
+
 		HovelItem *childItem = static_cast<HovelItem*>(index.internalPointer());
 		TextItem *textItem = dynamic_cast<TextItem *>(childItem);
 		if(!textItem) return;
 
 		TextEdit *textEdit = new TextEdit(index, this, textItem->data(HovelItem::TextRole).toString());
+		connect(textEdit, SIGNAL(contentChanged(QPersistentModelIndex&,QString&)), this, SLOT(textEditContentsChanged(QPersistentModelIndex&,QString&)));
 		mdiArea->addSubWindow(textEdit);
 		textEdit->showMaximized();
 	}
 
 	/*!
 	  Save the current project to disk, prompting for a file name if neccessary.
-	  \todo Implement this function
 	 */
 	void MainWindow::saveProject()
 	{
 		if ( fileName.isEmpty ( ) )
 			if ( !saveProjectAs ( ) ) return;
 
-		//Make sure any updated scenes are synchronised with the model
-		/*foreach ( QMdiSubWindow * subWindow, _mdiArea->subWindowList ( ) ) {
-			TextEdit * currentTextEdit = static_cast<TextEdit *>( subWindow->widget ( ) );
-			if ( currentTextEdit->isWindowModified ( ) ) {
-				HovelNode * sceneNode = static_cast<HovelNode*>( currentTextEdit->index ( ).internalPointer ( ) );
-				sceneNode->setAttribute ( Text, currentTextEdit->toHtml ( ) );
-				currentTextEdit->setWindowModified ( false );
-			}
-		}*/
-
 		projectModel->save ( fileName );
 	}
 
 	/*!
 	  Save the current project, allowing the user to specify a file name.
-	  \todo Implement this function
 	 */
 	bool MainWindow::saveProjectAs()
 	{
@@ -354,6 +362,15 @@ namespace Hovel
 			projectDockWidget->hide();
 		else
 			projectDockWidget->show();
+	}
+
+	void MainWindow::textEditContentsChanged( QPersistentModelIndex& index, QString& newText)
+	{
+		HovelItem *item = static_cast<HovelItem*>(index.internalPointer());
+		TextItem *textItem = dynamic_cast<TextItem *>(item);
+		if(!textItem) return;
+
+		item->setData(newText, HovelItem::TextRole);
 	}
 
 }

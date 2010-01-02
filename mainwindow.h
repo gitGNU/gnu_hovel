@@ -50,6 +50,7 @@ namespace Hovel
 		void createActions();
 		void createMenus();
 		void createToolBars();
+		QMdiSubWindow * sceneIsOpen(const QModelIndex&);
 
 		void closeEvent(QCloseEvent *event);
 
@@ -63,6 +64,7 @@ namespace Hovel
 		void saveProject();
 		bool saveProjectAs();
 		void toggleProjectDock();
+		void textEditContentsChanged( QPersistentModelIndex&, QString& );
 
 	private:
 		QString fileName;

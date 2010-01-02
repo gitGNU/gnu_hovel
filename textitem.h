@@ -41,6 +41,7 @@ namespace Hovel
 		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
+
 	};
 
 }

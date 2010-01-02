@@ -31,7 +31,7 @@ namespace Hovel
 
 	class TextEdit : public QTextEdit
 	{
-	Q_OBJECT
+		Q_OBJECT
 
 	public:
 		TextEdit ( const QModelIndex & idx, QWidget * parent, QString text );
@@ -41,7 +41,10 @@ namespace Hovel
 		void setFullScreenState ( );
 
 	public slots:
-		void contentChanged ( );
+		void textChanged ( );
+
+	signals:
+		void contentChanged ( QPersistentModelIndex&, QString& );
 
 	private:
 		QPersistentModelIndex _index;
