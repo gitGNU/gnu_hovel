@@ -40,6 +40,9 @@ namespace Hovel
 		rootItem = 0;
 	}
 
+	/*!
+	  Creates a new, empty project, with a basic project skeleton.
+	 */
 	void HovelModel::newProject()
 	{
 		delete rootItem;
@@ -60,6 +63,9 @@ namespace Hovel
 		insertItem(locations, rootItemIndex, 2);
 	}
 
+	/*!
+	  Returns a QModelIndex of an item, specified by the \a row and \a column of \a parent.
+	 */
 	QModelIndex HovelModel::index ( int row, int column, const QModelIndex & parent ) const
 	{
 		if (!hasIndex(row, column, parent))
@@ -79,6 +85,9 @@ namespace Hovel
 			return QModelIndex();
 	}
 
+	/*!
+	  Returns the QModelIndex of the parent of the item represented by \a index.
+	 */
 	QModelIndex HovelModel::parent(const QModelIndex &index) const
 	{
 		if (!index.isValid())
@@ -343,7 +352,6 @@ namespace Hovel
 
 	/*! Write a representation of the model to disk.
 	\param fileName a string representing the filename and full path of the file tosave to.
-	\todo finish this function.
 	*/
 	bool HovelModel::save ( QString fileName )
 	{

@@ -161,6 +161,10 @@ namespace Hovel
 
 	}
 
+	/*!
+	  Returns a pointer to an open sub-window associated with \a index, or 0
+	  if an associated sub-window is not already open.
+	 */
 	QMdiSubWindow * MainWindow::sceneIsOpen(const QModelIndex& index)
 	{
 		foreach(QMdiSubWindow* win, mdiArea->subWindowList()) {
@@ -298,10 +302,16 @@ namespace Hovel
 	/*!
 	  Open a Hovel project. If the current project is modified, the user will be prompted to
 	  save the current project first.
-	  \todo Implement this function
 	 */
 	void MainWindow::openProject()
 	{
+		QFileDialog dialog ( this );
+		dialog.setFileMode ( QFileDialog::ExistingFile );
+		dialog.setNameFilter ( tr ( "Hovel Project Files (*.xml)" ) );
+		if ( dialog.exec ( ) ) {
+			fileName = dialog.selectedFiles ( ).first ( );
+			projectModel->open ( fileName );
+		}
 	}
 
 	/*!
@@ -364,7 +374,10 @@ namespace Hovel
 			projectDockWidget->show();
 	}
 
-	void MainWindow::textEditContentsChanged( QPersistentModelIndex& index, QString& newText)
+	/*!
+	  Updates the HovelItem associated with a TextEdit when the text changes in that TextEdit.
+	 */
+	void MainWindow::textEditContentsChanged( QPersistentModelIndex& index, QString& newText )
 	{
 		HovelItem *item = static_cast<HovelItem*>(index.internalPointer());
 		TextItem *textItem = dynamic_cast<TextItem *>(item);

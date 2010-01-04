@@ -37,6 +37,7 @@ namespace Hovel
 	class HovelItem : public Serialise
 	{
 	public:
+		 //! \see Qt::ItemDataRole
 		enum DataRole { TitleRole = 0, TextRole = 32 };
 
 		virtual ~HovelItem();
