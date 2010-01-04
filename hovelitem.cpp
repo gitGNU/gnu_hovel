@@ -47,6 +47,10 @@ namespace Hovel
 		return 1;
 	}
 
+	/*!
+	  Returns the \a role data of this item.
+	  \a role is defined by the #DataRole enumeration.
+	 */
 	QVariant HovelItem::data(int role) const
 	{
 		if(role == Qt::EditRole)
@@ -64,6 +68,9 @@ namespace Hovel
 		_childItems.insert(row, child);
 	}
 
+	/*!
+	  Set the \a role data of this item to \a value.
+	 */
 	bool HovelItem::setData(const QVariant &value, int role)
 	{
 		_roleData[role] = value;
