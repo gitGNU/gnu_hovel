@@ -38,6 +38,7 @@ namespace Hovel
 		: QAbstractItemModel(parent)
 	{
 		rootItem = 0;
+		newProject();
 	}
 
 	/*!
