@@ -30,6 +30,13 @@ namespace Hovel
 		setHeaderHidden(true);
 		setSelectionMode(QAbstractItemView::SingleSelection);
 		setEditTriggers(EditKeyPressed|SelectedClicked);
+
+		connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(enterPressed(QModelIndex)));
+	}
+
+	void ProjectTreeView::enterPressed(const QModelIndex& index)
+	{
+		emit doubleClicked(index);
 	}
 
 }
