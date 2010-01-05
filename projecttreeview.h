@@ -35,6 +35,8 @@ namespace Hovel
 	public:
 		ProjectTreeView();
 
+	public slots:
+		void enterPressed(const QModelIndex&);
 	};
 
 }
