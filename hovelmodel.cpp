@@ -52,7 +52,9 @@ namespace Hovel
 		BookItem *bi = new BookItem(rootItem, "New book");
 		ChapterItem *chapter = new ChapterItem(bi, "New chapter");
 		FolderItem *characters = new FolderItem(rootItem, "Characters");
+		characters->setCanModify( false );
 		FolderItem *locations = new FolderItem(rootItem, "Locations");
+		locations->setCanModify( false );
 		TextItem *scene = new TextItem(chapter, "New scene", "This is the text.");
 
 		insertItem(bi, rootItemIndex, 0);
@@ -171,7 +173,11 @@ namespace Hovel
 		if (!index.isValid())
 			return Qt::ItemIsEnabled;
 
-		return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+		HovelItem* item = static_cast<HovelItem*>(index.internalPointer());
+		if( item->canModify() )
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+		else
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 	}
 
 	bool HovelModel::setData(const QModelIndex &index, const QVariant &value, int role)

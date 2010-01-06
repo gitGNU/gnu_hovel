@@ -33,6 +33,7 @@ namespace Hovel
 		_parentItem = 0;
 		//Set the column data. As this is the root item, this will be the column header
 		_roleData[Qt::DisplayRole] = "Title";
+		_canModify = true;
 	}
 
 	HovelItem * ProjectItem::child(int row)
@@ -48,6 +49,7 @@ namespace Hovel
 	QDomElement ProjectItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Project");
+		e.setAttribute("CanModify", QVariant(_canModify).toString());
 
 		foreach(HovelItem * item, _childItems) {
 			e.appendChild(item->toQDomElement(doc));
@@ -59,6 +61,7 @@ namespace Hovel
 	void ProjectItem::fromQDomElement(QDomElement &el)
 	{
 		QDomNode n = el.firstChild();
+		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 		while (!n.isNull()) {
 			HovelItem *newItem = 0;
 			if (n.isElement()) {

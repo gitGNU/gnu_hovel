@@ -32,6 +32,7 @@ namespace Hovel
 		_roleData[TitleRole] = title;
 		_roleData[TextRole] = text;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/text"));
+		_canModify = true;
 	}
 
 	HovelItem * TextItem::child(int row)
@@ -49,6 +50,8 @@ namespace Hovel
 		QDomElement e = doc.createElement("Text");
 		e.setAttribute("Title", _roleData[TitleRole].toString());
 		QString text = _roleData[TextRole].toString();
+		e.setAttribute("CanModify", QVariant(_canModify).toString());
+
 		QDomText textNode = doc.createTextNode(text);
 		e.appendChild(textNode);
 
@@ -62,6 +65,7 @@ namespace Hovel
 	void TextItem::fromQDomElement(QDomElement &el)
 	{
 		QDomText dt = el.firstChild().toText();
+		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 		if(dt.isNull()) return;
 		_roleData[TextRole] = dt.data();
 	}

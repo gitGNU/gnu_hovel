@@ -32,6 +32,7 @@ namespace Hovel
 		_parentItem = parent;
 		_roleData[TitleRole] = title;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/chapter"));
+		_canModify = true;;
 	}
 
 	HovelItem * ChapterItem::child(int row)
@@ -48,6 +49,7 @@ namespace Hovel
 	{
 		QDomElement e = doc.createElement("Chapter");
 		e.setAttribute("Title", _roleData[TitleRole].toString());
+		e.setAttribute("CanModify", QVariant(_canModify).toString());
 
 		foreach(HovelItem * item, _childItems) {
 			e.appendChild(item->toQDomElement(doc));
@@ -59,6 +61,7 @@ namespace Hovel
 	void ChapterItem::fromQDomElement(QDomElement &el)
 	{
 		QDomNode n = el.firstChild();
+		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 		while (!n.isNull()) {
 			HovelItem *newItem = 0;
 			if (n.isElement()) {
