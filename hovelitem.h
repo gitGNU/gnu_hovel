@@ -51,12 +51,15 @@ namespace Hovel
 		void appendChild(HovelItem * child);
 		void insertChild(HovelItem * child, int row);
 		bool setData(const QVariant &value, int role);
+		bool canModify() { return _canModify; }
+		void setCanModify( bool modify ) { _canModify = modify; }
 
 	protected:
 		QList<HovelItem *>	_childItems;
 		HovelItem			*_parentItem;
 		QMap<int, QVariant>	_roleData;
 		bool				_isModified;
+		bool				_canModify;
 	};
 
 }

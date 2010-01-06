@@ -31,6 +31,7 @@ namespace Hovel
 		_parentItem = parent;
 		_roleData[Qt::DisplayRole] = title;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/folder"));
+		_canModify = true;
 	}
 
 	HovelItem * FolderItem::child(int row)
@@ -52,6 +53,7 @@ namespace Hovel
 	{
 		QDomElement e = doc.createElement("Folder");
 		e.setAttribute("Title", _roleData[TitleRole].toString());
+		e.setAttribute("CanModify", QVariant(_canModify).toString());
 
 		foreach(HovelItem * item, _childItems) {
 			e.appendChild(item->toQDomElement(doc));
@@ -60,8 +62,9 @@ namespace Hovel
 		return e;
 	}
 
-	void FolderItem::fromQDomElement(QDomElement &)
+	void FolderItem::fromQDomElement(QDomElement &el)
 	{
+		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 	}
 
 }

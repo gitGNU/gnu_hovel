@@ -36,7 +36,6 @@ namespace Hovel
 	{
 		QString html = toHtml();
 		emit contentChanged( _index, html );
-		setWindowModified ( true );
 	}
 
 	void TextEdit::setFullScreenState ( )
