@@ -26,6 +26,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "textitem.h"
 #include "textedit.h"
 #include "hovelitem.h"
+#include "export.h"
 
 #include <QSettings>
 #include <QtGui>
@@ -38,10 +39,10 @@ namespace Hovel
 	 */
 	MainWindow::MainWindow()
 	{
-		projectModel = new HovelModel();
+		_projectModel = new HovelModel();
 
-		mdiArea = new QMdiArea(this);
-		setCentralWidget(mdiArea);
+		_mdiArea = new QMdiArea(this);
+		setCentralWidget(_mdiArea);
 
 		createActions();
 		createMenus();
@@ -57,25 +58,25 @@ namespace Hovel
 	void MainWindow::createDockWidgets()
 	{
 		//Create the project tree view dock widget
-		projectDockWidget = new QDockWidget(tr("Project"), this);
-		projectDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-		addDockWidget(Qt::LeftDockWidgetArea, projectDockWidget);
+		_projectDockWidget = new QDockWidget(tr("Project"), this);
+		_projectDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+		addDockWidget(Qt::LeftDockWidgetArea, _projectDockWidget);
 
-		projectTreeView = new ProjectTreeView();
-		projectTreeView->setModel(projectModel);
-		connect(projectTreeView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openScene(const QModelIndex&)));
-		projectDockWidget->setWidget(projectTreeView);
+		_projectTreeView = new ProjectTreeView();
+		_projectTreeView->setModel(_projectModel);
+		connect(_projectTreeView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openScene(const QModelIndex&)));
+		_projectDockWidget->setWidget(_projectTreeView);
 
 		//Create the properties dock widget
-		propertiesDockWidget = new QDockWidget(tr("Properties"), this);
-		propertiesDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-		addDockWidget(Qt::RightDockWidgetArea, propertiesDockWidget);
+		_propertiesDockWidget = new QDockWidget(tr("Properties"), this);
+		_propertiesDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+		addDockWidget(Qt::RightDockWidgetArea, _propertiesDockWidget);
 
-		propertiesProxyModel = new PropertiesProxyModel();
-		propertiesProxyModel->setSourceModel(projectModel);
-		propertiesView = new PropertiesView();
-		propertiesView->setModel(propertiesProxyModel);
-		propertiesDockWidget->setWidget(propertiesView);
+		_propertiesProxyModel = new PropertiesProxyModel();
+		_propertiesProxyModel->setSourceModel(_projectModel);
+		_propertiesView = new PropertiesView();
+		_propertiesView->setModel(_propertiesProxyModel);
+		_propertiesDockWidget->setWidget(_propertiesView);
 	}
 
 	/*!
@@ -84,38 +85,41 @@ namespace Hovel
 	void MainWindow::createActions()
 	{
 		//New items actions
-		newBookAction = new QAction(tr("&New book"), this);
-		newBookAction->setShortcut(tr("Ctrl+N,B"));
-		connect(newBookAction, SIGNAL(triggered()), this, SLOT(newBook()));
+		_newBookAction = new QAction(tr("&New book"), this);
+		_newBookAction->setShortcut(tr("Ctrl+N,B"));
+		connect(_newBookAction, SIGNAL(triggered()), this, SLOT(newBook()));
 
-		newChapterAction = new QAction(tr("New chapter"), this);
-		newChapterAction->setShortcut(tr("Ctrl+N,C"));
-		connect(newChapterAction, SIGNAL(triggered()), this, SLOT(newChapter()));
+		_newChapterAction = new QAction(tr("New chapter"), this);
+		_newChapterAction->setShortcut(tr("Ctrl+N,C"));
+		connect(_newChapterAction, SIGNAL(triggered()), this, SLOT(newChapter()));
 
-		newSceneAction = new QAction(tr("New scene"), this);
-		newSceneAction->setShortcut(tr("Ctrl+N,S"));
-		connect(newSceneAction, SIGNAL(triggered()), this, SLOT(newScene()));
+		_newSceneAction = new QAction(tr("New scene"), this);
+		_newSceneAction->setShortcut(tr("Ctrl+N,S"));
+		connect(_newSceneAction, SIGNAL(triggered()), this, SLOT(newScene()));
 
-		newProjectAction = new QAction(tr("&New project"), this);
-		newProjectAction->setShortcut(tr("Ctrl+N,P"));
-		connect(newProjectAction, SIGNAL(triggered()), this, SLOT(newProject()));
+		_newProjectAction = new QAction(tr("&New project"), this);
+		_newProjectAction->setShortcut(tr("Ctrl+N,P"));
+		connect(_newProjectAction, SIGNAL(triggered()), this, SLOT(newProject()));
 
-		openProjectAction = new QAction(tr("&Open project"), this);
-		openProjectAction->setShortcut(tr("Ctrl+O"));
-		openProjectAction->setStatusTip(tr("Open an existing project"));
-		openProjectAction->setToolTip(tr("Open an existing project"));
-		connect(openProjectAction, SIGNAL(triggered()), this, SLOT(openProject()));
+		_openProjectAction = new QAction(tr("&Open project"), this);
+		_openProjectAction->setShortcut(tr("Ctrl+O"));
+		_openProjectAction->setStatusTip(tr("Open an existing project"));
+		_openProjectAction->setToolTip(tr("Open an existing project"));
+		connect(_openProjectAction, SIGNAL(triggered()), this, SLOT(openProject()));
 
-		saveProjectAction = new QAction(tr("&Save project"), this);
-		saveProjectAction->setShortcut(tr("Ctrl+S"));
-		connect(saveProjectAction, SIGNAL(triggered()), this, SLOT(saveProject()));
+		_saveProjectAction = new QAction(tr("&Save project"), this);
+		_saveProjectAction->setShortcut(tr("Ctrl+S"));
+		connect(_saveProjectAction, SIGNAL(triggered()), this, SLOT(saveProject()));
 
-		saveProjectAsAction = new QAction(tr("Save project &as"), this);
-		connect(saveProjectAsAction, SIGNAL(triggered()), this, SLOT(saveProjectAs()));
+		_saveProjectAsAction = new QAction(tr("Save project &as"), this);
+		connect(_saveProjectAsAction, SIGNAL(triggered()), this, SLOT(saveProjectAs()));
 
-		exitAction = new QAction(tr("E&xit"), this);
-		exitAction->setShortcut(tr("Ctrl+Q"));
-		connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+		_exportHtmlFileAction = new QAction(tr("to single &Html file"), this);
+		connect(_exportHtmlFileAction, SIGNAL(triggered()), this, SLOT(exportHtmlFile()));
+
+		_exitAction = new QAction(tr("E&xit"), this);
+		_exitAction->setShortcut(tr("Ctrl+Q"));
+		connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
 	}
 
 	/*!
@@ -123,19 +127,23 @@ namespace Hovel
 	 */
 	void MainWindow::createMenus()
 	{
-		projectMenu = new QMenu(tr("Project"));
-		projectMenu->addAction(newProjectAction);
-		projectMenu->addAction(openProjectAction);
-		projectMenu->addSeparator();
-		projectMenu->addAction(saveProjectAction);
-		projectMenu->addAction(saveProjectAsAction);
-		projectMenu->addSeparator();
-		projectMenu->addAction(exitAction);
+		_exportMenu = new QMenu(tr("Export . . ."));
+		_exportMenu->addAction(_exportHtmlFileAction);
 
-		addMenu = new QMenu(tr("Add"));
-		addMenu->addAction(newBookAction);
-		addMenu->addAction(newChapterAction);
-		addMenu->addAction(newSceneAction);
+		_projectMenu = new QMenu(tr("Project"));
+		_projectMenu->addAction(_newProjectAction);
+		_projectMenu->addAction(_openProjectAction);
+		_projectMenu->addSeparator();
+		_projectMenu->addAction(_saveProjectAction);
+		_projectMenu->addAction(_saveProjectAsAction);
+		_projectMenu->addMenu(_exportMenu);
+		_projectMenu->addSeparator();
+		_projectMenu->addAction(_exitAction);
+
+		_addMenu = new QMenu(tr("Add"));
+		_addMenu->addAction(_newBookAction);
+		_addMenu->addAction(_newChapterAction);
+		_addMenu->addAction(_newSceneAction);
 	}
 
 	/*!
@@ -143,21 +151,21 @@ namespace Hovel
 	 */
 	void MainWindow::createToolBars()
 	{
-		mainToolBar = addToolBar(tr("Main"));
-		mainToolBar->setIconSize(QSize(32, 32));
+		_mainToolBar = addToolBar(tr("Main"));
+		_mainToolBar->setIconSize(QSize(32, 32));
 
-		projectToolButton = new QToolButton();
-		projectToolButton->setIcon(QIcon(tr(":/images/tree")));
-		projectToolButton->setMenu(projectMenu);
-		projectToolButton->setPopupMode(QToolButton::MenuButtonPopup);
-		connect(projectToolButton, SIGNAL(clicked()), this, SLOT(toggleProjectDock()));
-		mainToolBar->addWidget(projectToolButton);
+		_projectToolButton = new QToolButton();
+		_projectToolButton->setIcon(QIcon(tr(":/images/tree")));
+		_projectToolButton->setMenu(_projectMenu);
+		_projectToolButton->setPopupMode(QToolButton::MenuButtonPopup);
+		connect(_projectToolButton, SIGNAL(clicked()), this, SLOT(toggleProjectDock()));
+		_mainToolBar->addWidget(_projectToolButton);
 
-		addToolButton = new QToolButton();
-		addToolButton->setIcon(QIcon(tr(":/images/add")));
-		addToolButton->setMenu(addMenu);
-		addToolButton->setPopupMode(QToolButton::InstantPopup);
-		mainToolBar->addWidget(addToolButton);
+		_addToolButton = new QToolButton();
+		_addToolButton->setIcon(QIcon(tr(":/images/add")));
+		_addToolButton->setMenu(_addMenu);
+		_addToolButton->setPopupMode(QToolButton::InstantPopup);
+		_mainToolBar->addWidget(_addToolButton);
 
 	}
 
@@ -167,7 +175,7 @@ namespace Hovel
 	 */
 	QMdiSubWindow * MainWindow::sceneIsOpen(const QModelIndex& index)
 	{
-		foreach(QMdiSubWindow* win, mdiArea->subWindowList()) {
+		foreach(QMdiSubWindow* win, _mdiArea->subWindowList()) {
 			TextEdit *te = (TextEdit*)win->widget();
 			if(!te) continue;
 			if(index == te->index())
@@ -196,12 +204,12 @@ namespace Hovel
 		settings.endGroup();
 
 		settings.beginGroup("Files");
-		fileName = settings.value("lastFile", QVariant()).toString();
-		if(fileName.length() > 0)
-			projectModel->open(fileName);
+		_fileName = settings.value("lastFile", QVariant()).toString();
+		if(_fileName.length() > 0)
+			_projectModel->open(_fileName);
 		else {
-			projectModel->newProject();
-			fileName.clear();
+			_projectModel->newProject();
+			_fileName.clear();
 		}
 		settings.endGroup();
 	}
@@ -221,7 +229,7 @@ namespace Hovel
 		settings.endGroup();
 
 		settings.beginGroup("Files");
-		settings.setValue("lastFile", fileName);
+		settings.setValue("lastFile", _fileName);
 		settings.endGroup();
 	}
 
@@ -241,7 +249,7 @@ namespace Hovel
 	void MainWindow::newProject()
 	{
 		//Prompt user to save if current project is modified.
-		if(projectModel->isModified()) {
+		if(_projectModel->isModified()) {
 			QMessageBox prompt;
 			prompt.setText("The project has been modified.");
 			prompt.setInformativeText("Do you want to save your changes?");
@@ -259,9 +267,9 @@ namespace Hovel
 			}
 		}
 
-		delete projectModel;
-		projectModel = new HovelModel();
-		projectTreeView->setModel(projectModel);
+		delete _projectModel;
+		_projectModel = new HovelModel();
+		_projectTreeView->setModel(_projectModel);
 	}
 
 	/*!
@@ -270,8 +278,8 @@ namespace Hovel
 	 */
 	void MainWindow::newBook()
 	{
-		int lastBookRow = projectModel->lastBook();
-		projectModel->newBook(lastBookRow+1);
+		int lastBookRow = _projectModel->lastBook();
+		_projectModel->newBook(lastBookRow+1);
 	}
 
 	/*!
@@ -281,10 +289,10 @@ namespace Hovel
 	 */
 	void MainWindow::newChapter()
 	{
-		QModelIndex currentBookIndex = projectModel->currentBook(projectTreeView->selectionModel()->selectedIndexes());
+		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
 		if(!currentBookIndex.isValid()) return;
 
-		projectModel->newChapter(currentBookIndex, projectModel->rowCount(currentBookIndex));
+		_projectModel->newChapter(currentBookIndex, _projectModel->rowCount(currentBookIndex));
 	}
 
 	/*!
@@ -293,10 +301,10 @@ namespace Hovel
 	 */
 	void MainWindow::newScene()
 	{
-		QModelIndex currentChapterIndex = projectModel->currentChapter(projectTreeView->selectionModel()->selectedIndexes());
+		QModelIndex currentChapterIndex = _projectModel->currentChapter(_projectTreeView->selectionModel()->selectedIndexes());
 		if(!currentChapterIndex.isValid()) return;
 
-		projectModel->newScene(currentChapterIndex, projectModel->rowCount(currentChapterIndex));
+		_projectModel->newScene(currentChapterIndex, _projectModel->rowCount(currentChapterIndex));
 	}
 
 	/*!
@@ -309,8 +317,8 @@ namespace Hovel
 		dialog.setFileMode ( QFileDialog::ExistingFile );
 		dialog.setNameFilter ( tr ( "Hovel Project Files (*.xml)" ) );
 		if ( dialog.exec ( ) ) {
-			fileName = dialog.selectedFiles ( ).first ( );
-			projectModel->open ( fileName );
+			_fileName = dialog.selectedFiles ( ).first ( );
+			_projectModel->open ( _fileName );
 		}
 	}
 
@@ -321,7 +329,7 @@ namespace Hovel
 	{
 		QMdiSubWindow * sw = sceneIsOpen(index);
 		if(sw) {
-			mdiArea->setActiveSubWindow(sw);
+			_mdiArea->setActiveSubWindow(sw);
 			return;
 		}
 
@@ -331,7 +339,7 @@ namespace Hovel
 
 		TextEdit *textEdit = new TextEdit(index, this, textItem->data(HovelItem::TextRole).toString());
 		connect(textEdit, SIGNAL(contentChanged(QPersistentModelIndex&,QString&)), this, SLOT(textEditContentsChanged(QPersistentModelIndex&,QString&)));
-		mdiArea->addSubWindow(textEdit);
+		_mdiArea->addSubWindow(textEdit);
 		textEdit->showMaximized();
 	}
 
@@ -340,10 +348,10 @@ namespace Hovel
 	 */
 	void MainWindow::saveProject()
 	{
-		if ( fileName.isEmpty ( ) )
+		if ( _fileName.isEmpty ( ) )
 			if ( !saveProjectAs ( ) ) return;
 
-		projectModel->save ( fileName );
+		_projectModel->save ( _fileName );
 	}
 
 	/*!
@@ -356,7 +364,7 @@ namespace Hovel
 		dialog.setAcceptMode ( QFileDialog::AcceptSave );
 		dialog.setNameFilter ( tr ( "Hovel Project Files (*.xml)" ) );
 		if ( dialog.exec ( ) ) {
-			fileName = dialog.selectedFiles ( ).first ( );
+			_fileName = dialog.selectedFiles ( ).first ( );
 			return true;
 		}
 
@@ -368,10 +376,10 @@ namespace Hovel
 	 */
 	void MainWindow::toggleProjectDock()
 	{
-		if(projectDockWidget->isVisible())
-			projectDockWidget->hide();
+		if(_projectDockWidget->isVisible())
+			_projectDockWidget->hide();
 		else
-			projectDockWidget->show();
+			_projectDockWidget->show();
 	}
 
 	/*!
@@ -384,6 +392,15 @@ namespace Hovel
 		if(!textItem) return;
 
 		item->setData(newText, HovelItem::TextRole);
+	}
+
+	/*!
+	  Exports the project to an HTML file.
+	 */
+	void MainWindow::exportHtmlFile()
+	{
+		Export exporter(_projectModel);
+		exporter.toHtmlFile();
 	}
 
 }

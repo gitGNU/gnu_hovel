@@ -65,34 +65,37 @@ namespace Hovel
 		bool saveProjectAs();
 		void toggleProjectDock();
 		void textEditContentsChanged( QPersistentModelIndex&, QString& );
+		void exportHtmlFile();
 
 	private:
-		QString fileName;
-		HovelModel *projectModel;
-		ProjectTreeView *projectTreeView;
+		QString _fileName;
+		HovelModel *_projectModel;
+		ProjectTreeView *_projectTreeView;
 
-		QMdiArea *mdiArea;
-		QDockWidget *projectDockWidget;
-		QDockWidget *propertiesDockWidget;
-		PropertiesView *propertiesView;
-		PropertiesProxyModel *propertiesProxyModel;
+		QMdiArea *_mdiArea;
+		QDockWidget *_projectDockWidget;
+		QDockWidget *_propertiesDockWidget;
+		PropertiesView *_propertiesView;
+		PropertiesProxyModel *_propertiesProxyModel;
 
 
-		QToolBar *mainToolBar;
-		QToolButton *projectToolButton;
-		QToolButton *addToolButton;
+		QToolBar *_mainToolBar;
+		QToolButton *_projectToolButton;
+		QToolButton *_addToolButton;
 
-		QMenu *projectMenu;
-		QMenu *addMenu;
+		QMenu *_projectMenu;
+		QMenu *_addMenu;
+		QMenu *_exportMenu;
 
-		QAction *newProjectAction;
-		QAction *newBookAction;
-		QAction *newChapterAction;
-		QAction *newSceneAction;
-		QAction *openProjectAction;
-		QAction *saveProjectAction;
-		QAction *saveProjectAsAction;
-		QAction *exitAction;
+		QAction *_newProjectAction;
+		QAction *_newBookAction;
+		QAction *_newChapterAction;
+		QAction *_newSceneAction;
+		QAction *_openProjectAction;
+		QAction *_saveProjectAction;
+		QAction *_saveProjectAsAction;
+		QAction *_exitAction;
+		QAction *_exportHtmlFileAction;
 
 	};
 
