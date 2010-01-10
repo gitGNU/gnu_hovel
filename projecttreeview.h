@@ -35,8 +35,8 @@ namespace Hovel
 	public:
 		ProjectTreeView();
 
-	public slots:
-		void enterPressed(const QModelIndex&);
+	protected:
+		void keyPressEvent ( QKeyEvent * event );
 	};
 
 }

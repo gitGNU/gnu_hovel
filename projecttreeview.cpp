@@ -22,6 +22,8 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projecttreeview.h"
 
+#include <QKeyEvent>
+
 namespace Hovel
 {
 
@@ -30,12 +32,14 @@ namespace Hovel
 		setHeaderHidden(true);
 		setSelectionMode(QAbstractItemView::SingleSelection);
 		setEditTriggers(EditKeyPressed|SelectedClicked);
-		connect(this, SIGNAL(activated(QModelIndex)), this, SLOT(enterPressed(QModelIndex)));
 	}
 
-	void ProjectTreeView::enterPressed(const QModelIndex& index)
+	void ProjectTreeView::keyPressEvent ( QKeyEvent * event )
 	{
-		emit doubleClicked(index);
+		if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+			emit doubleClicked(this->currentIndex());
+
+		QAbstractItemView::keyPressEvent(event);
 	}
 
 }

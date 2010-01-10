@@ -152,7 +152,6 @@ namespace Hovel
 	void MainWindow::createToolBars()
 	{
 		_mainToolBar = addToolBar(tr("Main"));
-		_mainToolBar->setIconSize(QSize(32, 32));
 
 		QWidget *containingWidget = new QWidget;
 		QHBoxLayout *layout = new QHBoxLayout(containingWidget);
