@@ -154,19 +154,33 @@ namespace Hovel
 		_mainToolBar = addToolBar(tr("Main"));
 		_mainToolBar->setIconSize(QSize(32, 32));
 
+		QWidget *containingWidget = new QWidget;
+		QHBoxLayout *layout = new QHBoxLayout(containingWidget);
+		layout->setMargin(0);
+
 		_projectToolButton = new QToolButton();
 		_projectToolButton->setIcon(QIcon(tr(":/images/tree")));
+		_projectToolButton->setIconSize(QSize(32, 32));
 		_projectToolButton->setMenu(_projectMenu);
 		_projectToolButton->setPopupMode(QToolButton::MenuButtonPopup);
 		connect(_projectToolButton, SIGNAL(clicked()), this, SLOT(toggleProjectDock()));
-		_mainToolBar->addWidget(_projectToolButton);
+		layout->addWidget(_projectToolButton);
 
 		_addToolButton = new QToolButton();
 		_addToolButton->setIcon(QIcon(tr(":/images/add")));
+		_addToolButton->setIconSize(QSize(32, 32));
 		_addToolButton->setMenu(_addMenu);
 		_addToolButton->setPopupMode(QToolButton::InstantPopup);
-		_mainToolBar->addWidget(_addToolButton);
+		layout->addWidget(_addToolButton);
 
+		_propertiesToolButton = new QToolButton();
+		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
+		_propertiesToolButton->setIconSize(QSize(32, 32));
+		connect(_propertiesToolButton, SIGNAL(clicked()), this, SLOT(togglePropertiesDock()));
+		layout->addStretch();
+		layout->addWidget(_propertiesToolButton);
+
+		_mainToolBar->addWidget(containingWidget);
 	}
 
 	/*!
@@ -380,6 +394,17 @@ namespace Hovel
 			_projectDockWidget->hide();
 		else
 			_projectDockWidget->show();
+	}
+
+	/*!
+	  Toggle the visibilty of the properties dock window.
+	 */
+	void MainWindow::togglePropertiesDock()
+	{
+		if(_propertiesDockWidget->isVisible())
+			_propertiesDockWidget->hide();
+		else
+			_propertiesDockWidget->show();
 	}
 
 	/*!

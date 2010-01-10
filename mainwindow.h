@@ -64,6 +64,7 @@ namespace Hovel
 		void saveProject();
 		bool saveProjectAs();
 		void toggleProjectDock();
+		void togglePropertiesDock();
 		void textEditContentsChanged( QPersistentModelIndex&, QString& );
 		void exportHtmlFile();
 
@@ -82,6 +83,7 @@ namespace Hovel
 		QToolBar *_mainToolBar;
 		QToolButton *_projectToolButton;
 		QToolButton *_addToolButton;
+		QToolButton *_propertiesToolButton;
 
 		QMenu *_projectMenu;
 		QMenu *_addMenu;
