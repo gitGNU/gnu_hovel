@@ -42,4 +42,9 @@ namespace Hovel
 		QAbstractItemView::keyPressEvent(event);
 	}
 
+	void ProjectTreeView::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected )
+	{
+		emit newItemSelected ( selected, deselected );
+	}
+
 }

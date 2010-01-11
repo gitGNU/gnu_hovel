@@ -23,22 +23,27 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROPERTIESPROXYMODEL_H
 #define PROPERTIESPROXYMODEL_H
 
-#include <QAbstractProxyModel>
+#include <QSortFilterProxyModel>
 
 namespace Hovel
 {
 
-	class PropertiesProxyModel : public QAbstractProxyModel
+	class PropertiesProxyModel : public QSortFilterProxyModel
 	{
+	Q_OBJECT
+
 	public:
 		PropertiesProxyModel();
 
-		QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
-		QModelIndex parent(const QModelIndex &child) const;
-		int rowCount(const QModelIndex &parent = QModelIndex()) const;
+//		QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
+//		QModelIndex parent(const QModelIndex &child) const;
+//		int rowCount(const QModelIndex &parent = QModelIndex()) const;
 		int columnCount(const QModelIndex &parent = QModelIndex()) const;
-		QModelIndex mapToSource ( const QModelIndex & proxyIndex ) const;
-		QModelIndex mapFromSource ( const QModelIndex & sourceIndex ) const;
+//		QModelIndex mapToSource ( const QModelIndex & proxyIndex ) const;
+//		QModelIndex mapFromSource ( const QModelIndex & sourceIndex ) const;*/
+
+	public slots:
+		void selectionChanged( const QItemSelection & selected, const QItemSelection & deselected );
 
 	};
 
