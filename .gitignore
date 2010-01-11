@@ -7,6 +7,9 @@ docs/
 #executable file
 hovel
 
+#debug dir
+debug/
+
 #meta object auto-generated files
 moc_*
 
