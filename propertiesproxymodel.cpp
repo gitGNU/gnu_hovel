@@ -22,10 +22,13 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "propertiesproxymodel.h"
 
+#include <QItemSelection>
+
 namespace Hovel
 {
 
 	PropertiesProxyModel::PropertiesProxyModel()
+		: QSortFilterProxyModel()
 	{
 	}
 
@@ -37,13 +40,13 @@ namespace Hovel
 	QModelIndex PropertiesProxyModel::parent(const QModelIndex &child) const
 	{
 		return QModelIndex();
-	}
+	}*/
 
 	int PropertiesProxyModel::rowCount(const QModelIndex &parent) const
 	{
 		return 5;
 	}
-*/
+
 	int PropertiesProxyModel::columnCount(const QModelIndex &parent) const
 	{
 		return 2;
@@ -59,8 +62,24 @@ namespace Hovel
 		return QModelIndex();
 	}
 */
+
+	bool PropertiesProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+	{
+		QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+		if(index == _selectedIndex)
+			return true;
+		return false;
+	}
+
+	bool PropertiesProxyModel::filterAcceptsColumn(int sourceColumn, const QModelIndex &sourceParent) const
+	{
+		return true;
+	}
+
 	void PropertiesProxyModel::selectionChanged( const QItemSelection & selected, const QItemSelection & deselected )
 	{
+		_selectedIndex = selected.indexes()[0];
+		invalidateFilter();
 	}
 
 }
