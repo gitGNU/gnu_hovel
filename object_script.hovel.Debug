@@ -11,6 +11,12 @@ INPUT(
 ./debug\propertiesview.o
 ./debug\propertiesproxymodel.o
 ./debug\chapteritem.o
+./debug\textedit.o
+./debug\export.o
 ./debug\moc_mainwindow.o
+./debug\moc_projecttreeview.o
+./debug\moc_propertiesview.o
+./debug\moc_propertiesproxymodel.o
+./debug\moc_textedit.o
 ./debug\qrc_hovel.o
 );

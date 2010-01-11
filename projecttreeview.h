@@ -37,6 +37,10 @@ namespace Hovel
 
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
+		void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
+
+	signals:
+		void newItemSelected ( const QItemSelection & selected, const QItemSelection & deselected );
 	};
 
 }

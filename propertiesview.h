@@ -27,8 +27,11 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 class PropertiesView : public QTableView
 {
+Q_OBJECT
+
 public:
-    PropertiesView();
+	PropertiesView();
+
 };
 
 #endif // PROPERTIESVIEW_H

@@ -29,7 +29,7 @@ namespace Hovel
 	{
 	}
 
-	QModelIndex PropertiesProxyModel::index ( int row, int column, const QModelIndex & parent ) const
+/*	QModelIndex PropertiesProxyModel::index ( int row, int column, const QModelIndex & parent ) const
 	{
 		return QModelIndex();
 	}
@@ -43,13 +43,13 @@ namespace Hovel
 	{
 		return 5;
 	}
-
+*/
 	int PropertiesProxyModel::columnCount(const QModelIndex &parent) const
 	{
 		return 2;
 	}
 
-	QModelIndex PropertiesProxyModel::mapToSource ( const QModelIndex & proxyIndex ) const
+/*	QModelIndex PropertiesProxyModel::mapToSource ( const QModelIndex & proxyIndex ) const
 	{
 		return QModelIndex();
 	}
@@ -57,6 +57,10 @@ namespace Hovel
 	QModelIndex PropertiesProxyModel::mapFromSource ( const QModelIndex & sourceIndex ) const
 	{
 		return QModelIndex();
+	}
+*/
+	void PropertiesProxyModel::selectionChanged( const QItemSelection & selected, const QItemSelection & deselected )
+	{
 	}
 
 }
