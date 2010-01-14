@@ -47,6 +47,7 @@ namespace Hovel
 		int row() const;
 		int childCount() const;
 		int columnCount() const;
+		virtual int propertyCount() const;
 		QVariant data(int role) const;
 		void appendChild(HovelItem * child);
 		void insertChild(HovelItem * child, int row);
