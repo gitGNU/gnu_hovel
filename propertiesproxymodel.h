@@ -23,34 +23,31 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROPERTIESPROXYMODEL_H
 #define PROPERTIESPROXYMODEL_H
 
-#include <QSortFilterProxyModel>
+#include <QAbstractProxyModel>
 
 namespace Hovel
 {
 
-	class PropertiesProxyModel : public QSortFilterProxyModel
+	class PropertiesProxyModel : public QAbstractProxyModel
 	{
 	Q_OBJECT
 
 	public:
 		PropertiesProxyModel();
 
-//		QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
-//		QModelIndex parent(const QModelIndex &child) const;
+		QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+		QModelIndex parent(const QModelIndex &child) const;
 		int rowCount(const QModelIndex &parent = QModelIndex()) const;
 		int columnCount(const QModelIndex &parent = QModelIndex()) const;
-//		QModelIndex mapToSource ( const QModelIndex & proxyIndex ) const;
-//		QModelIndex mapFromSource ( const QModelIndex & sourceIndex ) const;
-	protected:
-		bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
-		bool filterAcceptsColumn(int sourceColumn, const QModelIndex &sourceParent) const;
+		QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
+		QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
+		QVariant data ( const QModelIndex &proxyIndex, int role = Qt::DisplayRole ) const;
 
 	public slots:
-		void selectionChanged( const QItemSelection & selected, const QItemSelection & deselected );
+		void selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection);
 
 	private:
-		QModelIndex		_selectedIndex;
-
+		QModelIndex			_selectedItem;
 	};
 
 }

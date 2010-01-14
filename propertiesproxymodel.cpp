@@ -19,32 +19,35 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#include <QItemSelection>
 
 #include "propertiesproxymodel.h"
-
-#include <QItemSelection>
+#include "hovelitem.h"
 
 namespace Hovel
 {
 
 	PropertiesProxyModel::PropertiesProxyModel()
-		: QSortFilterProxyModel()
+		: QAbstractProxyModel()
 	{
 	}
 
-/*	QModelIndex PropertiesProxyModel::index ( int row, int column, const QModelIndex & parent ) const
+	QModelIndex PropertiesProxyModel::index(int row, int column, const QModelIndex &parent) const
 	{
-		return QModelIndex();
+		return createIndex(row, column, parent.internalPointer());
 	}
 
 	QModelIndex PropertiesProxyModel::parent(const QModelIndex &child) const
 	{
 		return QModelIndex();
-	}*/
+	}
 
 	int PropertiesProxyModel::rowCount(const QModelIndex &parent) const
 	{
-		return 5;
+		if( !_selectedItem.isValid() )
+			return 0;
+		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
+		return item->propertyCount();
 	}
 
 	int PropertiesProxyModel::columnCount(const QModelIndex &parent) const
@@ -52,34 +55,35 @@ namespace Hovel
 		return 2;
 	}
 
-/*	QModelIndex PropertiesProxyModel::mapToSource ( const QModelIndex & proxyIndex ) const
+	QModelIndex PropertiesProxyModel::mapToSource(const QModelIndex &proxyIndex) const
 	{
-		return QModelIndex();
+		return (sourceModel()&&proxyIndex.isValid())
+					? sourceModel()->index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent())
+					: QModelIndex();
 	}
 
-	QModelIndex PropertiesProxyModel::mapFromSource ( const QModelIndex & sourceIndex ) const
+	QModelIndex PropertiesProxyModel::mapFromSource(const QModelIndex &proxyIndex) const
 	{
-		return QModelIndex();
-	}
-*/
-
-	bool PropertiesProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
-	{
-		QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-		if(index == _selectedIndex)
-			return true;
-		return false;
+		return index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent());
 	}
 
-	bool PropertiesProxyModel::filterAcceptsColumn(int sourceColumn, const QModelIndex &sourceParent) const
+	QVariant PropertiesProxyModel::data ( const QModelIndex &proxyIndex, int role) const
 	{
-		return true;
+		if (!_selectedItem.isValid())
+			return QVariant();
+
+		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
+
+		if ( role != Qt::DisplayRole )
+			return QVariant();
+
+		return item->data(Qt::DisplayRole);
 	}
 
-	void PropertiesProxyModel::selectionChanged( const QItemSelection & selected, const QItemSelection & deselected )
+	void PropertiesProxyModel::selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection)
 	{
-		_selectedIndex = selected.indexes()[0];
-		invalidateFilter();
+		_selectedItem = newSelection.indexes()[0];
+		emit layoutAboutToBeChanged();
+		emit layoutChanged();
 	}
-
 }

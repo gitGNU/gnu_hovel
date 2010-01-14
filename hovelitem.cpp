@@ -47,6 +47,11 @@ namespace Hovel
 		return 1;
 	}
 
+	int HovelItem::propertyCount() const
+	{
+		return 17;
+	}
+
 	/*!
 	  Returns the \a role data of this item.
 	  \a role is defined by the #DataRole enumeration.

@@ -44,6 +44,7 @@ namespace Hovel
 
 	void ProjectTreeView::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected )
 	{
+		QModelIndex i = selectedIndexes()[0];
 		emit newItemSelected ( selected, deselected );
 	}
 
