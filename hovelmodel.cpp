@@ -37,7 +37,7 @@ namespace Hovel
 	HovelModel::HovelModel(QObject *parent)
 		: QAbstractItemModel(parent)
 	{
-		rootItem = 0;
+		_rootItem = 0;
 		newProject();
 	}
 
@@ -46,14 +46,14 @@ namespace Hovel
 	 */
 	void HovelModel::newProject()
 	{
-		delete rootItem;
-		rootItem = new ProjectItem();
+		delete _rootItem;
+		_rootItem = new ProjectItem();
 		QModelIndex rootItemIndex = index(0, 0, QModelIndex());
-		BookItem *bi = new BookItem(rootItem, "New book");
+		BookItem *bi = new BookItem(_rootItem, "New book");
 		ChapterItem *chapter = new ChapterItem(bi, "New chapter");
-		FolderItem *characters = new FolderItem(rootItem, "Characters");
+		FolderItem *characters = new FolderItem(_rootItem, "Characters");
 		characters->setCanModify( false );
-		FolderItem *locations = new FolderItem(rootItem, "Locations");
+		FolderItem *locations = new FolderItem(_rootItem, "Locations");
 		locations->setCanModify( false );
 		TextItem *scene = new TextItem(chapter, "New scene", "This is the text.");
 
@@ -77,7 +77,7 @@ namespace Hovel
 		HovelItem *parentItem;
 
 		if (!parent.isValid())
-			parentItem = rootItem;
+			parentItem = _rootItem;
 		else
 			parentItem = static_cast<HovelItem*>(parent.internalPointer());
 
@@ -99,7 +99,7 @@ namespace Hovel
 		HovelItem *childItem = static_cast<HovelItem*>(index.internalPointer());
 		HovelItem *parentItem = childItem->parent();
 
-		if (parentItem == rootItem)
+		if (parentItem == _rootItem)
 			return QModelIndex();
 
 		return createIndex(parentItem->row(), 0, parentItem);
@@ -112,7 +112,7 @@ namespace Hovel
 			return 0;
 
 		if (!parent.isValid())
-			parentItem = rootItem;
+			parentItem = _rootItem;
 		else
 			parentItem = static_cast<HovelItem*>(parent.internalPointer());
 
@@ -124,7 +124,7 @@ namespace Hovel
 		if (parent.isValid())
 			return static_cast<HovelItem*>(parent.internalPointer())->columnCount();
 		else
-			return rootItem->columnCount();
+			return _rootItem->columnCount();
 	}
 
 	QVariant HovelModel::data(const QModelIndex &index, int role) const
@@ -136,6 +136,7 @@ namespace Hovel
 
 		switch(role) {
 		case Qt::EditRole:
+			return item->data(HovelItem::TitleRole);
 		case Qt::DecorationRole:
 		case HovelItem::TitleRole:
 			return item->data(role);
@@ -149,7 +150,7 @@ namespace Hovel
 	QVariant HovelModel::headerData(int section, Qt::Orientation orientation, int role) const
 	{
 		if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-			return rootItem->data((Qt::ItemDataRole)section);
+			return _rootItem->data((Qt::ItemDataRole)section);
 
 		return QVariant();
 	}
@@ -159,7 +160,7 @@ namespace Hovel
 		HovelItem *parentItem;
 
 		if (!parent.isValid())
-			parentItem = rootItem;
+			parentItem = _rootItem;
 		else
 			parentItem = static_cast<HovelItem*>(parent.internalPointer());
 
@@ -197,7 +198,7 @@ namespace Hovel
 	 */
 	bool HovelModel::newBook(int row)
 	{
-		return insertItem(new BookItem(rootItem, "New book"), QModelIndex(), row);
+		return insertItem(new BookItem(_rootItem, "New book"), QModelIndex(), row);
 	}
 
 	/*!
@@ -225,7 +226,7 @@ namespace Hovel
 	{
 		int lastBookRow = -1;
 
-		foreach(HovelItem* item, rootItem->children()) {
+		foreach(HovelItem* item, _rootItem->children()) {
 			if(dynamic_cast<BookItem*>(item))
 				lastBookRow = item->row();
 		}
@@ -254,7 +255,7 @@ namespace Hovel
 				return QModelIndex();
 			case 1:
 				BookItem* bookItem;
-				foreach(HovelItem* item, rootItem->children()) {
+				foreach(HovelItem* item, _rootItem->children()) {
 					if ((bookItem = dynamic_cast<BookItem*>(item)))
 						return createIndex(bookItem->row(), 0, bookItem);
 				}
@@ -262,7 +263,7 @@ namespace Hovel
 				if (!selectedIndex.isValid())
 					return QModelIndex();
 				HovelItem *currentItem = static_cast<HovelItem*>(selectedIndex.internalPointer());
-				while (currentItem != rootItem) {
+				while (currentItem != _rootItem) {
 					if ((dynamic_cast<BookItem*>(currentItem)))
 						return createIndex(currentItem->row(), 0, currentItem);
 					currentItem = currentItem->parent();
@@ -305,7 +306,7 @@ namespace Hovel
 	int HovelModel::bookCount()
 	{
 		int bookCount = 0;
-		foreach(HovelItem* item, rootItem->children()) {
+		foreach(HovelItem* item, _rootItem->children()) {
 			if(dynamic_cast<BookItem*>(item))
 				++bookCount;
 		}
@@ -318,7 +319,7 @@ namespace Hovel
 
 		HovelItem *parentItem = 0;
 		if (!parent.isValid())
-			parentItem = rootItem;
+			parentItem = _rootItem;
 		else
 			parentItem = static_cast<HovelItem*>(parent.internalPointer());
 
@@ -331,7 +332,7 @@ namespace Hovel
 
 	bool HovelModel::isModified()
 	{
-		if(rootItem->isModified()) return true;
+		if(_rootItem->isModified()) return true;
 
 		return false;
 	}
@@ -346,11 +347,11 @@ namespace Hovel
 		inFile->close();
 
 		QDomElement projectElement = doc.documentElement();
-		if(rootItem)
-			delete rootItem;
+		if(_rootItem)
+			delete _rootItem;
 
-		rootItem = new ProjectItem();
-		rootItem->fromQDomElement(projectElement);
+		_rootItem = new ProjectItem();
+		_rootItem->fromQDomElement(projectElement);
 
 		reset();
 
@@ -370,7 +371,7 @@ namespace Hovel
 
 		QDomDocument doc("HovelProject");
 
-		doc.appendChild(rootItem->toQDomElement(doc));
+		doc.appendChild(_rootItem->toQDomElement(doc));
 		QString text = doc.toString(4);
 		stream << text;
 

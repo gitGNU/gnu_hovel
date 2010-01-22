@@ -68,7 +68,7 @@ namespace Hovel
 		bool insertItem(HovelItem* newItem, const QModelIndex& parent = QModelIndex(), int row = 0);
 
 	private:
-		ProjectItem *rootItem;
+		ProjectItem *_rootItem;
 	};
 
 }

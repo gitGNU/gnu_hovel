@@ -41,3 +41,4 @@ HEADERS += mainwindow.h \
     textedit.h \
     export.h
 RESOURCES += hovel.qrc
+OTHER_FILES += 

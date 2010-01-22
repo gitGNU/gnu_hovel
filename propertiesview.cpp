@@ -27,4 +27,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 PropertiesView::PropertiesView()
 {
 	horizontalHeader()->hide();
+	setEditTriggers(EditKeyPressed|SelectedClicked);
+	setAlternatingRowColors(true);
+}
+
+void PropertiesView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
+{
+	reset();
+	QAbstractItemView::currentChanged(current, previous);
 }

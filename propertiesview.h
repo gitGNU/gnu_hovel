@@ -32,6 +32,9 @@ Q_OBJECT
 public:
 	PropertiesView();
 
+protected slots:
+	void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
+
 };
 
 #endif // PROPERTIESVIEW_H
