@@ -47,9 +47,9 @@ namespace Hovel
 		return 1;
 	}
 
-	int HovelItem::propertyCount() const
+	const int HovelItem::propertyCount() const
 	{
-		return 17;
+		return _roleData.count();
 	}
 
 	/*!
@@ -58,9 +58,35 @@ namespace Hovel
 	 */
 	QVariant HovelItem::data(int role) const
 	{
-		if(role == Qt::EditRole)
-			role = TitleRole;
-		return _roleData.value(role);
+		if(_roleData.contains(role))
+			return _roleData.value(role);
+
+		return QVariant();
+	}
+
+	QVariant HovelItem::propertyData(int role) const
+	{
+		return QVariant();
+	}
+
+	QString HovelItem::propertyTitle(int role) const
+	{
+		switch (role) {
+		case HovelItem::TitleRole:
+			return "Title";
+		case HovelItem::TextRole:
+			return "Text";
+		default:
+			return QString();
+		}
+	}
+
+	const QList<HovelItem::DataRole> HovelItem::displayableProperties() const
+	{
+		QList<HovelItem::DataRole> p;
+		p << TitleRole;
+
+		return p;
 	}
 
 	void HovelItem::appendChild(HovelItem * child)

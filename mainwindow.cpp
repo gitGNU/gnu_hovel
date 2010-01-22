@@ -74,9 +74,12 @@ namespace Hovel
 
 		_propertiesProxyModel = new PropertiesProxyModel();
 		_propertiesProxyModel->setSourceModel(_projectModel);
+		connect(_propertiesProxyModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), _projectTreeView, SLOT(currentChanged(QModelIndex,QModelIndex)));
 		_propertiesView = new PropertiesView();
 		_propertiesView->setModel(_propertiesProxyModel);
-		connect(_projectTreeView, SIGNAL(newItemSelected(const QItemSelection&, const QItemSelection&)), _propertiesProxyModel, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
+		connect(_projectTreeView, SIGNAL(newItemSelected(const QItemSelection&, const QItemSelection&)),
+				_propertiesProxyModel, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
+		connect(_projectModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), _propertiesView, SLOT(currentChanged(QModelIndex,QModelIndex)));
 		_propertiesDockWidget->setWidget(_propertiesView);
 	}
 
@@ -176,6 +179,7 @@ namespace Hovel
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
 		_propertiesToolButton->setIconSize(QSize(32, 32));
+		_propertiesToolButton->setCheckable(true);
 		connect(_propertiesToolButton, SIGNAL(clicked()), this, SLOT(togglePropertiesDock()));
 		layout->addStretch();
 		layout->addWidget(_propertiesToolButton);

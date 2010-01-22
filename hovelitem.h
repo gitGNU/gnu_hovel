@@ -38,7 +38,7 @@ namespace Hovel
 	{
 	public:
 		 //! \see Qt::ItemDataRole
-		enum DataRole { TitleRole = 0, TextRole = 32 };
+		enum DataRole { TitleRole = 0, TextRole = 32, LastRole };
 
 		virtual ~HovelItem();
 
@@ -47,8 +47,11 @@ namespace Hovel
 		int row() const;
 		int childCount() const;
 		int columnCount() const;
-		virtual int propertyCount() const;
+		virtual const int propertyCount() const;
 		QVariant data(int role) const;
+		virtual QVariant propertyData(int role) const;
+		QString propertyTitle(int role) const;
+		const QList<DataRole> displayableProperties() const;
 		void appendChild(HovelItem * child);
 		void insertChild(HovelItem * child, int row);
 		bool setData(const QVariant &value, int role);

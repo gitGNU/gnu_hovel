@@ -57,9 +57,10 @@ namespace Hovel
 
 	QModelIndex PropertiesProxyModel::mapToSource(const QModelIndex &proxyIndex) const
 	{
-		return (sourceModel()&&proxyIndex.isValid())
-					? sourceModel()->index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent())
-					: QModelIndex();
+		if (sourceModel() && proxyIndex.isValid())
+			return _selectedItem;
+		else
+			return QModelIndex();
 	}
 
 	QModelIndex PropertiesProxyModel::mapFromSource(const QModelIndex &proxyIndex) const
@@ -67,22 +68,66 @@ namespace Hovel
 		return index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent());
 	}
 
+	/*!
+	  Supplies data from the model to fill the properties view.
+	 */
 	QVariant PropertiesProxyModel::data ( const QModelIndex &proxyIndex, int role) const
 	{
 		if (!_selectedItem.isValid())
 			return QVariant();
 
-		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
-
-		if ( role != Qt::DisplayRole )
+		if ( role != Qt::DisplayRole)
 			return QVariant();
 
-		return item->data(Qt::DisplayRole);
+		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
+		int roleIndex = -1;
+
+		for (int i=0; i<HovelItem::LastRole; ++i) {
+			if (item->propertyData(i) != QVariant()) {
+				++roleIndex;
+				if (proxyIndex.row() == roleIndex) {
+					if(proxyIndex.column() == 1) return item->propertyData(i);
+					else return item->propertyTitle(i);
+				}
+			}
+		}
+
+		return QVariant();
+	}
+
+	Qt::ItemFlags PropertiesProxyModel::flags(const QModelIndex &index) const
+	{
+		if (!index.isValid())
+			return Qt::ItemIsEnabled;
+
+		if( index.column() == 1 )
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+		else
+			return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+	}
+
+	bool PropertiesProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+	{
+		QModelIndex sourceIndex = mapToSource(index);
+		if (!sourceIndex.isValid()) return false;
+
+		HovelItem *item = static_cast<HovelItem*>(sourceIndex.internalPointer());
+
+		item->setData(value, role);
+
+		emit dataChanged(sourceIndex, sourceIndex);
+		return true;
 	}
 
 	void PropertiesProxyModel::selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection)
 	{
 		_selectedItem = newSelection.indexes()[0];
+		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
+
+		//Items that cannont be modified do not need properties displayed.
+		if(!item->canModify())
+			_selectedItem = QModelIndex();
+
 		emit layoutAboutToBeChanged();
 		emit layoutChanged();
 	}

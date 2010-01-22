@@ -7,5 +7,9 @@
         <file alias="text">images/text.png</file>
         <file alias="chapter">images/chapter.png</file>
         <file alias="properties">images/properties.png</file>
+        <file alias="down_arrow_default">images/down_arrow_default.png</file>
+    </qresource>
+    <qresource prefix="/styles">
+        <file alias="default_style">styles/default.qss</file>
     </qresource>
 </RCC>

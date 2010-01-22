@@ -42,6 +42,8 @@ namespace Hovel
 		QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
 		QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
 		QVariant data ( const QModelIndex &proxyIndex, int role = Qt::DisplayRole ) const;
+		Qt::ItemFlags flags(const QModelIndex &index) const;
+		bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
 	public slots:
 		void selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection);

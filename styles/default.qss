@@ -1,0 +1,61 @@
+QToolButton { /* all types of tool button */
+	border: none;
+	border-radius: 3px;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+}
+
+QToolButton:pressed {
+	border: none;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QToolButton:open {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QToolButton[popupMode="1"] {
+	padding-right: 8px;
+}
+
+QToolButton::hover {
+	 border: 1px solid white;
+}
+
+QToolButton::menu-button {
+	border: none;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 6px;
+}
+
+QToolButton::menu-arrow {
+	image: url(:/images/down_arrow_default);
+}
+
+QToolButton::menu-indicator {
+	image: url(:/images/down_arrow_default);
+	subcontrol-origin: padding;
+	subcontrol-position: bottom right;
+}
+
+QTreeView {
+	show-decoration-selected: 1;
+}
+
+QTreeView::item {
+	border: 1px solid #d9d9d9;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+QTreeView::item:selected {
+	border: none;
+}
+
+QTreeView::item:selected:active{
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e0e1e3, stop: 1 #a5a7ad);
+}
+
+QTreeView::item:selected:!active {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e0e1e3, stop: 1 #a5a7ad);
+}
+

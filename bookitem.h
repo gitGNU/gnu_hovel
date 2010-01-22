@@ -25,7 +25,6 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "hovelitem.h"
 
-#include <QList>
 #include <QDomElement>
 
 namespace Hovel
@@ -38,6 +37,9 @@ namespace Hovel
 
 		//HovelItem functions
 		HovelItem * child(int row);
+		const int propertyCount() const;
+		QVariant propertyData(int role) const;
+		const QList<DataRole> displayableProperties() const;
 
 		//Serialise functions
 		bool isModified();

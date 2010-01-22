@@ -21,6 +21,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "projecttreeview.h"
+#include "hovelitem.h"
 
 #include <QKeyEvent>
 
@@ -36,7 +37,7 @@ namespace Hovel
 
 	void ProjectTreeView::keyPressEvent ( QKeyEvent * event )
 	{
-		if(event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+		if((event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && state() != QAbstractItemView::EditingState)
 			emit doubleClicked(this->currentIndex());
 
 		QAbstractItemView::keyPressEvent(event);

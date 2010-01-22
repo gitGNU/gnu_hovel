@@ -40,6 +40,30 @@ namespace Hovel
 		return _childItems.value(row);
 	}
 
+	/*!
+	  Return the number of displayable properties.
+	 */
+	const int TextItem::propertyCount() const
+	{
+		return displayableProperties().count();
+	}
+
+	QVariant TextItem::propertyData(int role) const
+	{
+		if(_roleData.contains(role) && displayableProperties().contains(DataRole(role)))
+			return _roleData.value(role);
+
+		return QVariant();
+	}
+
+	const QList<HovelItem::DataRole> TextItem::displayableProperties() const
+	{
+		QList<HovelItem::DataRole> p;
+		p << TitleRole;
+
+		return p;
+	}
+
 	bool TextItem::isModified()
 	{
 		return true;
