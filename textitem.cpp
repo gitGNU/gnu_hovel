@@ -43,7 +43,7 @@ namespace Hovel
 	/*!
 	  Return the number of displayable properties.
 	 */
-	const int TextItem::propertyCount() const
+	int TextItem::propertyCount() const
 	{
 		return displayableProperties().count();
 	}
