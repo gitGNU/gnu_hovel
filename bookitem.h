@@ -37,7 +37,7 @@ namespace Hovel
 
 		//HovelItem functions
 		HovelItem * child(int row);
-		const int propertyCount() const;
+		int propertyCount() const;
 		QVariant propertyData(int role) const;
 		const QList<DataRole> displayableProperties() const;
 

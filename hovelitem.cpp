@@ -47,7 +47,7 @@ namespace Hovel
 		return 1;
 	}
 
-	const int HovelItem::propertyCount() const
+	int HovelItem::propertyCount() const
 	{
 		return _roleData.count();
 	}

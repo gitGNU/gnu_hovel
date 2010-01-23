@@ -47,7 +47,7 @@ namespace Hovel
 		int row() const;
 		int childCount() const;
 		int columnCount() const;
-		virtual const int propertyCount() const;
+		virtual int propertyCount() const;
 		QVariant data(int role) const;
 		virtual QVariant propertyData(int role) const;
 		QString propertyTitle(int role) const;
