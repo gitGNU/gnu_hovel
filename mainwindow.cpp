@@ -355,7 +355,7 @@ namespace Hovel
 		TextItem *textItem = dynamic_cast<TextItem *>(childItem);
 		if(!textItem) return;
 
-		TextEdit *textEdit = new TextEdit(index, this, textItem->data(HovelItem::TextRole).toString());
+		TextEdit *textEdit = new TextEdit(index, this, textItem->data(TextRole).toString());
 		connect(textEdit, SIGNAL(contentChanged(QPersistentModelIndex&,QString&)), this, SLOT(textEditContentsChanged(QPersistentModelIndex&,QString&)));
 		_mdiArea->addSubWindow(textEdit);
 		textEdit->showMaximized();
@@ -420,7 +420,7 @@ namespace Hovel
 		TextItem *textItem = dynamic_cast<TextItem *>(item);
 		if(!textItem) return;
 
-		item->setData(newText, HovelItem::TextRole);
+		item->setData(newText, TextRole);
 	}
 
 	/*!

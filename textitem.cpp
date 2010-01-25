@@ -56,9 +56,9 @@ namespace Hovel
 		return QVariant();
 	}
 
-	const QList<HovelItem::DataRole> TextItem::displayableProperties() const
+	const QList<DataRole> TextItem::displayableProperties() const
 	{
-		QList<HovelItem::DataRole> p;
+		QList<DataRole> p;
 		p << TitleRole;
 
 		return p;

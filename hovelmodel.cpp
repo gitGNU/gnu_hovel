@@ -136,15 +136,13 @@ namespace Hovel
 
 		switch(role) {
 		case Qt::EditRole:
-			return item->data(HovelItem::TitleRole);
+			return item->data(TitleRole);
 		case Qt::DecorationRole:
-		case HovelItem::TitleRole:
+		case TitleRole:
 			return item->data(role);
 		default:
 			return QVariant();
 		}
-
-
 	}
 
 	QVariant HovelModel::headerData(int section, Qt::Orientation orientation, int role) const
