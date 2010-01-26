@@ -34,12 +34,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 namespace Hovel
 {
 
+	//! \see Qt::ItemDataRole
+	enum DataRole { TitleRole = 0, TextRole = 32, LastRole };
+
 	class HovelItem : public Serialise
 	{
 	public:
-		 //! \see Qt::ItemDataRole
-		enum DataRole { TitleRole = 0, TextRole = 32, LastRole };
-
 		virtual ~HovelItem();
 
 		virtual HovelItem * child(int row) = 0;

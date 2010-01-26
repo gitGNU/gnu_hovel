@@ -72,18 +72,18 @@ namespace Hovel
 	QString HovelItem::propertyTitle(int role) const
 	{
 		switch (role) {
-		case HovelItem::TitleRole:
+		case TitleRole:
 			return "Title";
-		case HovelItem::TextRole:
+		case TextRole:
 			return "Text";
 		default:
 			return QString();
 		}
 	}
 
-	const QList<HovelItem::DataRole> HovelItem::displayableProperties() const
+	const QList<DataRole> HovelItem::displayableProperties() const
 	{
-		QList<HovelItem::DataRole> p;
+		QList<DataRole> p;
 		p << TitleRole;
 
 		return p;

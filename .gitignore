@@ -13,5 +13,10 @@ debug/
 #meta object auto-generated files
 moc_*
 
+#Auto generated files
+Makefile
+Makefile.Debug
+Makefile.Release
 hovel.pro.user
+object_script.hovel*
 
