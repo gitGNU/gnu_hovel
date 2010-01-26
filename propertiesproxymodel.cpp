@@ -82,7 +82,7 @@ namespace Hovel
 		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
 		int roleIndex = -1;
 
-		for (int i=0; i<HovelItem::LastRole; ++i) {
+		for (int i=0; i<LastRole; ++i) {
 			if (item->propertyData(i) != QVariant()) {
 				++roleIndex;
 				if (proxyIndex.row() == roleIndex) {
