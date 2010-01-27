@@ -27,6 +27,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "textedit.h"
 #include "hovelitem.h"
 #include "export.h"
+#include "utilities.h"
 
 #include <QSettings>
 #include <QtGui>
@@ -43,6 +44,8 @@ namespace Hovel
 
 		_mdiArea = new QMdiArea(this);
 		setCentralWidget(_mdiArea);
+		_fullScreen = false;
+		setObjectName("MainWindow");
 
 		createActions();
 		createMenus();
@@ -59,6 +62,7 @@ namespace Hovel
 	{
 		//Create the project tree view dock widget
 		_projectDockWidget = new QDockWidget(tr("Project"), this);
+		_projectDockWidget->setObjectName("ProjectDock");
 		_projectDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 		addDockWidget(Qt::LeftDockWidgetArea, _projectDockWidget);
 
@@ -69,6 +73,7 @@ namespace Hovel
 
 		//Create the properties dock widget
 		_propertiesDockWidget = new QDockWidget(tr("Properties"), this);
+		_propertiesDockWidget->setObjectName("PropertiesDock");
 		_propertiesDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 		addDockWidget(Qt::RightDockWidgetArea, _propertiesDockWidget);
 
@@ -156,6 +161,7 @@ namespace Hovel
 	void MainWindow::createToolBars()
 	{
 		_mainToolBar = addToolBar(tr("Main"));
+		_mainToolBar->setObjectName("MainToolBar");
 
 		QWidget *containingWidget = new QWidget;
 		QHBoxLayout *layout = new QHBoxLayout(containingWidget);
@@ -175,6 +181,13 @@ namespace Hovel
 		_addToolButton->setMenu(_addMenu);
 		_addToolButton->setPopupMode(QToolButton::InstantPopup);
 		layout->addWidget(_addToolButton);
+
+		_fullScreenToolButton = new QToolButton();
+		_fullScreenToolButton->setIcon(QIcon(tr(":/images/fullscreen")));
+		_fullScreenToolButton->setIconSize(QSize(32, 32));
+		_fullScreenToolButton->setCheckable(true);
+		connect(_fullScreenToolButton, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
+		layout->addWidget(_fullScreenToolButton);
 
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
@@ -230,6 +243,11 @@ namespace Hovel
 			_fileName.clear();
 		}
 		settings.endGroup();
+
+		settings.beginGroup("Docks");
+		settings.value("ProjectDock", QVariant(true)).toBool() ? _projectDockWidget->show() : _projectDockWidget->hide();
+		settings.value("PropertiesDock", QVariant(true)).toBool() ? _propertiesDockWidget->show() : _propertiesDockWidget->hide();
+		settings.endGroup();
 	}
 
 	/*!
@@ -248,6 +266,11 @@ namespace Hovel
 
 		settings.beginGroup("Files");
 		settings.setValue("lastFile", _fileName);
+		settings.endGroup();
+
+		settings.beginGroup("Docks");
+		settings.setValue("ProjectDock", _projectDockWidget->isVisible());
+		settings.setValue("PropertiesDock", _propertiesDockWidget->isVisible());
 		settings.endGroup();
 	}
 
@@ -358,7 +381,7 @@ namespace Hovel
 		TextEdit *textEdit = new TextEdit(index, this, textItem->data(TextRole).toString());
 		connect(textEdit, SIGNAL(contentChanged(QPersistentModelIndex&,QString&)), this, SLOT(textEditContentsChanged(QPersistentModelIndex&,QString&)));
 		_mdiArea->addSubWindow(textEdit);
-		textEdit->showMaximized();
+		textEdit->show();
 	}
 
 	/*!
@@ -430,6 +453,58 @@ namespace Hovel
 	{
 		Export exporter(_projectModel);
 		exporter.toHtmlFile();
+	}
+
+	/*!
+	  Switches between windowed and full screen modes.
+	 */
+	void MainWindow::toggleFullScreen()
+	{
+		if(_fullScreen) {
+			showNormal();
+			_fullScreen = false;
+			_mdiArea = new QMdiArea(this);
+			TextEdit *activeTextEdit = dynamic_cast<TextEdit *>(centralWidget());
+			activeTextEdit->close();
+			openScene(activeTextEdit->index());
+			setCentralWidget(_mdiArea);
+			restoreGeometry(_windowGeometry);
+			restoreState(_windowState);
+		}
+		else {
+			if ( !_mdiArea->activeSubWindow() ) return;
+			_windowState = saveState();
+			_windowGeometry = saveGeometry();
+			TextEdit *activeTextEdit = static_cast<TextEdit *>(_mdiArea->activeSubWindow()->widget() );
+			_projectDockWidget->hide();
+			_propertiesDockWidget->hide();
+			_mainToolBar->hide();
+
+			_mdiArea->removeSubWindow(activeTextEdit);
+			activeTextEdit->setWindowFlags(Qt::SubWindow | Qt::CustomizeWindowHint);
+
+			QMdiArea *a = _mdiArea;
+
+			activeTextEdit->setFullScreenState();
+			setCentralWidget(activeTextEdit);
+			delete _mdiArea;
+			showFullScreen();
+			_fullScreen = true;
+		}
+	}
+
+	/*!
+	  Acts on key presses if necesary.
+	 */
+	void MainWindow::keyPressEvent(QKeyEvent *event)
+	{
+		if ( event->key() == Qt::Key_Escape) {
+			if ( _fullScreen )
+				toggleFullScreen();
+			return;
+		}
+
+		QWidget::keyPressEvent( event );
 	}
 
 }

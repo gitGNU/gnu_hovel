@@ -67,6 +67,10 @@ namespace Hovel
 		void togglePropertiesDock();
 		void textEditContentsChanged( QPersistentModelIndex&, QString& );
 		void exportHtmlFile();
+		void toggleFullScreen();
+
+	protected:
+		void keyPressEvent ( QKeyEvent * event );
 
 	private:
 		QString _fileName;
@@ -83,6 +87,7 @@ namespace Hovel
 		QToolBar *_mainToolBar;
 		QToolButton *_projectToolButton;
 		QToolButton *_addToolButton;
+		QToolButton *_fullScreenToolButton;
 		QToolButton *_propertiesToolButton;
 
 		QMenu *_projectMenu;
@@ -99,6 +104,12 @@ namespace Hovel
 		QAction *_exitAction;
 		QAction *_exportHtmlFileAction;
 
+		bool _fullScreen;
+
+		QByteArray _windowState;
+		QByteArray _windowGeometry;
+
+		QMenu *_subWindowSystemMenu;
 	};
 
 }

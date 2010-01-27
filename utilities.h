@@ -20,38 +20,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
 
-#ifndef TEXTEDIT_H
-#define TEXTEDIT_H
+#ifndef UTILITIES_H
+#define UTILITIES_H
 
-#include <QTextEdit>
-#include <QPersistentModelIndex>
+#include <QString>
 
-namespace Hovel
-{
+QString loadStyleSheet(QString resource);
 
-	class TextEdit : public QTextEdit
-	{
-		Q_OBJECT
 
-	public:
-		TextEdit ( const QModelIndex & idx, QWidget * parent, QString text );
-		QString title ( ) { return _title; }
-		void setTitle ( QString title ) { _title = title; }
-		QPersistentModelIndex index ( ) { return _index; }
-		void setFullScreenState ( );
-		void setNormalState ( );
-
-	public slots:
-		void textChanged ( );
-
-	signals:
-		void contentChanged ( QPersistentModelIndex&, QString& );
-
-	private:
-		QPersistentModelIndex _index;
-		QString _title;
-	};
-
-}
-
-#endif // TEXTEDIT_H
+#endif // UTILITIES_H
