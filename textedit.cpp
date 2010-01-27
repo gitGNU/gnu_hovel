@@ -40,7 +40,18 @@ namespace Hovel
 
 	void TextEdit::setFullScreenState ( )
 	{
-		setViewportMargins ( 250, 50, 250, 50 );
+		setStyleSheet ( "background: black; color: limegreen; border: none;" );
+		showMaximized();
+		setViewportMargins ( 300, 50, 300, 50 );
+
+	}
+
+	void TextEdit::setNormalState ( )
+	{
+		setStyleSheet ("");
+
+		showNormal();
+		setViewportMargins(0,0,0,0);
 	}
 
 }

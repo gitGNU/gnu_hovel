@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     propertiesproxymodel.cpp \
     chapteritem.cpp \
     textedit.cpp \
-    export.cpp
+    export.cpp \
+    utilities.cpp
 HEADERS += mainwindow.h \
     hovelitem.h \
     hovelmodel.h \
@@ -39,6 +40,8 @@ HEADERS += mainwindow.h \
     propertiesproxymodel.h \
     chapteritem.h \
     textedit.h \
-    export.h
+    export.h \
+    utilities.h
 RESOURCES += hovel.qrc
-OTHER_FILES += 
+OTHER_FILES += styles/default.qss \
+    styles/scene_fullscreen.qss
