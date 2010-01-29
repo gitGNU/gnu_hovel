@@ -32,6 +32,7 @@ namespace Hovel
 		_roleData[TitleRole] = title;
 		_roleData[TextRole] = text;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/text"));
+		_roleData[StatusRole] = NewStatus;
 		_canModify = true;
 	}
 
@@ -59,7 +60,7 @@ namespace Hovel
 	const QList<DataRole> TextItem::displayableProperties() const
 	{
 		QList<DataRole> p;
-		p << TitleRole;
+		p << TitleRole << StatusRole;
 
 		return p;
 	}

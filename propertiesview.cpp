@@ -21,18 +21,25 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "propertiesview.h"
+#include "statuscomboboxitemdelegate.h"
 
 #include <QHeaderView>
 
-PropertiesView::PropertiesView()
+namespace Hovel
 {
-	horizontalHeader()->hide();
-	setEditTriggers(EditKeyPressed|SelectedClicked);
-	setAlternatingRowColors(true);
-}
 
-void PropertiesView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
-{
-	reset();
-	QAbstractItemView::currentChanged(current, previous);
+	PropertiesView::PropertiesView()
+	{
+		horizontalHeader()->hide();
+		setAlternatingRowColors(true);
+		StatusComboBoxItemDelegate *del = new StatusComboBoxItemDelegate(this);
+		setItemDelegateForColumn(1, del);
+	}
+
+	void PropertiesView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
+	{
+		reset();
+		QAbstractItemView::currentChanged(current, previous);
+	}
+
 }
