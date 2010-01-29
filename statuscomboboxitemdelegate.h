@@ -20,26 +20,26 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
 
-#ifndef PROPERTIESVIEW_H
-#define PROPERTIESVIEW_H
+#ifndef STATUSCOMBOBOXITEMDELEGATE_H
+#define STATUSCOMBOBOXITEMDELEGATE_H
 
-#include <QTableView>
+#include <QItemDelegate>
 
 namespace Hovel
 {
 
-	class PropertiesView : public QTableView
+	class StatusComboBoxItemDelegate : public QItemDelegate
 	{
 		Q_OBJECT
 
 	public:
-		PropertiesView();
+		StatusComboBoxItemDelegate(QObject *parent = 0);
 
-	protected slots:
-		void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
-
+		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		void setEditorData(QWidget *editor, const QModelIndex &index) const;
+		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+		void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 	};
 
 }
-
-#endif // PROPERTIESVIEW_H
+#endif // STATUSCOMBOBOXITEMDELEGATE_H

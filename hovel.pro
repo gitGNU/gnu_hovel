@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     chapteritem.cpp \
     textedit.cpp \
     export.cpp \
-    utilities.cpp
+    utilities.cpp \
+    statuscomboboxitemdelegate.cpp
 HEADERS += mainwindow.h \
     hovelitem.h \
     hovelmodel.h \
@@ -41,7 +42,8 @@ HEADERS += mainwindow.h \
     chapteritem.h \
     textedit.h \
     export.h \
-    utilities.h
+    utilities.h \
+    statuscomboboxitemdelegate.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
     styles/scene_fullscreen.qss

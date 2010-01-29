@@ -82,6 +82,7 @@ namespace Hovel
 		connect(_propertiesProxyModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), _projectTreeView, SLOT(currentChanged(QModelIndex,QModelIndex)));
 		_propertiesView = new PropertiesView();
 		_propertiesView->setModel(_propertiesProxyModel);
+
 		connect(_projectTreeView, SIGNAL(newItemSelected(const QItemSelection&, const QItemSelection&)),
 				_propertiesProxyModel, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
 		connect(_projectModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), _propertiesView, SLOT(currentChanged(QModelIndex,QModelIndex)));
@@ -482,8 +483,6 @@ namespace Hovel
 
 			_mdiArea->removeSubWindow(activeTextEdit);
 			activeTextEdit->setWindowFlags(Qt::SubWindow | Qt::CustomizeWindowHint);
-
-			QMdiArea *a = _mdiArea;
 
 			activeTextEdit->setFullScreenState();
 			setCentralWidget(activeTextEdit);

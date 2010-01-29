@@ -76,6 +76,8 @@ namespace Hovel
 			return "Title";
 		case TextRole:
 			return "Text";
+		case StatusRole:
+			return "Status";
 		default:
 			return QString();
 		}
