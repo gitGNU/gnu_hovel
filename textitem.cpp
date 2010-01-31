@@ -76,6 +76,7 @@ namespace Hovel
 		e.setAttribute("Title", _roleData[TitleRole].toString());
 		QString text = _roleData[TextRole].toString();
 		e.setAttribute("CanModify", QVariant(_canModify).toString());
+		e.setAttribute("Status", _roleData[StatusRole].toString());
 
 		QDomText textNode = doc.createTextNode(text);
 		e.appendChild(textNode);
@@ -91,6 +92,7 @@ namespace Hovel
 	{
 		QDomText dt = el.firstChild().toText();
 		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
+		_roleData[StatusRole] = QVariant(el.attribute("Status", "0")).toInt();
 		if(dt.isNull()) return;
 		_roleData[TextRole] = dt.data();
 	}

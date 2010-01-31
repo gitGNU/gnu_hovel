@@ -25,7 +25,15 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 
-QString loadStyleSheet(QString resource);
+#include "hovelitem.h"
 
+namespace Hovel
+{
+
+	QString loadStyleSheet(QString resource);
+
+	const QString statusString(Hovel::Status status);
+
+}
 
 #endif // UTILITIES_H

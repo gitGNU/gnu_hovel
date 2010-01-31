@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	qApp->setStyleSheet(loadStyleSheet(":/styles/default_style"));
+	qApp->setStyleSheet(Hovel::loadStyleSheet(":/styles/default_style"));
 	Hovel::MainWindow w;
 	w.show();
 
