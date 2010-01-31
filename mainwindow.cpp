@@ -86,6 +86,7 @@ namespace Hovel
 		connect(_projectTreeView, SIGNAL(newItemSelected(const QItemSelection&, const QItemSelection&)),
 				_propertiesProxyModel, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)));
 		connect(_projectModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), _propertiesView, SLOT(currentChanged(QModelIndex,QModelIndex)));
+		connect(_propertiesProxyModel, SIGNAL(layoutChanged()), _propertiesView, SLOT(setUpView()));
 		_propertiesDockWidget->setWidget(_propertiesView);
 	}
 

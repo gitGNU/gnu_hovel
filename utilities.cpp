@@ -24,15 +24,38 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utilities.h"
 
-QString loadStyleSheet(QString resource)
+namespace Hovel
 {
-	QFile data(resource);
-	QString style;
-	if(data.open(QFile::ReadOnly)) {
-		QTextStream styleIn(&data);
-		style = styleIn.readAll();
-		data.close();
-		return style;
+
+	QString loadStyleSheet(QString resource)
+	{
+		QFile data(resource);
+		QString style;
+		if(data.open(QFile::ReadOnly)) {
+			QTextStream styleIn(&data);
+			style = styleIn.readAll();
+			data.close();
+			return style;
+		}
+		return QString();
 	}
-	return QString();
+
+	const QString statusString(Hovel::Status status)
+	{
+		switch(status) {
+		case NewStatus:
+			return "New";
+		case OutlineStatus:
+			return "Outline";
+		case DraftStatus:
+			return "Draft";
+		case RevisingStatus:
+			return "Revising";
+		case CompleteStatus:
+			return "Complete";
+		default:
+			return "";
+		}
+	}
+
 }

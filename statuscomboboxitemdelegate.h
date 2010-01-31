@@ -23,12 +23,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef STATUSCOMBOBOXITEMDELEGATE_H
 #define STATUSCOMBOBOXITEMDELEGATE_H
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
 namespace Hovel
 {
 
-	class StatusComboBoxItemDelegate : public QItemDelegate
+	class StatusComboBoxItemDelegate : public QStyledItemDelegate
 	{
 		Q_OBJECT
 
@@ -39,6 +39,10 @@ namespace Hovel
 		void setEditorData(QWidget *editor, const QModelIndex &index) const;
 		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 		void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+
+	private slots:
+		void statusChanged(int index);
 	};
 
 }
