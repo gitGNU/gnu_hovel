@@ -1,7 +1,11 @@
 /****************************************************************************
 ** Resource object code
 **
+<<<<<<< HEAD:qrc_hovel.cpp
 ** Created: Sun Jan 31 21:21:47 2010
+=======
+** Created: Sat Jan 30 13:58:00 2010
+>>>>>>> 642d1bf96169a9fc7df6be4cdb5fa328292da2fe:qrc_hovel.cpp
 **      by: The Resource Compiler for Qt version 4.5.0
 **
 ** WARNING! All changes made in this file will be lost!

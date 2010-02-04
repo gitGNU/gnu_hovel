@@ -44,8 +44,8 @@ HEADERS += mainwindow.h \
     textedit.h \
     export.h \
     utilities.h \
-    statuscomboboxitemdelegate.h \
     hovelitemmimedata.h
+    statuscomboboxitemdelegate.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
     styles/scene_fullscreen.qss
