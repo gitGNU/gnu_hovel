@@ -38,11 +38,8 @@ namespace Hovel
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
 		void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
-<<<<<<< HEAD:projecttreeview.h
 		void dragMoveEvent ( QDragMoveEvent * event );
 		DropIndicatorPosition dropIndicatorPosition (const QPoint &pos, const QRect &rect) const;
-=======
->>>>>>> 642d1bf96169a9fc7df6be4cdb5fa328292da2fe:projecttreeview.h
 
 	signals:
 		void newItemSelected ( const QItemSelection & selected, const QItemSelection & deselected );

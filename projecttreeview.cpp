@@ -22,14 +22,10 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projecttreeview.h"
 #include "hovelitem.h"
-<<<<<<< HEAD:projecttreeview.cpp
 #include "bookitem.h"
 #include "chapteritem.h"
 #include "textitem.h"
-
 #include "hovelitemmimedata.h"
-=======
->>>>>>> 642d1bf96169a9fc7df6be4cdb5fa328292da2fe:projecttreeview.cpp
 
 #include <QKeyEvent>
 
@@ -60,7 +56,6 @@ namespace Hovel
 		emit newItemSelected ( selected, deselected );
 	}
 
-<<<<<<< HEAD:projecttreeview.cpp
 	void ProjectTreeView::dragMoveEvent ( QDragMoveEvent * event )
 	{
 		HovelItemMimeData * mimeData = (HovelItemMimeData *)event->mimeData();
@@ -107,6 +102,4 @@ namespace Hovel
 		return dip;
 	}
 
-=======
->>>>>>> 642d1bf96169a9fc7df6be4cdb5fa328292da2fe:projecttreeview.cpp
 }

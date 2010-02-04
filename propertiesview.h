@@ -40,7 +40,6 @@ namespace Hovel
 
 	protected slots:
 		void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
-		//void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
 		void dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
 	};
 
