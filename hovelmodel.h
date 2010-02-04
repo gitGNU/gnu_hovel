@@ -63,6 +63,9 @@ namespace Hovel
 
 		bool open ( QString fileName );
 		bool save ( QString fileName );
+		QString toString ( );
+
+		ProjectItem * projectItem() const;
 
 	private:
 		bool insertItem(HovelItem* newItem, const QModelIndex& parent = QModelIndex(), int row = 0);

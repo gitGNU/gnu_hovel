@@ -453,8 +453,13 @@ namespace Hovel
 	 */
 	void MainWindow::exportHtmlFile()
 	{
-		Export exporter(_projectModel);
-		exporter.toHtmlFile();
+		Export exporter(this, _projectModel);
+		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
+		if ( !currentBookIndex.isValid() )
+			return;
+
+		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
+		exporter.toHtmlFile ( currentBook );
 	}
 
 	/*!

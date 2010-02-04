@@ -367,17 +367,27 @@ namespace Hovel
 
 		QTextStream stream( outFile );
 
-		QDomDocument doc("HovelProject");
-
-		doc.appendChild(_rootItem->toQDomElement(doc));
-		QString text = doc.toString(4);
-		stream << text;
+		stream << toString();
 
 		outFile->close();
 
 		delete outFile;
 
 		return true;
+	}
+
+	/*! Returns a string containing a representation of the model in xml format.
+	 */
+	QString HovelModel::toString ( )
+	{
+		QDomDocument doc("HovelProject");
+		doc.appendChild(_rootItem->toQDomElement(doc));
+		return doc.toString(4);
+	}
+
+	ProjectItem * HovelModel::projectItem() const
+	{
+		return _rootItem;
 	}
 
 }

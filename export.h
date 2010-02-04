@@ -24,19 +24,34 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EXPORT_H
 #define EXPORT_H
 
+#include <QWidget>
+
 #include "hovelmodel.h"
+#include "bookitem.h"
 
 namespace Hovel
 {
 
-	class Export
+	class Export : public QObject
 	{
+		Q_OBJECT
+
 	public:
-		Export(HovelModel *);
-		void toHtmlFile();
+		explicit Export(QWidget *, HovelModel *);
+
+		bool getExportFilename(QString nameFilter);
+
+		bool toHtmlFile(BookItem *);
 
 	private:
+		void loadExportTemplates();
+
+		QWidget				*_parent;
 		HovelModel			*_model;
+		QString				_fileName;
+
+		QString				_htmlHeadTemplate;
+		QString				_htmlBodyTemplate;
 	};
 
 }

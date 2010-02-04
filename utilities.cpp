@@ -40,6 +40,17 @@ namespace Hovel
 		return QString();
 	}
 
+	QString loadTextResource(QString resource)
+	{
+		QFile * file = new QFile ( resource );
+		file->open( QIODevice::ReadOnly );
+		QTextStream stream ( file );
+		QString contents = stream.readAll();
+		file->close();
+		delete file;
+		return contents;
+	}
+
 	const QString statusString(Hovel::Status status)
 	{
 		switch(status) {

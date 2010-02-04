@@ -46,4 +46,6 @@ HEADERS += mainwindow.h \
     statuscomboboxitemdelegate.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
-    styles/scene_fullscreen.qss
+    styles/scene_fullscreen.qss \
+    htmltemplates/head.txt \
+    htmltemplates/body.txt
