@@ -26,6 +26,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "textitem.h"
 #include "folderitem.h"
 #include "chapteritem.h"
+#include "hovelitemmimedata.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -172,11 +173,20 @@ namespace Hovel
 		if (!index.isValid())
 			return Qt::ItemIsEnabled;
 
+		Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
 		HovelItem* item = static_cast<HovelItem*>(index.internalPointer());
+
 		if( item->canModify() )
-			return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
-		else
-			return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+			flags = flags | Qt::ItemIsEditable;
+
+		if ( dynamic_cast<BookItem *>(item) || dynamic_cast<ChapterItem *>(item) )
+			flags = flags | Qt::ItemIsDropEnabled;
+
+		if ( dynamic_cast<ChapterItem *>(item) || dynamic_cast<TextItem *>(item) )
+			flags = flags | Qt::ItemIsDragEnabled;
+
+		return flags;
 	}
 
 	bool HovelModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -188,6 +198,92 @@ namespace Hovel
 		item->setData(value, role);
 
 		emit dataChanged(index, index);
+		return true;
+	}
+
+	QMimeData * HovelModel::mimeData ( const QModelIndexList & indexes ) const
+	{
+		HovelItemMimeData *mimeData = new HovelItemMimeData();
+
+		foreach (QModelIndex index, indexes) {
+			if (index.isValid()) {
+				HovelItem *item = static_cast<HovelItem*>(index.internalPointer ( ) );
+				mimeData->appendItem(item);
+			}
+		}
+
+		return mimeData;
+	}
+
+	QStringList HovelModel::mimeTypes() const
+	{
+		QStringList types;
+		types << "application/hovelitem";
+		return types;
+	}
+
+	Qt::DropActions HovelModel::supportedDropActions () const
+	{
+		return Qt::MoveAction;
+	}
+
+	bool HovelModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
+	{
+		if ( action != Qt::MoveAction ) return false;
+
+		if ( !data->hasFormat("application/hovelitem") ) return false;
+
+		HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer());
+		int beginRow = 0;
+		if ( row != -1 ) beginRow = row;
+		else if ( parent.isValid() ) beginRow = parentItem->childCount();
+
+		const HovelItemMimeData * hovelItemMimeData = dynamic_cast<const HovelItemMimeData *>( data );
+		//! \todo Redo all this below. Doesn't work for items with children.
+		int rowCount = hovelItemMimeData->items().count ( );
+		insertRows ( beginRow, rowCount, parent );
+
+		//Items have been inserted, now populate them with data
+		foreach ( HovelItem * item, hovelItemMimeData->items() ) {
+			QModelIndex childIndex = parent.child ( beginRow++, 0 );
+			HovelItem * childItem = static_cast<HovelItem*>(childIndex.internalPointer());
+			for ( int i=0; i < LastRole; ++i) {
+				if ( item->data(i) != QVariant() )
+					childItem->setData( item->data(i), i );
+			}
+		}
+
+		return true;
+	}
+
+	bool HovelModel::removeRows ( int row, int count, const QModelIndex & parent )
+	{
+		beginRemoveRows ( parent, row, row + count - 1 );
+
+		HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer ( ) );
+		for ( int i = row; i < ( row + count ); i++ ) {
+			parentItem->removeChildAt ( i );
+		}
+
+		endRemoveRows ( );
+		return true;
+	}
+
+	bool HovelModel::insertRows ( int row, int count, const QModelIndex & parent )
+	{
+		beginInsertRows ( parent, row, row + count - 1 );
+
+		HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer ( ) );
+		for ( int i = row; i < ( row + count ); i++ ) {
+			HovelItem * newItem;
+			if ( dynamic_cast<BookItem *>(parentItem) )
+				newItem = new ChapterItem ( parentItem, "" );
+			else if ( dynamic_cast<ChapterItem *>(parentItem) )
+				newItem = new TextItem ( parentItem, "", "" );
+			parentItem->insertChild ( newItem, i );
+		}
+
+		endInsertRows ( );
 		return true;
 	}
 

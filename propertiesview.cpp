@@ -34,6 +34,9 @@ namespace Hovel
 	{
 		horizontalHeader()->hide();
 		setAlternatingRowColors(true);
+		setDragEnabled(true);
+		setAcceptDrops(true);
+		setDropIndicatorShown(true);
 	}
 
 	void PropertiesView::setUpView()
@@ -47,27 +50,12 @@ namespace Hovel
 		QAbstractItemView::currentChanged(current, previous);
 	}
 
-	/*void PropertiesView::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected )
-	{
-		if(selected.indexes().count() == 0) return;
-
-		//Set the correct editing delegate if required.
-		PropertiesProxyModel *proxyModel = (PropertiesProxyModel*)model();
-		QModelIndex selectedIndex = selected.indexes()[0];
-		QModelIndex currentRowTitleIndex = proxyModel->index(selectedIndex.row(), 0, selectedIndex.parent());
-		if(currentRowTitleIndex.data().toString() == "Status") {
-			StatusComboBoxItemDelegate *delegate = new StatusComboBoxItemDelegate(this);
-			setItemDelegateForRow(selectedIndex.row(), delegate);
-		}
-	}*/
-
 	void PropertiesView::dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight )
 	{
 		//Set the correct editing delegate if required.
 		PropertiesProxyModel *proxyModel = (PropertiesProxyModel*)model();
 
 		for( int i=0; i < proxyModel->rowCount(); ++i) {
-			QModelIndex currentIndex = proxyModel->index(i, 1);
 			QModelIndex currentRowTitleIndex = proxyModel->index(i, 0);
 			if(currentRowTitleIndex.data().toString() == "Status") {
 				StatusComboBoxItemDelegate *delegate = new StatusComboBoxItemDelegate(this);
