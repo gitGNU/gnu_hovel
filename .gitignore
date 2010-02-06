@@ -13,8 +13,8 @@ debug/
 #documentation directory
 docs/
 
-#meta object auto-generated files
-moc_*
+#notes directory
+notes/
 
 #meta object auto-generated files
 moc_*

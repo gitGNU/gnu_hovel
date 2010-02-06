@@ -25,6 +25,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "hovelitem.h"
 #include "serialise.h"
+#include "bookitem.h"
 
 #include <QList>
 #include <QDomElement>
@@ -46,6 +47,8 @@ namespace Hovel
 		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
+
+		QList<BookItem *> bookItems();
 
 	private:
 

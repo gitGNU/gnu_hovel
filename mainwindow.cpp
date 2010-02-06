@@ -453,8 +453,27 @@ namespace Hovel
 	 */
 	void MainWindow::exportHtmlFile()
 	{
-		Export exporter(_projectModel);
-		exporter.toHtmlFile();
+		Export exporter(this, _projectModel);
+		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
+		if ( !currentBookIndex.isValid() )
+			return;
+
+		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
+		exporter.toHtmlFile ( currentBook );
+	}
+
+	/*!
+	  Acts on key presses if necesary.
+	 */
+	void MainWindow::keyPressEvent(QKeyEvent *event)
+	{
+		if ( event->key() == Qt::Key_Escape) {
+			if ( _fullScreen )
+				toggleFullScreen();
+			return;
+		}
+
+		QWidget::keyPressEvent( event );
 	}
 
 	/*!
@@ -491,20 +510,6 @@ namespace Hovel
 			showFullScreen();
 			_fullScreen = true;
 		}
-	}
-
-	/*!
-	  Acts on key presses if necesary.
-	 */
-	void MainWindow::keyPressEvent(QKeyEvent *event)
-	{
-		if ( event->key() == Qt::Key_Escape) {
-			if ( _fullScreen )
-				toggleFullScreen();
-			return;
-		}
-
-		QWidget::keyPressEvent( event );
 	}
 
 }

@@ -24,6 +24,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #define BOOKITEM_H
 
 #include "hovelitem.h"
+#include "chapteritem.h"
 
 #include <QDomElement>
 
@@ -45,6 +46,8 @@ namespace Hovel
 		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
+
+		QList<ChapterItem *> chapterItems();
 
 	private:
 	};

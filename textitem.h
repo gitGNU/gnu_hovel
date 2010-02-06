@@ -45,6 +45,7 @@ namespace Hovel
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 
+		QString toHtmlParagraphs();
 	};
 
 }

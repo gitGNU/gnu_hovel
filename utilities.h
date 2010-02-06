@@ -31,6 +31,7 @@ namespace Hovel
 {
 
 	QString loadStyleSheet(QString resource);
+	QString loadTextResource(QString resource);
 
 	const QString statusString(Hovel::Status status);
 

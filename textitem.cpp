@@ -97,4 +97,9 @@ namespace Hovel
 		_roleData[TextRole] = dt.data();
 	}
 
+	QString TextItem::toHtmlParagraphs()
+	{
+		return data(TextRole).toString();
+	}
+
 }

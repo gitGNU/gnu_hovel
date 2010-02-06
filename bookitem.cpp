@@ -105,4 +105,17 @@ namespace Hovel
 		}
 	}
 
+	QList<ChapterItem *> BookItem::chapterItems()
+	{
+		QList<ChapterItem *> chapters;
+
+		for ( int i=0; i<childCount(); ++i ) {
+			ChapterItem * chapterItem = dynamic_cast<ChapterItem *>(child(i));
+			if( chapterItem )
+				chapters.append ( chapterItem );
+		}
+
+		return chapters;
+	}
+
 }

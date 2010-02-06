@@ -101,4 +101,17 @@ namespace Hovel
 			n = n.nextSibling();
 		}
 	}
+
+	QList<TextItem *> ChapterItem::textItems()
+	{
+		QList<TextItem *> scenes;
+
+		for ( int i=0; i<childCount(); ++i ) {
+			TextItem * textItem = dynamic_cast<TextItem *>(child(i));
+			if( textItem )
+				scenes.append ( textItem );
+		}
+
+		return scenes;
+	}
 }
