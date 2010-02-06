@@ -50,6 +50,12 @@ namespace Hovel
 		bool hasChildren ( const QModelIndex & parent = QModelIndex() ) const;
 		Qt::ItemFlags flags(const QModelIndex &index) const;
 		bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+		QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+		QStringList mimeTypes() const;
+		Qt::DropActions supportedDropActions () const;
+		bool removeRows ( int row, int count, const QModelIndex & parent = QModelIndex ( ) );
+		bool insertRows ( int row, int count, const QModelIndex & parent = QModelIndex ( ) );
+		bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
 
 		bool newBook(int row);
 		bool newChapter(QModelIndex parentBook, int row);

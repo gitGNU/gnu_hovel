@@ -10,6 +10,12 @@ hovel
 #debug dir
 debug/
 
+#documentation directory
+docs/
+
+#meta object auto-generated files
+moc_*
+
 #meta object auto-generated files
 moc_*
 

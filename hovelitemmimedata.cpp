@@ -19,32 +19,32 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#include <QStringList>
 
-#ifndef PROJECTTREEVIEW_H
-#define PROJECTTREEVIEW_H
-
-#include <QTreeView>
+#include "hovelitemmimedata.h"
 
 namespace Hovel
 {
 
-	class ProjectTreeView : public QTreeView
+	HovelItemMimeData::HovelItemMimeData()
 	{
-	Q_OBJECT
+	}
 
-	public:
-		ProjectTreeView();
+	QStringList HovelItemMimeData::formats() const
+	{
+		QStringList formats;
+		formats << "application/hovelitem";
+		return formats;
+	}
 
-	protected:
-		void keyPressEvent ( QKeyEvent * event );
-		void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
-		void dragMoveEvent ( QDragMoveEvent * event );
-		DropIndicatorPosition dropIndicatorPosition (const QPoint &pos, const QRect &rect) const;
+	const QList<HovelItem *> HovelItemMimeData::items() const
+	{
+		return _items;
+	}
 
-	signals:
-		void newItemSelected ( const QItemSelection & selected, const QItemSelection & deselected );
-	};
+	void HovelItemMimeData::appendItem(HovelItem * newItem)
+	{
+		_items.append(newItem);
+	}
 
 }
-
-#endif // PROJECTTREEVIEW_H

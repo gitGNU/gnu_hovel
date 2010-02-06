@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     textedit.cpp \
     export.cpp \
     utilities.cpp \
-    statuscomboboxitemdelegate.cpp
+    statuscomboboxitemdelegate.cpp \
+    hovelitemmimedata.cpp
 HEADERS += mainwindow.h \
     hovelitem.h \
     hovelmodel.h \
@@ -43,6 +44,7 @@ HEADERS += mainwindow.h \
     textedit.h \
     export.h \
     utilities.h \
+    hovelitemmimedata.h \
     statuscomboboxitemdelegate.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
