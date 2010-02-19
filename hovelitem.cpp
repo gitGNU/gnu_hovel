@@ -112,4 +112,9 @@ namespace Hovel
 		return true;
 	}
 
+	const QList<HovelItem *> HovelItem::childItems ( ) const
+	{
+		return _childItems;
+	}
+
 }

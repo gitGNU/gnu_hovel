@@ -201,6 +201,9 @@ namespace Hovel
 		return true;
 	}
 
+	/*!
+	  Returns encoded mime data for the given model indexes.
+	 */
 	QMimeData * HovelModel::mimeData ( const QModelIndexList & indexes ) const
 	{
 		HovelItemMimeData *mimeData = new HovelItemMimeData();
@@ -215,47 +218,67 @@ namespace Hovel
 		return mimeData;
 	}
 
+	/*!
+	  Defines the mime types that this model supports.
+	 */
 	QStringList HovelModel::mimeTypes() const
 	{
 		QStringList types;
-		types << "application/hovelitem";
+		types << "application/hovelitems";
 		return types;
 	}
 
+	/*!
+	  Defines the drop actions that this model supports.
+	 */
 	Qt::DropActions HovelModel::supportedDropActions () const
 	{
 		return Qt::MoveAction;
 	}
 
+	/*!
+	  Occurs when mime data is dropeed on to the view representing the model.
+	 */
 	bool HovelModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
 	{
 		if ( action != Qt::MoveAction ) return false;
+		if ( !data->hasFormat("application/hovelitems") ) return false;
 
-		if ( !data->hasFormat("application/hovelitem") ) return false;
-
-		HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer());
-		int beginRow = 0;
-		if ( row != -1 ) beginRow = row;
-		else if ( parent.isValid() ) beginRow = parentItem->childCount();
+		//In the event that an item is dropped directly on it's parent item.
+		if ( row == -1 && parent.isValid()) {
+			HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer());
+			row = parentItem->childCount();
+		}
 
 		const HovelItemMimeData * hovelItemMimeData = dynamic_cast<const HovelItemMimeData *>( data );
-		//! \todo Redo all this below. Doesn't work for items with children.
-		int rowCount = hovelItemMimeData->items().count ( );
-		insertRows ( beginRow, rowCount, parent );
-
-		//Items have been inserted, now populate them with data
 		foreach ( HovelItem * item, hovelItemMimeData->items() ) {
-			QModelIndex childIndex = parent.child ( beginRow++, 0 );
-			HovelItem * childItem = static_cast<HovelItem*>(childIndex.internalPointer());
-			for ( int i=0; i < LastRole; ++i) {
-				if ( item->data(i) != QVariant() )
-					childItem->setData( item->data(i), i );
-			}
+			insertTree(item, parent, row, column);
 		}
 
 		return true;
 	}
 
+	/*!
+	  Insert a hierarchy of HovelItems into the model.
+	 */
+	void HovelModel::insertTree ( const HovelItem * rootItem, const QModelIndex & parent, int row, int column )
+	{
+		insertRows ( row, 1, parent );
+		QModelIndex newRootIndex = parent.child(row, 0);
+		HovelItem * newRootItem = static_cast<HovelItem *>(newRootIndex.internalPointer());
+
+		for ( int i=0; i < LastRole; ++i)
+			if( rootItem->data(i) != QVariant() )
+				newRootItem->setData( rootItem->data(i), i );
+
+		int childRow = 0;
+		foreach(HovelItem * item, rootItem->childItems())
+			insertTree ( item, newRootIndex, childRow++, 0 );	//Look out, recursion.
+	}
+
+	/*!
+	  Remove multiple rows from the model.
+	 */
 	bool HovelModel::removeRows ( int row, int count, const QModelIndex & parent )
 	{
 		beginRemoveRows ( parent, row, row + count - 1 );
@@ -269,6 +292,9 @@ namespace Hovel
 		return true;
 	}
 
+	/*!
+	  Insert multiple rows in to the model. These will need to be populated with data.
+	 */
 	bool HovelModel::insertRows ( int row, int count, const QModelIndex & parent )
 	{
 		beginInsertRows ( parent, row, row + count - 1 );
@@ -280,6 +306,7 @@ namespace Hovel
 				newItem = new ChapterItem ( parentItem, "" );
 			else if ( dynamic_cast<ChapterItem *>(parentItem) )
 				newItem = new TextItem ( parentItem, "", "" );
+			else return false;
 			parentItem->insertChild ( newItem, i );
 		}
 

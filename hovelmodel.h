@@ -56,6 +56,7 @@ namespace Hovel
 		bool removeRows ( int row, int count, const QModelIndex & parent = QModelIndex ( ) );
 		bool insertRows ( int row, int count, const QModelIndex & parent = QModelIndex ( ) );
 		bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
+		void insertTree ( const HovelItem * rootItem, const QModelIndex & parent, int row, int column );
 
 		bool newBook(int row);
 		bool newChapter(QModelIndex parentBook, int row);

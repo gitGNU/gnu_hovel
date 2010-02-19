@@ -10,6 +10,9 @@ hovel
 #debug dir
 debug/
 
+#release dir
+release/
+
 #documentation directory
 docs/
 

@@ -33,7 +33,7 @@ namespace Hovel
 	QStringList HovelItemMimeData::formats() const
 	{
 		QStringList formats;
-		formats << "application/hovelitem";
+		formats << "application/hovelitems";
 		return formats;
 	}
 

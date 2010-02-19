@@ -61,10 +61,14 @@ namespace Hovel
 		HovelItemMimeData * mimeData = (HovelItemMimeData *)event->mimeData();
 		ChapterItem * draggedChapterItem = dynamic_cast<ChapterItem *>(mimeData->items()[0]);
 		TextItem * draggedTextItem = dynamic_cast<TextItem *>(mimeData->items()[0]);
+
 		QModelIndex currentDropTargetIndex = indexAt(event->pos());
-		QAbstractItemView::DropIndicatorPosition dip;
-		if (currentDropTargetIndex.isValid())
-			dip = dropIndicatorPosition(event->pos(), visualRect(currentDropTargetIndex));
+		if (!currentDropTargetIndex.isValid()) {
+			event->ignore();
+			return;
+		}
+
+		QAbstractItemView::DropIndicatorPosition dip = dropIndicatorPosition(event->pos(), visualRect(currentDropTargetIndex));
 		HovelItem * dropTargetItem = static_cast<HovelItem *>(currentDropTargetIndex.internalPointer());
 		BookItem * dropTargetBookItem = dynamic_cast<BookItem *>(dropTargetItem);
 		ChapterItem * dropTargetChapterItem = dynamic_cast<ChapterItem *>(dropTargetItem);
@@ -72,13 +76,13 @@ namespace Hovel
 		bool canDrop = false;
 
 		if ( draggedTextItem ) {
-			if ( dropTargetChapterItem )
+			if ( dropTargetChapterItem && dip == OnItem )
 				canDrop = true;
 			if ( dropTargetTextItem && ( dip == AboveItem || dip == BelowItem ) )
 				canDrop = true;
 		}
 		else if ( draggedChapterItem ) {
-			if ( dropTargetBookItem )
+			if ( dropTargetBookItem && dip == OnItem )
 				canDrop = true;
 			if ( dropTargetChapterItem && ( dip == AboveItem || dip == BelowItem ) )
 				canDrop = true;
@@ -95,9 +99,12 @@ namespace Hovel
 		DropIndicatorPosition dip = QAbstractItemView::OnViewport;
 		const int margin = 2;
 
-		if (pos.y() - rect.top() < margin) dip = QAbstractItemView::AboveItem;
-		else if (rect.bottom() - pos.y() < margin) dip = QAbstractItemView::BelowItem;
-		else if (rect.contains(pos, true)) dip = QAbstractItemView::OnItem;
+		if (pos.y() - rect.top() < margin)
+			dip = QAbstractItemView::AboveItem;
+		else if (rect.bottom() - pos.y() < margin)
+			dip = QAbstractItemView::BelowItem;
+		else if (rect.contains(pos, true))
+			dip = QAbstractItemView::OnItem;
 
 		return dip;
 	}

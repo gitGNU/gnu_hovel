@@ -59,6 +59,7 @@ namespace Hovel
 		bool canModify() { return _canModify; }
 		void setCanModify( bool modify ) { _canModify = modify; }
 		void removeChildAt ( int i ) { _childItems.removeAt ( i ); }
+		const QList<HovelItem *> childItems ( ) const;
 
 	protected:
 		QList<HovelItem *>	_childItems;
