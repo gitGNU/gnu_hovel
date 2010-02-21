@@ -313,6 +313,7 @@ namespace Hovel
 		delete _projectModel;
 		_projectModel = new HovelModel();
 		_projectTreeView->setModel(_projectModel);
+		_fileName.clear();
 	}
 
 	/*!
