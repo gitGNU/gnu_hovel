@@ -86,8 +86,8 @@ namespace Hovel
 			if (item->propertyData(i) != QVariant()) {
 				++roleIndex;
 				if (proxyIndex.row() == roleIndex) {
-					if(proxyIndex.column() == 1) return item->propertyData(i);
-					else return item->propertyTitle(i);
+					if(proxyIndex.column() == PropertiesValueColumn) return item->propertyData(i);
+					else return HovelItem::propertyTitle(i);
 				}
 			}
 		}
@@ -113,7 +113,7 @@ namespace Hovel
 
 		HovelItem *item = static_cast<HovelItem*>(sourceIndex.internalPointer());
 
-		item->setData(value, role);
+		item->setData(value, indexDataRole(index));
 
 		emit dataChanged(sourceIndex, sourceIndex);
 		return true;
@@ -130,5 +130,13 @@ namespace Hovel
 
 		emit layoutAboutToBeChanged();
 		emit layoutChanged();
+	}
+
+	DataRole PropertiesProxyModel::indexDataRole(const QModelIndex &index) const
+	{
+		QModelIndex titleIndex = createIndex(index.row(), PropertiesTitleColumn, 0);
+		QString title = titleIndex.data(PropertiesTitleColumn).toString();
+
+		return HovelItem::propertyRole(title);
 	}
 }

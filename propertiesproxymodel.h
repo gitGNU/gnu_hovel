@@ -25,8 +25,11 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QAbstractProxyModel>
 
+#include "hovelitem.h"
+
 namespace Hovel
 {
+	enum PropertiesProxyColumn { PropertiesTitleColumn, PropertiesValueColumn };
 
 	class PropertiesProxyModel : public QAbstractProxyModel
 	{
@@ -44,6 +47,9 @@ namespace Hovel
 		QVariant data ( const QModelIndex &proxyIndex, int role = Qt::DisplayRole ) const;
 		Qt::ItemFlags flags(const QModelIndex &index) const;
 		bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+
+	private:
+		DataRole indexDataRole(const QModelIndex &index) const;
 
 	public slots:
 		void selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection);

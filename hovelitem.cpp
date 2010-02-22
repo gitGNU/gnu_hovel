@@ -69,7 +69,7 @@ namespace Hovel
 		return QVariant();
 	}
 
-	QString HovelItem::propertyTitle(int role) const
+	QString HovelItem::propertyTitle(int role)
 	{
 		switch (role) {
 		case TitleRole:
@@ -78,9 +78,25 @@ namespace Hovel
 			return "Text";
 		case StatusRole:
 			return "Status";
+		case SummaryRole:
+			return "Summary";
 		default:
 			return QString();
 		}
+	}
+
+	DataRole HovelItem::propertyRole(QString title)
+	{
+		if ( title == "Title" )
+			return TitleRole;
+		if ( title == "Text" )
+			return TextRole;
+		if ( title == "Status" )
+			return StatusRole;
+		if ( title == "Summary" )
+			return SummaryRole;
+
+		return LastRole;
 	}
 
 	const QList<DataRole> HovelItem::displayableProperties() const

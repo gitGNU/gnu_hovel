@@ -33,6 +33,7 @@ namespace Hovel
 		_roleData[TextRole] = text;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/text"));
 		_roleData[StatusRole] = NewStatus;
+		_roleData[SummaryRole] = QString();
 		_canModify = true;
 	}
 
@@ -60,7 +61,7 @@ namespace Hovel
 	const QList<DataRole> TextItem::displayableProperties() const
 	{
 		QList<DataRole> p;
-		p << TitleRole << StatusRole;
+		p << TitleRole << StatusRole << SummaryRole;
 
 		return p;
 	}
@@ -78,23 +79,38 @@ namespace Hovel
 		e.setAttribute("CanModify", QVariant(_canModify).toString());
 		e.setAttribute("Status", _roleData[StatusRole].toString());
 
+		QDomElement summaryElement = doc.createElement("Summary");
+		QDomText summaryTextNode = doc.createTextNode(_roleData[SummaryRole].toString());
+		summaryElement.appendChild(summaryTextNode);
+		e.appendChild(summaryElement);
+
 		QDomText textNode = doc.createTextNode(text);
 		e.appendChild(textNode);
-
-		foreach(HovelItem * item, _childItems) {
-			e.appendChild(item->toQDomElement(doc));
-		}
 
 		return e;
 	}
 
 	void TextItem::fromQDomElement(QDomElement &el)
 	{
-		QDomText dt = el.firstChild().toText();
 		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 		_roleData[StatusRole] = QVariant(el.attribute("Status", "0")).toInt();
-		if(dt.isNull()) return;
-		_roleData[TextRole] = dt.data();
+
+		QDomNode n = el.firstChild();
+		while (!n.isNull()) {
+			if (n.isElement()) {		//Child elements
+				QDomElement childElement = n.toElement();
+				if(childElement.tagName() == "Summary") {
+					QDomText dt = childElement.firstChild().toText();
+					_roleData[SummaryRole] = dt.data();
+				}
+				else continue;
+			}
+			else if (n.isText()) {		//Child text nodes
+				QDomText dt = n.toText();
+				_roleData[TextRole] = dt.data();
+			}
+			n = n.nextSibling();
+		}
 	}
 
 	QString TextItem::toHtmlParagraphs()

@@ -35,7 +35,7 @@ namespace Hovel
 {
 
 	//! \see Qt::ItemDataRole
-	enum DataRole { TitleRole = 0, TextRole = 32, StatusRole, LastRole };
+	enum DataRole { TitleRole = 0, TextRole = 32, StatusRole, SummaryRole, LastRole };
 	enum Status { NewStatus, OutlineStatus, DraftStatus, RevisingStatus, CompleteStatus };
 
 	class HovelItem : public Serialise
@@ -51,7 +51,8 @@ namespace Hovel
 		virtual int propertyCount() const;
 		QVariant data(int role) const;
 		virtual QVariant propertyData(int role) const;
-		QString propertyTitle(int role) const;
+		static QString propertyTitle(int role);
+		static DataRole propertyRole(QString title);
 		const QList<DataRole> displayableProperties() const;
 		void appendChild(HovelItem * child);
 		void insertChild(HovelItem * child, int row);
