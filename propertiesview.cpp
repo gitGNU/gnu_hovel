@@ -44,10 +44,17 @@ namespace Hovel
 		dataChanged(QModelIndex(), QModelIndex());
 	}
 
+	void PropertiesView::statusComboboxClosed ( QWidget * comboBox )
+	{
+		comboBox->close();
+	}
+
 	void PropertiesView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
 	{
+		QModelIndex selectedCurrent = current;
+		QModelIndex selectedPrevious = previous;
 		reset();
-		QAbstractItemView::currentChanged(current, previous);
+		QAbstractItemView::currentChanged(selectedCurrent, selectedPrevious);
 	}
 
 	void PropertiesView::dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight )
@@ -60,10 +67,16 @@ namespace Hovel
 			QModelIndex currentRowTitleIndex = proxyModel->index(i, 0);
 			if(currentRowTitleIndex.data().toString() == "Status") {
 				StatusComboBoxItemDelegate *delegate = new StatusComboBoxItemDelegate(this);
+				connect ( delegate, SIGNAL(closeEditor(QWidget*)), this, SLOT(statusComboboxClosed(QWidget*)) );
 				setItemDelegateForRow(i, delegate);
 			}
 		}
 		QTableView::dataChanged( topLeft, bottomRight );
+
+		resizeColumnToContents(0);
+		int viewWidth = size().width();
+		int titleColumnWidth = columnWidth(0);
+		horizontalHeader()->resizeSection(1, viewWidth - titleColumnWidth - 10);
 	}
 
 }

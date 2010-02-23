@@ -103,7 +103,7 @@ namespace Hovel
 		if( index.column() == 1 )
 			return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 		else
-			return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+			return Qt::ItemIsEnabled;
 	}
 
 	bool PropertiesProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)

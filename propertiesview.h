@@ -37,6 +37,7 @@ namespace Hovel
 
 	public slots:
 		void setUpView();
+		void statusComboboxClosed ( QWidget * );
 
 	protected slots:
 		void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
