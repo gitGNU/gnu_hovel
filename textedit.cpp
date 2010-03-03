@@ -20,6 +20,8 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
 
+#include <QApplication>
+
 #include "textedit.h"
 
 namespace Hovel
@@ -41,17 +43,44 @@ namespace Hovel
 	void TextEdit::setFullScreenState ( )
 	{
 		setStyleSheet ( "background: black; color: limegreen; border: none;" );
-		showMaximized();
-		setViewportMargins ( 300, 50, 300, 50 );
+		setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
 
+		QTextCursor cursor = textCursor();
+		int originalPosition = cursor.position();
+
+		cursor.movePosition(QTextCursor::Start);
+		cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+
+		QTextCharFormat format;
+		format.setFontPointSize(13);
+		cursor.setCharFormat(format);
+
+		cursor.setPosition(originalPosition);
+		setTextCursor(cursor);
+
+		showMaximized();
+
+		int horizontalMargin = viewport()->width() / 4;
+		int verticalMargin = viewport()->height() / 7;
+		setViewportMargins ( horizontalMargin, verticalMargin, horizontalMargin, verticalMargin );
 	}
 
 	void TextEdit::setNormalState ( )
 	{
 		setStyleSheet ("");
+		setVerticalScrollBarPolicy ( Qt::ScrollBarAsNeeded );
+
+		QTextCursor cursor = textCursor();
+
+		cursor.movePosition ( QTextCursor::Start );
+		cursor.movePosition ( QTextCursor::End, QTextCursor::KeepAnchor );
+
+		QTextCharFormat format;
+		format.setFontPointSize ( QApplication::font().pointSize() );
+		cursor.setCharFormat ( format );
 
 		showNormal();
-		setViewportMargins(0,0,0,0);
+		setViewportMargins ( 0, 0, 0, 0 );
 	}
 
 }

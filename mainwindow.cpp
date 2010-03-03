@@ -369,21 +369,23 @@ namespace Hovel
 	/*!
 	  Open a scene for editing.
 	 */
-	void MainWindow::openScene(const QModelIndex & index)
+	void MainWindow::openScene ( const QModelIndex & index )
 	{
-		QMdiSubWindow * sw = sceneIsOpen(index);
-		if(sw) {
-			_mdiArea->setActiveSubWindow(sw);
+		QMdiSubWindow * sw = sceneIsOpen ( index );
+		if ( sw ) {
+			_mdiArea->setActiveSubWindow ( sw );
 			return;
 		}
 
-		HovelItem *childItem = static_cast<HovelItem*>(index.internalPointer());
-		TextItem *textItem = dynamic_cast<TextItem *>(childItem);
-		if(!textItem) return;
+		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
+		TextItem *textItem = dynamic_cast<TextItem *> ( childItem );
+		if ( !textItem ) return;
 
-		TextEdit *textEdit = new TextEdit(index, this, textItem->data(TextRole).toString());
-		connect(textEdit, SIGNAL(contentChanged(QPersistentModelIndex&,QString&)), this, SLOT(textEditContentsChanged(QPersistentModelIndex&,QString&)));
-		_mdiArea->addSubWindow(textEdit);
+		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
+		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
+		sw = _mdiArea->addSubWindow ( textEdit );
+		_mdiArea->setActiveSubWindow ( sw );
+
 		textEdit->show();
 	}
 
@@ -485,19 +487,32 @@ namespace Hovel
 		if(_fullScreen) {
 			showNormal();
 			_fullScreen = false;
-			_mdiArea = new QMdiArea(this);
-			TextEdit *activeTextEdit = dynamic_cast<TextEdit *>(centralWidget());
+
+			TextEdit *activeTextEdit = dynamic_cast<TextEdit *> ( centralWidget() );
+			activeTextEdit->setNormalState();
+			int originalPosition = activeTextEdit->textCursor().position();
 			activeTextEdit->close();
-			openScene(activeTextEdit->index());
-			setCentralWidget(_mdiArea);
-			restoreGeometry(_windowGeometry);
-			restoreState(_windowState);
+
+			_mdiArea = new QMdiArea ( this );
+			setCentralWidget ( _mdiArea );
+			openScene ( activeTextEdit->index() );
+			restoreGeometry ( _windowGeometry );
+			restoreState ( _windowState );
+
+			activeTextEdit = dynamic_cast<TextEdit *> ( _mdiArea->activeSubWindow()->widget() );
+			QTextCursor newCursor = activeTextEdit->textCursor();
+			newCursor.setPosition ( originalPosition );
+			activeTextEdit->setTextCursor ( newCursor );
 		}
 		else {
-			if ( !_mdiArea->activeSubWindow() ) return;
+			if ( !_mdiArea->activeSubWindow() ) {
+				_fullScreenToolButton->setChecked(false);
+				return;
+			}
 			_windowState = saveState();
 			_windowGeometry = saveGeometry();
-			TextEdit *activeTextEdit = static_cast<TextEdit *>(_mdiArea->activeSubWindow()->widget() );
+			TextEdit *activeTextEdit = dynamic_cast<TextEdit *>(_mdiArea->activeSubWindow()->widget() );
+
 			_projectDockWidget->hide();
 			_propertiesDockWidget->hide();
 			_mainToolBar->hide();
@@ -509,6 +524,7 @@ namespace Hovel
 			setCentralWidget(activeTextEdit);
 			delete _mdiArea;
 			showFullScreen();
+			activeTextEdit->setFocus();
 			_fullScreen = true;
 		}
 	}
