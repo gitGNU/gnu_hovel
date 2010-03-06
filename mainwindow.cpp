@@ -520,10 +520,10 @@ namespace Hovel
 			_mdiArea->removeSubWindow(activeTextEdit);
 			activeTextEdit->setWindowFlags(Qt::SubWindow | Qt::CustomizeWindowHint);
 
-			activeTextEdit->setFullScreenState();
 			setCentralWidget(activeTextEdit);
 			delete _mdiArea;
 			showFullScreen();
+			activeTextEdit->setFullScreenState();
 			activeTextEdit->setFocus();
 			_fullScreen = true;
 		}
