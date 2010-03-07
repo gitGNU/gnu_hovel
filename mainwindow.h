@@ -108,8 +108,6 @@ namespace Hovel
 
 		QByteArray _windowState;
 		QByteArray _windowGeometry;
-
-		QMenu *_subWindowSystemMenu;
 	};
 
 }
