@@ -42,7 +42,7 @@ namespace Hovel
 
 	void TextEdit::setFullScreenState ( )
 	{
-		setStyleSheet ( "background: black; color: limegreen; border: none;" );
+		setStyleSheet ( "background: dimgrey; color: lightsteelblue; border: none;" );
 		setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
 
 		QTextCursor cursor = textCursor();
