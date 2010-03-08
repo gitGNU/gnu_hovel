@@ -21,6 +21,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <QApplication>
+#include <QKeyEvent>
 
 #include "textedit.h"
 
@@ -42,7 +43,7 @@ namespace Hovel
 
 	void TextEdit::setFullScreenState ( )
 	{
-		setStyleSheet ( "background: black; color: limegreen; border: none;" );
+		setStyleSheet ( "background: dimgrey; color: lightsteelblue; border: none;" );
 		setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
 
 		QTextCursor cursor = textCursor();
@@ -58,11 +59,9 @@ namespace Hovel
 		cursor.setPosition(originalPosition);
 		setTextCursor(cursor);
 
-		showMaximized();
+		showFullScreen();
 
-		int horizontalMargin = viewport()->width() / 4;
-		int verticalMargin = viewport()->height() / 7;
-		setViewportMargins ( horizontalMargin, verticalMargin, horizontalMargin, verticalMargin );
+		document()->setDocumentMargin(300);
 	}
 
 	void TextEdit::setNormalState ( )
@@ -79,8 +78,24 @@ namespace Hovel
 		format.setFontPointSize ( QApplication::font().pointSize() );
 		cursor.setCharFormat ( format );
 
-		showNormal();
-		setViewportMargins ( 0, 0, 0, 0 );
+		document()->setDocumentMargin(10);
 	}
 
+	/*!
+	  Acts on key presses if necessary.
+	 */
+	void TextEdit::keyPressEvent(QKeyEvent *event)
+	{
+		if ( ! (windowState() & Qt::WindowFullScreen) ) {
+			QTextEdit::keyPressEvent( event );
+			return;
+		}
+
+		if ( event->key() == Qt::Key_Escape) {
+			emit exitFullScreenPressed();
+			close();
+		}
+
+		QTextEdit::keyPressEvent ( event );
+	}
 }

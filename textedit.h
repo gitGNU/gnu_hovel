@@ -44,8 +44,12 @@ namespace Hovel
 	public slots:
 		void textChanged ( );
 
+	protected:
+		void keyPressEvent ( QKeyEvent * event );
+
 	signals:
 		void contentChanged ( QPersistentModelIndex&, QString& );
+		void exitFullScreenPressed ( );
 
 	private:
 		QPersistentModelIndex _index;

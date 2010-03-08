@@ -382,6 +382,7 @@ namespace Hovel
 		if ( !textItem ) return;
 
 		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
+		textEdit->document()->setDocumentMargin(10);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
 		sw = _mdiArea->addSubWindow ( textEdit );
 		_mdiArea->setActiveSubWindow ( sw );
@@ -488,44 +489,24 @@ namespace Hovel
 			showNormal();
 			_fullScreen = false;
 
-			TextEdit *activeTextEdit = dynamic_cast<TextEdit *> ( centralWidget() );
+			TextEdit * activeTextEdit = dynamic_cast<TextEdit *> ( _mdiArea->activeSubWindow()->widget() );
 			activeTextEdit->setNormalState();
-			int originalPosition = activeTextEdit->textCursor().position();
-			activeTextEdit->close();
-
-			_mdiArea = new QMdiArea ( this );
-			setCentralWidget ( _mdiArea );
-			openScene ( activeTextEdit->index() );
-			restoreGeometry ( _windowGeometry );
-			restoreState ( _windowState );
-
-			activeTextEdit = dynamic_cast<TextEdit *> ( _mdiArea->activeSubWindow()->widget() );
-			QTextCursor newCursor = activeTextEdit->textCursor();
-			newCursor.setPosition ( originalPosition );
-			activeTextEdit->setTextCursor ( newCursor );
 		}
 		else {
 			if ( !_mdiArea->activeSubWindow() ) {
 				_fullScreenToolButton->setChecked(false);
 				return;
 			}
-			_windowState = saveState();
-			_windowGeometry = saveGeometry();
 			TextEdit *activeTextEdit = dynamic_cast<TextEdit *>(_mdiArea->activeSubWindow()->widget() );
-
-			_projectDockWidget->hide();
-			_propertiesDockWidget->hide();
-			_mainToolBar->hide();
-
-			_mdiArea->removeSubWindow(activeTextEdit);
-			activeTextEdit->setWindowFlags(Qt::SubWindow | Qt::CustomizeWindowHint);
-
-			activeTextEdit->setFullScreenState();
-			setCentralWidget(activeTextEdit);
-			delete _mdiArea;
-			showFullScreen();
-			activeTextEdit->setFocus();
+			TextEdit *te = new TextEdit(activeTextEdit->index(), 0, "");
+			QTextCursor cursor = activeTextEdit->textCursor();
+			cursor.setPosition( activeTextEdit->textCursor().position() );
+			connect ( te, SIGNAL(exitFullScreenPressed()), this, SLOT(toggleFullScreen()) );
+			te->setDocument( activeTextEdit->document() );
+			te->setFullScreenState();
+			te->setTextCursor( cursor );
 			_fullScreen = true;
+			hide();
 		}
 	}
 
