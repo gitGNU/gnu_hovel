@@ -382,7 +382,7 @@ namespace Hovel
 		if ( !textItem ) return;
 
 		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
-		textEdit->document()->setDocumentMargin(10);
+		textEdit->document()->setDocumentMargin(4);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
 		sw = _mdiArea->addSubWindow ( textEdit );
 		_mdiArea->setActiveSubWindow ( sw );
