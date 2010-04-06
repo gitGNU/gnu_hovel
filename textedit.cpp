@@ -61,7 +61,7 @@ namespace Hovel
 
 		showFullScreen();
 
-		document()->setDocumentMargin(300);
+		document()->setDocumentMargin ( 300 );
 	}
 
 	void TextEdit::setNormalState ( )
@@ -78,7 +78,9 @@ namespace Hovel
 		format.setFontPointSize ( QApplication::font().pointSize() );
 		cursor.setCharFormat ( format );
 
-		document()->setDocumentMargin(10);
+		//Reset the document
+		document()->setDocumentMargin(4);
+		setDocument(document());
 	}
 
 	/*!
