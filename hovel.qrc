@@ -12,6 +12,7 @@
         <file alias="underline">images/underline.png</file>
         <file alias="bold">images/bold.png</file>
         <file alias="italic">images/italic.png</file>
+        <file alias="strikeThrough">images/strikethrough.png</file>
     </qresource>
     <qresource prefix="/styles">
         <file alias="default_style">styles/default.qss</file>

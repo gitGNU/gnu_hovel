@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="formatting.svg">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -32,8 +32,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.56952663"
-     inkscape:cx="376"
+     inkscape:zoom="0.93546298"
+     inkscape:cx="330.9524"
      inkscape:cy="311"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -82,21 +82,20 @@
        height="134"
        width="134"
        id="rect2842"
-       style="fill:#e9ea90;fill-opacity:1;stroke:#000000;stroke-width:12;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#e9ea90;fill-opacity:1;stroke:#000000;stroke-width:12;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-filename="C:\temp\hovel\images\underline.png"
+       inkscape:export-xdpi="10.75"
+       inkscape:export-ydpi="10.75" />
     <rect
        style="fill:#e9ea90;fill-opacity:1;stroke:#000000;stroke-width:12;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2844"
        width="134"
        height="134"
        x="220"
-       y="674.36218" />
-    <rect
        y="674.36218"
-       x="574"
-       height="134"
-       width="134"
-       id="rect2846"
-       style="fill:#e9ea90;fill-opacity:1;stroke:#000000;stroke-width:12;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       inkscape:export-filename="C:\temp\hovel\images\italic.png"
+       inkscape:export-xdpi="10.75"
+       inkscape:export-ydpi="10.75" />
     <text
        xml:space="preserve"
        style="font-size:145.38899231px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
@@ -111,24 +110,68 @@
     <text
        xml:space="preserve"
        style="font-size:141.58055115px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       x="259.40668"
-       y="812.42896"
+       x="436.63089"
+       y="710.14832"
        id="text2852"
-       transform="scale(1.0275084,0.97322806)"><tspan
+       transform="matrix(0.9924969,0.26593874,-0.25188996,0.94006611,0,0)"
+       inkscape:export-filename="C:\temp\hovel\images\italic.png"
+       inkscape:export-xdpi="10.75"
+       inkscape:export-ydpi="10.75"><tspan
          sodipodi:role="line"
          id="tspan2854"
-         x="259.40668"
-         y="812.42896">I</tspan></text>
+         x="436.63089"
+         y="710.14832">I</tspan></text>
     <text
        transform="scale(1.0275084,0.97322806)"
        id="text2856"
-       y="811.56482"
-       x="403.92807"
-       style="font-size:141.58055115px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       xml:space="preserve"><tspan
-         y="811.56482"
-         x="403.92807"
+       y="796.44513"
+       x="411.47244"
+       style="font-size:120.45835114px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       xml:space="preserve"
+       inkscape:export-filename="C:\temp\hovel\images\underline.png"
+       inkscape:export-xdpi="10.75"
+       inkscape:export-ydpi="10.75"><tspan
+         y="796.44513"
+         x="411.47244"
          id="tspan2858"
          sodipodi:role="line">U</tspan></text>
+    <rect
+       style="fill:#e9ea90;fill-opacity:1;stroke:#000000;stroke-width:12;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2848"
+       width="134"
+       height="134"
+       x="565.04938"
+       y="674.36218"
+       inkscape:export-filename="C:\temp\hovel\images\strikethrough.png"
+       inkscape:export-xdpi="9.8599997"
+       inkscape:export-ydpi="9.8599997" />
+    <text
+       xml:space="preserve"
+       style="font-size:141.58055115px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="568.8103"
+       y="812.39441"
+       id="text2850"
+       transform="scale(1.0275084,0.97322806)"
+       inkscape:export-filename="C:\temp\hovel\images\strikethrough.png"
+       inkscape:export-xdpi="9.8599997"
+       inkscape:export-ydpi="9.8599997"><tspan
+         sodipodi:role="line"
+         id="tspan2852"
+         x="568.8103"
+         y="812.39441">S</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 581.18441,743.33361 105.35065,0"
+       id="path2854"
+       inkscape:export-filename="C:\temp\hovel\images\strikethrough.png"
+       inkscape:export-xdpi="9.8599997"
+       inkscape:export-ydpi="9.8599997" />
+    <path
+       inkscape:export-ydpi="10.75"
+       inkscape:export-xdpi="10.75"
+       inkscape:export-filename="C:\temp\hovel\images\underline.png"
+       id="path2837"
+       d="m 422.56951,789.33361 88.75327,0"
+       style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>

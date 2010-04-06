@@ -24,7 +24,6 @@ images/chapter.png
 images/chapter.svg
 images/folder.png
 images/folder.svg
-images/rect2408.png
 images/text.png
 images/text.svg
 images/tree.png
@@ -37,6 +36,7 @@ images/formatting.svg
 images/bold.png
 images/underline.png
 images/italic.png
+images/strikethrough.png
 hovel.qrc
 default.qss
 scene_fullscreen.qss
