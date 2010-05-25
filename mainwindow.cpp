@@ -412,6 +412,7 @@ namespace Hovel
 		dialog.setNameFilter ( tr ( "Hovel Project Files (*.xml)" ) );
 		if ( dialog.exec ( ) ) {
 			_fileName = dialog.selectedFiles ( ).first ( );
+			saveProject ( );
 			return true;
 		}
 
