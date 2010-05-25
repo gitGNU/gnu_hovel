@@ -32,6 +32,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "projecttreeview.h"
 #include "propertiesview.h"
 #include "propertiesproxymodel.h"
+#include "formattingtoolbar.h"
 
 namespace Hovel
 {
@@ -90,6 +91,7 @@ namespace Hovel
 		QToolButton *_addToolButton;
 		QToolButton *_fullScreenToolButton;
 		QToolButton *_propertiesToolButton;
+		FormattingToolBar *_formattingToolBar;
 
 		QMenu *_projectMenu;
 		QMenu *_nodeMenu;

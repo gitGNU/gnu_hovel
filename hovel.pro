@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     export.cpp \
     utilities.cpp \
     statuscomboboxitemdelegate.cpp \
-    hovelitemmimedata.cpp
+    hovelitemmimedata.cpp \
+    formattingtoolbar.cpp
 HEADERS += mainwindow.h \
     hovelitem.h \
     hovelmodel.h \
@@ -45,10 +46,11 @@ HEADERS += mainwindow.h \
     export.h \
     utilities.h \
     hovelitemmimedata.h \
-    statuscomboboxitemdelegate.h
+    statuscomboboxitemdelegate.h \
+    formattingtoolbar.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
     styles/scene_fullscreen.qss \
     htmltemplates/head.txt \
     htmltemplates/body.txt
-
+FORMS += 

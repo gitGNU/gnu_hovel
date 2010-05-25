@@ -197,6 +197,9 @@ namespace Hovel
 		connect(_fullScreenToolButton, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
 		layout->addWidget(_fullScreenToolButton);
 
+		_formattingToolBar = new FormattingToolBar();
+		layout->addWidget ( _formattingToolBar );
+
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
 		_propertiesToolButton->setIconSize(QSize(32, 32));
