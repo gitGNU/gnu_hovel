@@ -68,6 +68,7 @@ namespace Hovel
 		void textEditContentsChanged( QPersistentModelIndex&, QString& );
 		void exportHtmlFile();
 		void toggleFullScreen();
+		void deleteProjectNode();
 
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
@@ -91,7 +92,7 @@ namespace Hovel
 		QToolButton *_propertiesToolButton;
 
 		QMenu *_projectMenu;
-		QMenu *_addMenu;
+		QMenu *_nodeMenu;
 		QMenu *_exportMenu;
 
 		QAction *_newProjectAction;
@@ -103,6 +104,7 @@ namespace Hovel
 		QAction *_saveProjectAsAction;
 		QAction *_exitAction;
 		QAction *_exportHtmlFileAction;
+		QAction *_deleteProjectNodeAction;
 
 		bool _fullScreen;
 

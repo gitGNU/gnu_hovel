@@ -131,6 +131,10 @@ namespace Hovel
 		_exitAction = new QAction(tr("E&xit"), this);
 		_exitAction->setShortcut(tr("Ctrl+Q"));
 		connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+		_deleteProjectNodeAction = new QAction ( tr ( "Delete node" ), this );
+		_deleteProjectNodeAction->setShortcut ( tr ( "Ctrl+Alt+D" ) );
+		connect ( _deleteProjectNodeAction, SIGNAL (triggered() ), this, SLOT ( deleteProjectNode() ) );
 	}
 
 	/*!
@@ -151,10 +155,12 @@ namespace Hovel
 		_projectMenu->addSeparator();
 		_projectMenu->addAction(_exitAction);
 
-		_addMenu = new QMenu(tr("Add"));
-		_addMenu->addAction(_newBookAction);
-		_addMenu->addAction(_newChapterAction);
-		_addMenu->addAction(_newSceneAction);
+		_nodeMenu = new QMenu ( tr ( "Add" ) );
+		_nodeMenu->addAction ( _newBookAction );
+		_nodeMenu->addAction ( _newChapterAction );
+		_nodeMenu->addAction ( _newSceneAction );
+		_nodeMenu->addSeparator();
+		_nodeMenu->addAction ( _deleteProjectNodeAction );
 	}
 
 	/*!
@@ -180,7 +186,7 @@ namespace Hovel
 		_addToolButton = new QToolButton();
 		_addToolButton->setIcon(QIcon(tr(":/images/add")));
 		_addToolButton->setIconSize(QSize(32, 32));
-		_addToolButton->setMenu(_addMenu);
+		_addToolButton->setMenu(_nodeMenu);
 		_addToolButton->setPopupMode(QToolButton::InstantPopup);
 		layout->addWidget(_addToolButton);
 
@@ -352,6 +358,25 @@ namespace Hovel
 	}
 
 	/*!
+	  Delete the currently selected node from the project.
+	 */
+	void MainWindow::deleteProjectNode()
+	{
+		QModelIndex selectedIndex;
+		if( _projectTreeView->selectionModel()->currentIndex().isValid() )
+			selectedIndex = _projectTreeView->currentIndex();
+		else
+			selectedIndex = QModelIndex();
+
+		if( !selectedIndex.isValid() ) return;
+
+		HovelItem *selectedItem = static_cast<HovelItem*>( selectedIndex.internalPointer() );
+		if ( !selectedItem->canModify() ) return;
+
+		_projectModel->deleteNode ( selectedIndex );
+	}
+
+	/*!
 	  Open a Hovel project. If the current project is modified, the user will be prompted to
 	  save the current project first.
 	 */
@@ -505,7 +530,7 @@ namespace Hovel
 			connect ( te, SIGNAL(exitFullScreenPressed()), this, SLOT(toggleFullScreen()) );
 			te->setDocument( activeTextEdit->document() );
 			te->setFullScreenState();
-			te->setTextCursor( cursor );
+			te->setTextCursor ( cursor );
 			_fullScreen = true;
 			hide();
 		}

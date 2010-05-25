@@ -284,9 +284,12 @@ namespace Hovel
 		beginRemoveRows ( parent, row, row + count - 1 );
 
 		HovelItem * parentItem = static_cast<HovelItem*>(parent.internalPointer ( ) );
-		for ( int i = row; i < ( row + count ); i++ ) {
+		//If parent item is not valid, then this is a top level item in the project.
+		if ( !parentItem )
+			parentItem = _rootItem;
+
+		for ( int i = row; i < ( row + count ); i++ )
 			parentItem->removeChildAt ( i );
-		}
 
 		endRemoveRows ( );
 		return true;
@@ -338,6 +341,14 @@ namespace Hovel
 	{
 		ChapterItem *currentChapter = static_cast<ChapterItem*>(parentChapter.internalPointer());
 		return insertItem(new TextItem(currentChapter, "New scene"), parentChapter, row);
+	}
+
+	/*!
+	  Remove a node from the project.
+	 */
+	bool HovelModel::deleteNode ( QModelIndex node )
+	{
+		return removeRow ( node.row(), node.parent() );
 	}
 
 	/*!
