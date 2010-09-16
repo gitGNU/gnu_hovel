@@ -100,4 +100,13 @@ namespace Hovel
 
 		QTextEdit::keyPressEvent ( event );
 	}
+
+	/*!
+	  Emits a signal that this is closing.
+	 */
+	void TextEdit::closeEvent ( QCloseEvent * event )
+	{
+		emit closing ();
+		QWidget::closeEvent ( event );
+	}
 }

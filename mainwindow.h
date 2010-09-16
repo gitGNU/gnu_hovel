@@ -73,6 +73,7 @@ namespace Hovel
 		void deleteProjectNode();
 		void textBold( bool checked );
 		void currentCharFormatChanged ( const QTextCharFormat& format );
+		void textEditClosing();
 
 	protected:
 		void keyPressEvent ( QKeyEvent * event );

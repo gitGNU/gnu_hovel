@@ -199,6 +199,7 @@ namespace Hovel
 
 		_formattingToolBar = new FormattingToolBar();
 		layout->addWidget ( _formattingToolBar );
+		_formattingToolBar->setEnabled ( false );
 		connect ( _formattingToolBar, SIGNAL(boldButtonToggled(bool)), this, SLOT(textBold(bool)));
 
 		_propertiesToolButton = new QToolButton();
@@ -380,8 +381,13 @@ namespace Hovel
 		_projectModel->deleteNode ( selectedIndex );
 	}
 
+	/*!
+	  Sets text
+	 */
 	void MainWindow::textBold ( bool checked )
 	{
+		if ( !_mdiArea->activeSubWindow () ) return;
+
 		QTextCharFormat fmt;
 		fmt.setFontWeight(checked ? QFont::Bold : QFont::Normal);
 		mergeFormatOnWordOrSelection(fmt);
@@ -431,17 +437,30 @@ namespace Hovel
 		textEdit->document()->setDocumentMargin(4);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
 		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
+		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
 
 		sw = _mdiArea->addSubWindow ( textEdit );
 		_mdiArea->setActiveSubWindow ( sw );
 
 		textEdit->show();
+
+		_formattingToolBar->setEnabled ( true );
 	}
 
 	void MainWindow::currentCharFormatChanged ( const QTextCharFormat& format )
 	{
 		QFont f = format.font ();
 		_formattingToolBar->setCheckedBoldButton ( f.bold() );
+	}
+
+	/*!
+	  Performs and actions necessary when a text edit window is closed.
+	 */
+	void MainWindow::textEditClosing()
+	{
+		//If this is the last text edit open, disable the formatting toolbar.
+		if ( _mdiArea->subWindowList ().count () == 1 )
+			_formattingToolBar->setEnabled ( false );
 	}
 
 	/*!

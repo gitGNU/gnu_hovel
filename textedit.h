@@ -49,9 +49,13 @@ namespace Hovel
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
 
+	protected slots:
+		void closeEvent ( QCloseEvent * event );
+
 	signals:
 		void contentChanged ( QPersistentModelIndex&, QString& );
 		void exitFullScreenPressed ( );
+		void closing ();
 
 	private:
 		QPersistentModelIndex _index;
