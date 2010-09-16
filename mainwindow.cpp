@@ -200,7 +200,10 @@ namespace Hovel
 		_formattingToolBar = new FormattingToolBar();
 		layout->addWidget ( _formattingToolBar );
 		_formattingToolBar->setEnabled ( false );
-		connect ( _formattingToolBar, SIGNAL(boldButtonToggled(bool)), this, SLOT(textBold(bool)));
+		connect ( _formattingToolBar, SIGNAL ( boldButtonToggled ( bool )), this, SLOT ( textBold ( bool )));
+		connect ( _formattingToolBar, SIGNAL ( italicButtonToggled ( bool )), this, SLOT ( textItalic ( bool )));
+		connect ( _formattingToolBar, SIGNAL ( underlineButtonToggled ( bool )), this, SLOT ( textUnderline ( bool )));
+		connect ( _formattingToolBar, SIGNAL ( strikeThroughButtonToggled ( bool )), this, SLOT ( textStrikeThrough ( bool )));
 
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
@@ -382,18 +385,49 @@ namespace Hovel
 	}
 
 	/*!
-	  Sets text
+	  Sets up a QTextCharFormat for bold text.
 	 */
 	void MainWindow::textBold ( bool checked )
 	{
-		if ( !_mdiArea->activeSubWindow () ) return;
-
 		QTextCharFormat fmt;
-		fmt.setFontWeight(checked ? QFont::Bold : QFont::Normal);
-		mergeFormatOnWordOrSelection(fmt);
+		fmt.setFontWeight ( checked ? QFont::Bold : QFont::Normal );
+		mergeFormat( fmt );
 	}
 
-	void MainWindow::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+	/*!
+	  Sets up a QTextCharFormat for italic text.
+	 */
+	void MainWindow::textItalic ( bool checked )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontItalic ( checked );
+		mergeFormat ( fmt );
+	}
+
+	/*!
+	  Sets up a QTextCharFormat for underlined text.
+	 */
+	void MainWindow::textUnderline ( bool checked )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontUnderline ( checked );
+		mergeFormat ( fmt );
+	}
+
+	/*!
+	  Sets up a QTextCharFormat for strike through text.
+	 */
+	void MainWindow::textStrikeThrough ( bool checked )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontStrikeOut ( checked );
+		mergeFormat ( fmt );
+	}
+
+	/*!
+	  Applies format to text in current active window.
+	 */
+	void MainWindow::mergeFormat(const QTextCharFormat &format)
 	{
 		TextEdit * textEdit = dynamic_cast<TextEdit *> ( _mdiArea->activeSubWindow()->widget() );
 		if ( !textEdit ) return;
@@ -447,10 +481,17 @@ namespace Hovel
 		_formattingToolBar->setEnabled ( true );
 	}
 
+	/*!
+	  Keeps the state of the formatting toolbar synchronised with the text
+	  under the cursor.
+	 */
 	void MainWindow::currentCharFormatChanged ( const QTextCharFormat& format )
 	{
 		QFont f = format.font ();
 		_formattingToolBar->setCheckedBoldButton ( f.bold() );
+		_formattingToolBar->setCheckedItalicButton ( f.italic () );
+		_formattingToolBar->setCheckedunderlineButton ( f.underline () );
+		_formattingToolBar->setCheckedstrikeThroughButton ( f.strikeOut () );
 	}
 
 	/*!

@@ -43,6 +43,9 @@ namespace Hovel
 		void strikeThroughButtonPressed ( bool checked );
 
 		void setCheckedBoldButton ( bool checked );
+		void setCheckedItalicButton ( bool checked );
+		void setCheckedunderlineButton ( bool checked );
+		void setCheckedstrikeThroughButton ( bool checked );
 
 	signals:
 		void boldButtonToggled ( bool checked );

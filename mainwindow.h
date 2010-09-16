@@ -71,7 +71,10 @@ namespace Hovel
 		void exportHtmlFile();
 		void toggleFullScreen();
 		void deleteProjectNode();
-		void textBold( bool checked );
+		void textBold ( bool checked );
+		void textItalic ( bool checked );
+		void textUnderline ( bool checked );
+		void textStrikeThrough ( bool checked );
 		void currentCharFormatChanged ( const QTextCharFormat& format );
 		void textEditClosing();
 
@@ -79,7 +82,7 @@ namespace Hovel
 		void keyPressEvent ( QKeyEvent * event );
 
 	private:
-		void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+		void mergeFormat(const QTextCharFormat &format);
 
 		QString _fileName;
 		HovelModel *_projectModel;

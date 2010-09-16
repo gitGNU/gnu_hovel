@@ -83,6 +83,21 @@ namespace Hovel
 		_boldButton->setChecked ( checked );
 	}
 
+	void FormattingToolBar::setCheckedItalicButton ( bool checked )
+	{
+		_italicButton->setChecked ( checked );
+	}
+
+	void FormattingToolBar::setCheckedunderlineButton ( bool checked )
+	{
+		_underlineButton->setChecked ( checked );
+	}
+
+	void FormattingToolBar::setCheckedstrikeThroughButton ( bool checked )
+	{
+		_strikeThroughButton->setChecked ( checked );
+	}
+
 	void FormattingToolBar::boldButtonPressed ( bool checked )
 	{
 		emit boldButtonToggled ( checked );
