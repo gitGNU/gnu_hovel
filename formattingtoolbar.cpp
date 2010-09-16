@@ -78,24 +78,29 @@ namespace Hovel
 		setLayout ( layout );
 	}
 
+	void FormattingToolBar::setCheckedBoldButton ( bool checked )
+	{
+		_boldButton->setChecked ( checked );
+	}
+
 	void FormattingToolBar::boldButtonPressed ( bool checked )
 	{
-		emit boldToggled ( checked );
+		emit boldButtonToggled ( checked );
 	}
 
 	void FormattingToolBar::italicButtonPressed ( bool checked )
 	{
-		emit italicToggled ( checked );
+		emit italicButtonToggled ( checked );
 	}
 
 	void FormattingToolBar::underlineButtonPressed ( bool checked )
 	{
-		emit underlineToggled ( checked );
+		emit underlineButtonToggled ( checked );
 	}
 
 	void FormattingToolBar::strikeThroughButtonPressed ( bool checked )
 	{
-		emit strikeThroughToggled ( checked );
+		emit strikeThroughButtonToggled ( checked );
 	}
 
 }

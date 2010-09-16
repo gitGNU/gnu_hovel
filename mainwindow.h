@@ -27,6 +27,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDockWidget>
 #include <QMdiArea>
 #include <QToolButton>
+#include <QTextCharFormat>
 
 #include "hovelmodel.h"
 #include "projecttreeview.h"
@@ -70,11 +71,15 @@ namespace Hovel
 		void exportHtmlFile();
 		void toggleFullScreen();
 		void deleteProjectNode();
+		void textBold( bool checked );
+		void currentCharFormatChanged ( const QTextCharFormat& format );
 
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
 
 	private:
+		void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+
 		QString _fileName;
 		HovelModel *_projectModel;
 		ProjectTreeView *_projectTreeView;

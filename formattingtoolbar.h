@@ -42,11 +42,13 @@ namespace Hovel
 		void underlineButtonPressed ( bool checked );
 		void strikeThroughButtonPressed ( bool checked );
 
+		void setCheckedBoldButton ( bool checked );
+
 	signals:
-		void boldToggled ( bool checked );
-		void italicToggled ( bool checked );
-		void underlineToggled ( bool checked );
-		void strikeThroughToggled ( bool checked );
+		void boldButtonToggled ( bool checked );
+		void italicButtonToggled ( bool checked );
+		void underlineButtonToggled ( bool checked );
+		void strikeThroughButtonToggled ( bool checked );
 
 	private:
 		QToolButton		* _boldButton;

@@ -26,6 +26,8 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTextEdit>
 #include <QPersistentModelIndex>
 
+#include "formattingtoolbar.h"
+
 namespace Hovel
 {
 

@@ -199,6 +199,7 @@ namespace Hovel
 
 		_formattingToolBar = new FormattingToolBar();
 		layout->addWidget ( _formattingToolBar );
+		connect ( _formattingToolBar, SIGNAL(boldButtonToggled(bool)), this, SLOT(textBold(bool)));
 
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
@@ -379,6 +380,23 @@ namespace Hovel
 		_projectModel->deleteNode ( selectedIndex );
 	}
 
+	void MainWindow::textBold ( bool checked )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontWeight(checked ? QFont::Bold : QFont::Normal);
+		mergeFormatOnWordOrSelection(fmt);
+	}
+
+	void MainWindow::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+	{
+		TextEdit * textEdit = dynamic_cast<TextEdit *> ( _mdiArea->activeSubWindow()->widget() );
+		if ( !textEdit ) return;
+
+		QTextCursor cursor = textEdit->textCursor();
+		cursor.mergeCharFormat(format);
+		textEdit->mergeCurrentCharFormat(format);
+	}
+
 	/*!
 	  Open a Hovel project. If the current project is modified, the user will be prompted to
 	  save the current project first.
@@ -412,10 +430,18 @@ namespace Hovel
 		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
 		textEdit->document()->setDocumentMargin(4);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
+		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
+
 		sw = _mdiArea->addSubWindow ( textEdit );
 		_mdiArea->setActiveSubWindow ( sw );
 
 		textEdit->show();
+	}
+
+	void MainWindow::currentCharFormatChanged ( const QTextCharFormat& format )
+	{
+		QFont f = format.font ();
+		_formattingToolBar->setCheckedBoldButton ( f.bold() );
 	}
 
 	/*!
