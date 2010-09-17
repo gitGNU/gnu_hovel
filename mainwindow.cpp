@@ -176,7 +176,7 @@ namespace Hovel
 		layout->setMargin(0);
 
 		_projectToolButton = new QToolButton();
-		_projectToolButton->setIcon(QIcon(tr(":/images/tree")));
+		_projectToolButton->setIcon(QIcon(tr(":/images/folder32")));
 		_projectToolButton->setIconSize(QSize(32, 32));
 		_projectToolButton->setMenu(_projectMenu);
 		_projectToolButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -184,7 +184,7 @@ namespace Hovel
 		layout->addWidget(_projectToolButton);
 
 		_addToolButton = new QToolButton();
-		_addToolButton->setIcon(QIcon(tr(":/images/add")));
+		_addToolButton->setIcon(QIcon(tr(":/images/nodes")));
 		_addToolButton->setIconSize(QSize(32, 32));
 		_addToolButton->setMenu(_nodeMenu);
 		_addToolButton->setPopupMode(QToolButton::InstantPopup);

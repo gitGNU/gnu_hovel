@@ -13,6 +13,8 @@
         <file alias="bold">images/bold.png</file>
         <file alias="italic">images/italic.png</file>
         <file alias="strikeThrough">images/strikethrough.png</file>
+        <file alias="folder32">images/folder32.png</file>
+        <file alias="nodes">images/nodes.png</file>
     </qresource>
     <qresource prefix="/styles">
         <file alias="default_style">styles/default.qss</file>
