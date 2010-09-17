@@ -42,16 +42,23 @@ namespace Hovel
 		void underlineButtonPressed ( bool checked );
 		void strikeThroughButtonPressed ( bool checked );
 
+		void fontFamilySelected ( const QString& );
+		void fontSizeSelected ( const QString& );
+
 		void setCheckedBoldButton ( bool checked );
 		void setCheckedItalicButton ( bool checked );
 		void setCheckedunderlineButton ( bool checked );
 		void setCheckedstrikeThroughButton ( bool checked );
+		void setCurrentFontFamily ( const QString& );
+		void setCurrentFontSize ( const QString& );
 
 	signals:
 		void boldButtonToggled ( bool checked );
 		void italicButtonToggled ( bool checked );
 		void underlineButtonToggled ( bool checked );
 		void strikeThroughButtonToggled ( bool checked );
+		void fontFamilyChanged ( const QString& );
+		void fontSizeChanged ( const QString& );
 
 	private:
 		QToolButton		* _boldButton;

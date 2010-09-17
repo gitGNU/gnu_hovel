@@ -63,6 +63,12 @@ namespace Hovel
 
 		_fontComboBox = new QFontComboBox();
 		_fontSizeComboBox = new QComboBox();
+		foreach ( int size, QFontDatabase::standardSizes () )
+			_fontSizeComboBox->addItem ( QString::number(size) );
+
+		connect ( _fontComboBox, SIGNAL ( activated ( const QString& ) ), this, SLOT ( fontFamilySelected ( const QString& )));
+		connect ( _fontSizeComboBox, SIGNAL ( activated ( const QString& ) ), this, SLOT ( fontSizeSelected ( const QString& )));
+
 		QHBoxLayout * fontStyleLayout = new QHBoxLayout();
 		fontStyleLayout->addWidget( _fontComboBox );
 		fontStyleLayout->addWidget( _fontSizeComboBox );
@@ -98,6 +104,16 @@ namespace Hovel
 		_strikeThroughButton->setChecked ( checked );
 	}
 
+	void FormattingToolBar::setCurrentFontFamily ( const QString& family )
+	{
+		_fontComboBox->setCurrentIndex ( _fontComboBox->findText ( family ) );
+	}
+
+	void FormattingToolBar::setCurrentFontSize ( const QString& size )
+	{
+		_fontSizeComboBox->setCurrentIndex ( _fontSizeComboBox->findText ( size ) );
+	}
+
 	void FormattingToolBar::boldButtonPressed ( bool checked )
 	{
 		emit boldButtonToggled ( checked );
@@ -116,6 +132,16 @@ namespace Hovel
 	void FormattingToolBar::strikeThroughButtonPressed ( bool checked )
 	{
 		emit strikeThroughButtonToggled ( checked );
+	}
+
+	void FormattingToolBar::fontFamilySelected ( const QString& family )
+	{
+		emit fontFamilyChanged ( family );
+	}
+
+	void FormattingToolBar::fontSizeSelected ( const QString& size )
+	{
+		emit fontSizeChanged ( size );
 	}
 
 }

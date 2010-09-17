@@ -75,6 +75,8 @@ namespace Hovel
 		void textItalic ( bool checked );
 		void textUnderline ( bool checked );
 		void textStrikeThrough ( bool checked );
+		void fontFamilyChanged ( const QString& );
+		void fontSizeChanged ( const QString& );
 		void currentCharFormatChanged ( const QTextCharFormat& format );
 		void textEditClosing();
 

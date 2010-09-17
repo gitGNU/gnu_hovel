@@ -204,6 +204,8 @@ namespace Hovel
 		connect ( _formattingToolBar, SIGNAL ( italicButtonToggled ( bool )), this, SLOT ( textItalic ( bool )));
 		connect ( _formattingToolBar, SIGNAL ( underlineButtonToggled ( bool )), this, SLOT ( textUnderline ( bool )));
 		connect ( _formattingToolBar, SIGNAL ( strikeThroughButtonToggled ( bool )), this, SLOT ( textStrikeThrough ( bool )));
+		connect ( _formattingToolBar, SIGNAL ( fontFamilyChanged ( const QString& )), this, SLOT ( fontFamilyChanged ( const QString& )));
+		connect ( _formattingToolBar, SIGNAL ( fontSizeChanged ( const QString& )), this, SLOT ( fontSizeChanged ( const QString& )));
 
 		_propertiesToolButton = new QToolButton();
 		_propertiesToolButton->setIcon(QIcon(tr(":/images/properties")));
@@ -424,6 +426,20 @@ namespace Hovel
 		mergeFormat ( fmt );
 	}
 
+	void MainWindow::fontFamilyChanged ( const QString& family )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontFamily ( family );
+		mergeFormat ( fmt );
+	}
+
+	void MainWindow::fontSizeChanged ( const QString& size )
+	{
+		QTextCharFormat fmt;
+		fmt.setFontPointSize ( size.toInt () );
+		mergeFormat ( fmt );
+	}
+
 	/*!
 	  Applies format to text in current active window.
 	 */
@@ -492,6 +508,7 @@ namespace Hovel
 		_formattingToolBar->setCheckedItalicButton ( f.italic () );
 		_formattingToolBar->setCheckedunderlineButton ( f.underline () );
 		_formattingToolBar->setCheckedstrikeThroughButton ( f.strikeOut () );
+		_formattingToolBar->setCurrentFontSize ( QString ( "%1" ).arg ( format.fontPointSize () ));
 	}
 
 	/*!
