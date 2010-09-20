@@ -26,6 +26,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "textitem.h"
 #include "textedit.h"
 #include "hovelitem.h"
+#include "characteritem.h"
 #include "export.h"
 #include "utilities.h"
 
@@ -68,7 +69,7 @@ namespace Hovel
 
 		_projectTreeView = new ProjectTreeView();
 		_projectTreeView->setModel(_projectModel);
-		connect(_projectTreeView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openScene(const QModelIndex&)));
+		connect(_projectTreeView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openItem(const QModelIndex&)));
 		_projectDockWidget->setWidget(_projectTreeView);
 
 		//Create the properties dock widget
@@ -107,6 +108,10 @@ namespace Hovel
 		_newSceneAction = new QAction(tr("New scene"), this);
 		_newSceneAction->setShortcut(tr("Ctrl+N,S"));
 		connect(_newSceneAction, SIGNAL(triggered()), this, SLOT(newScene()));
+
+		_newCharacterAction = new QAction(tr("New character"), this);
+		_newCharacterAction->setShortcut(tr("Ctrl+N,H"));
+		connect(_newCharacterAction, SIGNAL(triggered()), this, SLOT(newCharacter()));
 
 		_newProjectAction = new QAction(tr("&New project"), this);
 		_newProjectAction->setShortcut(tr("Ctrl+N,P"));
@@ -159,6 +164,8 @@ namespace Hovel
 		_nodeMenu->addAction ( _newBookAction );
 		_nodeMenu->addAction ( _newChapterAction );
 		_nodeMenu->addAction ( _newSceneAction );
+		_nodeMenu->addSeparator();
+		_nodeMenu->addAction ( _newCharacterAction );
 		_nodeMenu->addSeparator();
 		_nodeMenu->addAction ( _deleteProjectNodeAction );
 	}
@@ -222,7 +229,7 @@ namespace Hovel
 	  Returns a pointer to an open sub-window associated with \a index, or 0
 	  if an associated sub-window is not already open.
 	 */
-	QMdiSubWindow * MainWindow::sceneIsOpen(const QModelIndex& index)
+	QMdiSubWindow * MainWindow::itemIsOpen(const QModelIndex& index)
 	{
 		foreach(QMdiSubWindow* win, _mdiArea->subWindowList()) {
 			TextEdit *te = (TextEdit*)win->widget();
@@ -368,6 +375,14 @@ namespace Hovel
 	}
 
 	/*!
+	  Add a new character to a project. The new scene will be added to the characters folder.
+	 */
+	void MainWindow::newCharacter()
+	{
+		_projectModel->newCharacter();
+	}
+
+	/*!
 	  Delete the currently selected node from the project.
 	 */
 	void MainWindow::deleteProjectNode()
@@ -469,11 +484,24 @@ namespace Hovel
 	}
 
 	/*!
+	 Determine the item type associated with \a index, and open the
+	 item for editing.
+	*/
+	void MainWindow::openItem ( const QModelIndex & index )
+	{
+		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
+		if ( dynamic_cast<TextItem *> ( childItem ) )
+			openScene ( index );
+		else if ( dynamic_cast<CharacterItem *> ( childItem ) )
+			openCharacter ( index );
+	}
+
+	/*!
 	  Open a scene for editing.
 	 */
 	void MainWindow::openScene ( const QModelIndex & index )
 	{
-		QMdiSubWindow * sw = sceneIsOpen ( index );
+		QMdiSubWindow * sw = itemIsOpen ( index );
 		if ( sw ) {
 			_mdiArea->setActiveSubWindow ( sw );
 			return;
@@ -484,6 +512,35 @@ namespace Hovel
 		if ( !textItem ) return;
 
 		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
+		textEdit->document()->setDocumentMargin(4);
+		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
+		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
+		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
+
+		sw = _mdiArea->addSubWindow ( textEdit );
+		_mdiArea->setActiveSubWindow ( sw );
+
+		textEdit->show();
+
+		_formattingToolBar->setEnabled ( true );
+	}
+
+	/*!
+	  Open a character for editing.
+	 */
+	void MainWindow::openCharacter ( const QModelIndex & index )
+	{
+		QMdiSubWindow * sw = itemIsOpen ( index );
+		if ( sw ) {
+			_mdiArea->setActiveSubWindow ( sw );
+			return;
+		}
+
+		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
+		CharacterItem *characterItem = dynamic_cast<CharacterItem *> ( childItem );
+		if ( !characterItem ) return;
+
+		TextEdit *textEdit = new TextEdit ( index, this, characterItem->data ( TextRole ).toString() );
 		textEdit->document()->setDocumentMargin(4);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
 		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
@@ -578,8 +635,8 @@ namespace Hovel
 	void MainWindow::textEditContentsChanged( QPersistentModelIndex& index, QString& newText )
 	{
 		HovelItem *item = static_cast<HovelItem*>(index.internalPointer());
-		TextItem *textItem = dynamic_cast<TextItem *>(item);
-		if(!textItem) return;
+		if ( !dynamic_cast<TextItem *>(item) && !dynamic_cast<CharacterItem *>(item) )
+			return;
 
 		item->setData(newText, TextRole);
 	}

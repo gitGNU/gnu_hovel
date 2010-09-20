@@ -61,11 +61,13 @@ namespace Hovel
 		bool newBook(int row);
 		bool newChapter(QModelIndex parentBook, int row);
 		bool newScene(QModelIndex parentChapter, int row);
+		bool newCharacter ();
 		bool deleteNode ( QModelIndex node );
 		int lastBook();
 		int bookCount();
 		QModelIndex currentBook(QModelIndexList selectedItems);
 		QModelIndex currentChapter(QModelIndexList selectedItems);
+		QModelIndex nodeIndex ( QString title );
 
 		bool isModified();
 

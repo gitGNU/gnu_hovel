@@ -80,21 +80,25 @@ namespace Hovel
 			return "Status";
 		case SummaryRole:
 			return "Summary";
+		case AuthorRole:
+			return "Author";
 		default:
 			return QString();
 		}
 	}
 
-	DataRole HovelItem::propertyRole(QString title)
+	DataRole HovelItem::propertyRole(QString property)
 	{
-		if ( title == "Title" )
+		if ( property == "Title" )
 			return TitleRole;
-		if ( title == "Text" )
+		if ( property == "Text" )
 			return TextRole;
-		if ( title == "Status" )
+		if ( property == "Status" )
 			return StatusRole;
-		if ( title == "Summary" )
+		if ( property == "Summary" )
 			return SummaryRole;
+		if ( property == "Author" )
+			return AuthorRole;
 
 		return LastRole;
 	}

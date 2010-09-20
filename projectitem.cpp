@@ -67,7 +67,7 @@ namespace Hovel
 			if (n.isElement()) {
 				QDomElement childElement = n.toElement();
 				if(childElement.tagName() == "Book")
-					newItem = new BookItem(this, childElement.attribute("Title"));
+					newItem = new BookItem(this, childElement.attribute("Title"), childElement.attribute("Author"));
 				else if(childElement.tagName() == "Folder")
 					newItem = new FolderItem(this, childElement.attribute("Title"));
 				else continue;

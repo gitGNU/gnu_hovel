@@ -28,11 +28,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 namespace Hovel
 {
 
-	BookItem::BookItem(HovelItem * parent, QString title)
+	BookItem::BookItem(HovelItem * parent, QString title, QString author)
 		: HovelItem()
 	{
 		_parentItem = parent;
 		_roleData[TitleRole] = title;
+		_roleData[AuthorRole] = author;
 		_roleData[Qt::DecorationRole] = QIcon(QObject::tr(":/images/book"));
 		_canModify = true;
 	}
@@ -61,7 +62,7 @@ namespace Hovel
 	const QList<DataRole> BookItem::displayableProperties() const
 	{
 		QList<DataRole> p;
-		p << TitleRole;
+		p << TitleRole << AuthorRole;
 
 		return p;
 	}
@@ -75,6 +76,7 @@ namespace Hovel
 	{
 		QDomElement e = doc.createElement("Book");
 		e.setAttribute("Title", _roleData[TitleRole].toString());
+		e.setAttribute("Author", _roleData[AuthorRole].toString());
 		e.setAttribute("CanModify", QVariant(_canModify).toString());
 
 		foreach(HovelItem * item, _childItems) {

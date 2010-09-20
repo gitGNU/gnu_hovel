@@ -22,6 +22,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "folderitem.h"
 #include "textitem.h"
+#include "characteritem.h"
 
 namespace Hovel
 {
@@ -65,6 +66,21 @@ namespace Hovel
 	void FolderItem::fromQDomElement(QDomElement &el)
 	{
 		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
+		QDomNode n = el.firstChild();
+		while (!n.isNull()) {
+			HovelItem *newItem = 0;
+			if (n.isElement()) {
+				QDomElement childElement = n.toElement();
+				if(childElement.tagName() == "Character") {
+					newItem = new CharacterItem ( this, childElement.attribute ( "Title" ) );
+				}
+				else continue;
+
+				newItem->fromQDomElement(childElement);
+				_childItems.append(newItem);
+			}
+			n = n.nextSibling();
+		}
 	}
 
 }

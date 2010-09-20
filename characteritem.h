@@ -19,22 +19,20 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
-
-#ifndef BOOKITEM_H
-#define BOOKITEM_H
+#ifndef CHARACTERITEM_H
+#define CHARACTERITEM_H
 
 #include "hovelitem.h"
-#include "chapteritem.h"
 
 #include <QDomElement>
 
 namespace Hovel
 {
 
-	class BookItem : public HovelItem
+	class CharacterItem : public HovelItem
 	{
 	public:
-		BookItem(HovelItem * parent, QString title, QString author = "");
+		CharacterItem(HovelItem * parent, QString name);
 
 		//HovelItem functions
 		HovelItem * child(int row);
@@ -47,11 +45,8 @@ namespace Hovel
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 
-		QList<ChapterItem *> chapterItems();
-
-	private:
 	};
 
 }
 
-#endif // BOOKITEM_H
+#endif // CHARACTERITEM_H

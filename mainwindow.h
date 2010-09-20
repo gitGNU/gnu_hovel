@@ -52,7 +52,7 @@ namespace Hovel
 		void createActions();
 		void createMenus();
 		void createToolBars();
-		QMdiSubWindow * sceneIsOpen(const QModelIndex&);
+		QMdiSubWindow * itemIsOpen(const QModelIndex&);
 
 		void closeEvent(QCloseEvent *event);
 
@@ -61,8 +61,11 @@ namespace Hovel
 		void newBook();
 		void newChapter();
 		void newScene();
+		void newCharacter();
 		void openProject();
+		void openItem(const QModelIndex &);
 		void openScene(const QModelIndex &);
+		void openCharacter(const QModelIndex &);
 		void saveProject();
 		bool saveProjectAs();
 		void toggleProjectDock();
@@ -112,6 +115,7 @@ namespace Hovel
 		QAction *_newBookAction;
 		QAction *_newChapterAction;
 		QAction *_newSceneAction;
+		QAction *_newCharacterAction;
 		QAction *_openProjectAction;
 		QAction *_saveProjectAction;
 		QAction *_saveProjectAsAction;

@@ -24,6 +24,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "hovelitem.h"
 #include "bookitem.h"
 #include "textitem.h"
+#include "characteritem.h"
 #include "folderitem.h"
 #include "chapteritem.h"
 #include "hovelitemmimedata.h"
@@ -344,6 +345,16 @@ namespace Hovel
 	}
 
 	/*!
+	  Inserts a new CharacterItem into the project.
+	 */
+	bool HovelModel::newCharacter ()
+	{
+		QModelIndex charactersFolderIndex = nodeIndex ( "Characters" );
+		FolderItem *charactersFolderItem = static_cast<FolderItem*> ( charactersFolderIndex.internalPointer () );
+		return insertItem (new CharacterItem(charactersFolderItem, "New character"), charactersFolderIndex );
+	}
+
+	/*!
 	  Remove a node from the project.
 	 */
 	bool HovelModel::deleteNode ( QModelIndex node )
@@ -427,6 +438,19 @@ namespace Hovel
 			ChapterItem *chapterItem = dynamic_cast<ChapterItem*>(currentItem->parent());
 			if(chapterItem)
 				return createIndex(chapterItem->row(), 0, chapterItem);
+		}
+
+		return QModelIndex();
+	}
+
+	/*! Returns the QModelIndex of the first item with the name \a title.
+		Returns an invalid QModelIndex if \a title is not found.
+	 */
+	QModelIndex HovelModel::nodeIndex ( QString title )
+	{
+		foreach ( HovelItem *item, _rootItem->children () ) {
+			if ( item->data ( TitleRole ).toString () == title )
+				return createIndex (item->row (), 0, item );
 		}
 
 		return QModelIndex();
