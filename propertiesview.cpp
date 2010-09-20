@@ -70,6 +70,10 @@ namespace Hovel
 				connect ( delegate, SIGNAL(closeEditor(QWidget*)), this, SLOT(statusComboboxClosed(QWidget*)) );
 				setItemDelegateForRow(i, delegate);
 			}
+			else {	//Set the default delegate.
+				QStyledItemDelegate *delegate = new QStyledItemDelegate ( this );
+				setItemDelegateForRow ( i, delegate );
+			}
 		}
 		QTableView::dataChanged( topLeft, bottomRight );
 
