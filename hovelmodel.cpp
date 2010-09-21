@@ -238,7 +238,7 @@ namespace Hovel
 	}
 
 	/*!
-	  Occurs when mime data is dropeed on to the view representing the model.
+	  Occurs when mime data is dropped on to the view representing the model.
 	 */
 	bool HovelModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
 	{
@@ -297,7 +297,8 @@ namespace Hovel
 	}
 
 	/*!
-	  Insert multiple rows in to the model. These will need to be populated with data.
+	  Insert multiple rows in to the model. These will need to be populated with data
+	  afterwards.
 	 */
 	bool HovelModel::insertRows ( int row, int count, const QModelIndex & parent )
 	{
@@ -419,7 +420,7 @@ namespace Hovel
 
 	/*!
 	  Returns the QModelIndex of the current chapter.
-	  This is either the currently selected book, or the parent chapter of the currently
+	  This is either the currently selected chapter, or the parent chapter of the currently
 	  selected scene.
 	  If no chapter or scene is selected an invalid QModelIndex is returned.
 	 */
@@ -515,7 +516,7 @@ namespace Hovel
 	}
 
 	/*! Write a representation of the model to disk.
-	\param fileName a string representing the filename and full path of the file tosave to.
+	\param fileName a string representing the filename and full path of the file to save to.
 	*/
 	bool HovelModel::save ( QString fileName )
 	{
