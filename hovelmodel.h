@@ -65,9 +65,11 @@ namespace Hovel
 		bool deleteNode ( QModelIndex node );
 		int lastBook();
 		int bookCount();
+
 		QModelIndex currentBook(QModelIndexList selectedItems);
 		QModelIndex currentChapter(QModelIndexList selectedItems);
-		QModelIndex nodeIndex ( QString title );
+		QModelIndex nodeIndex ( QString title, HovelItem *parent = 0 );
+		QStringList characterNames();
 
 		bool isModified();
 

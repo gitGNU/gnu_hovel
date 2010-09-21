@@ -444,14 +444,21 @@ namespace Hovel
 		return QModelIndex();
 	}
 
-	/*! Returns the QModelIndex of the first item with the name \a title.
+	/*! Returns the QModelIndex of the first item with the name \a title,
+		starting from \a parent. if \a parent is null, starts from root item.
 		Returns an invalid QModelIndex if \a title is not found.
 	 */
-	QModelIndex HovelModel::nodeIndex ( QString title )
+	QModelIndex HovelModel::nodeIndex ( QString title, HovelItem *parent )
 	{
-		foreach ( HovelItem *item, _rootItem->children () ) {
+		if ( parent == 0 ) parent = _rootItem;
+
+		QModelIndex itemChildIndex = QModelIndex();
+
+		foreach ( HovelItem *item, parent->childItems () ) {
 			if ( item->data ( TitleRole ).toString () == title )
 				return createIndex (item->row (), 0, item );
+			itemChildIndex = nodeIndex ( title, item );
+			if ( itemChildIndex != QModelIndex() ) return itemChildIndex;
 		}
 
 		return QModelIndex();
