@@ -464,6 +464,27 @@ namespace Hovel
 		return QModelIndex();
 	}
 
+	/*! Returns a list of all character names. */
+	const QStringList HovelModel::characterNames() const
+	{
+		HovelItem * charactersFolderItem = 0;
+		foreach ( HovelItem * item, _rootItem->children () ) {
+			if ( item->data ( TitleRole ).toString () == "Characters" ) {
+				charactersFolderItem = item;
+				break;
+			}
+		}
+
+		QStringList names;
+		if ( charactersFolderItem ) {
+			foreach ( HovelItem *character, charactersFolderItem->childItems () ) {
+				names.append ( character->data ( TitleRole ).toString () );
+			}
+		}
+
+		return names;
+	}
+
 	/*!
 	  Returns the number of books in the project.
 	 */

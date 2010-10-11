@@ -23,6 +23,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "propertiesproxymodel.h"
 #include "hovelitem.h"
+#include "hovelmodel.h"
 
 namespace Hovel
 {
@@ -138,5 +139,11 @@ namespace Hovel
 		QString title = titleIndex.data(PropertiesTitleColumn).toString();
 
 		return HovelItem::propertyRole(title);
+	}
+
+	const QStringList PropertiesProxyModel::characters () const
+	{
+		HovelModel *sm = (HovelModel*)sourceModel ();
+		return sm->characterNames();
 	}
 }

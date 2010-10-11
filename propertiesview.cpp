@@ -22,6 +22,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "propertiesview.h"
 #include "statuscomboboxitemdelegate.h"
+#include "povcomboboxitemdelegate.h"
 #include "hovelitem.h"
 #include "propertiesproxymodel.h"
 
@@ -44,7 +45,7 @@ namespace Hovel
 		dataChanged(QModelIndex(), QModelIndex());
 	}
 
-	void PropertiesView::statusComboboxClosed ( QWidget * comboBox )
+	void PropertiesView::comboboxClosed ( QWidget * comboBox )
 	{
 		comboBox->close();
 	}
@@ -67,7 +68,12 @@ namespace Hovel
 			QModelIndex currentRowTitleIndex = proxyModel->index(i, 0);
 			if(currentRowTitleIndex.data().toString() == "Status") {
 				StatusComboBoxItemDelegate *delegate = new StatusComboBoxItemDelegate(this);
-				connect ( delegate, SIGNAL(closeEditor(QWidget*)), this, SLOT(statusComboboxClosed(QWidget*)) );
+				connect ( delegate, SIGNAL(closeEditor(QWidget*)), this, SLOT(comboboxClosed(QWidget*)) );
+				setItemDelegateForRow(i, delegate);
+			}
+			else if ( currentRowTitleIndex.data ().toString () == "POV character" ) {
+				POVComboBoxItemDelegate *delegate = new POVComboBoxItemDelegate ( this );
+				connect ( delegate, SIGNAL ( closeEditor ( QWidget* ) ), this, SLOT ( comboboxClosed ( QWidget* ) ) );
 				setItemDelegateForRow(i, delegate);
 			}
 			else {	//Set the default delegate.
