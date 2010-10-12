@@ -77,18 +77,17 @@ namespace Hovel
 		if (!_selectedItem.isValid())
 			return QVariant();
 
-		if ( role != Qt::DisplayRole)
-			return QVariant();
+		if ( role == Qt::DisplayRole || role == Qt::EditRole ) {
+			HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
+			int roleIndex = -1;
 
-		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());
-		int roleIndex = -1;
-
-		for (int i=0; i<LastRole; ++i) {
-			if (item->propertyData(i) != QVariant()) {
-				++roleIndex;
-				if (proxyIndex.row() == roleIndex) {
-					if(proxyIndex.column() == PropertiesValueColumn) return item->propertyData(i);
-					else return HovelItem::propertyTitle(i);
+			for (int i=0; i<LastRole; ++i) {
+				if (item->propertyData(i) != QVariant()) {
+					++roleIndex;
+					if (proxyIndex.row() == roleIndex) {
+						if(proxyIndex.column() == PropertiesValueColumn) return item->propertyData(i);
+						else return HovelItem::propertyTitle(i);
+					}
 				}
 			}
 		}
