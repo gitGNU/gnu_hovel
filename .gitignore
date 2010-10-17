@@ -28,6 +28,7 @@ Makefile.Debug
 Makefile.Release
 hovel.pro.user
 object_script.hovel*
+qrc_hovel.cpp
 
 #qt creator files
 hovel.pro.user.1.3
