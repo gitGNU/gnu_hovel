@@ -54,7 +54,7 @@ namespace Hovel
 
 		QTextCharFormat format;
 		format.setFontPointSize(13);
-		cursor.setCharFormat(format);
+		cursor.mergeCharFormat ( format );
 
 		cursor.setPosition(originalPosition);
 		setTextCursor(cursor);
@@ -76,7 +76,7 @@ namespace Hovel
 
 		QTextCharFormat format;
 		format.setFontPointSize ( QApplication::font().pointSize() );
-		cursor.setCharFormat ( format );
+		cursor.mergeCharFormat ( format );
 
 		//Reset the document
 		document()->setDocumentMargin(4);
