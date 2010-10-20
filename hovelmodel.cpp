@@ -57,7 +57,7 @@ namespace Hovel
 		characters->setCanModify( false );
 		FolderItem *locations = new FolderItem(_rootItem, "Locations");
 		locations->setCanModify( false );
-		TextItem *scene = new TextItem(chapter, "New scene", "This is the text.");
+                TextItem *scene = new TextItem(chapter, "New scene", "");
 
 		insertItem(bi, rootItemIndex, 0);
 		QModelIndex bookItemIndex = index(0, 0, rootItemIndex);
