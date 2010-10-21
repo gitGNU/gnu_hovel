@@ -561,6 +561,13 @@ namespace Hovel
 	 */
 	void MainWindow::currentCharFormatChanged ( const QTextCharFormat& format )
 	{
+		//Don't change the formatting toolbar when text is selected.
+		TextEdit * te = dynamic_cast<TextEdit *>( _mdiArea->activeSubWindow ()->widget () );
+		if ( !te ) return;
+
+		if ( te->textCursor ().selectedText ().length () > 0 ) return;
+
+		//Now update the formatting toolbar.
 		QFont f = format.font ();
 		_formattingToolBar->setCheckedBoldButton ( f.bold() );
 		_formattingToolBar->setCheckedItalicButton ( f.italic () );
