@@ -565,16 +565,17 @@ namespace Hovel
 		TextEdit * te = dynamic_cast<TextEdit *>( _mdiArea->activeSubWindow ()->widget () );
 		if ( !te ) return;
 
-		if ( te->textCursor ().selectedText ().length () > 0 ) return;
+		bool cosmeticChange = false;
+		if ( te->textCursor ().selectedText ().length () > 0 ) cosmeticChange = true;
 
 		//Now update the formatting toolbar.
 		QFont f = format.font ();
-		_formattingToolBar->setCheckedBoldButton ( f.bold() );
-		_formattingToolBar->setCheckedItalicButton ( f.italic () );
-		_formattingToolBar->setCheckedunderlineButton ( f.underline () );
-		_formattingToolBar->setCheckedstrikeThroughButton ( f.strikeOut () );
-		_formattingToolBar->setCurrentFontFamily ( format.fontFamily () );
-		_formattingToolBar->setCurrentFontSize ( QString ( "%1" ).arg ( format.fontPointSize () ));
+		_formattingToolBar->setCheckedBoldButton ( f.bold(), cosmeticChange );
+		_formattingToolBar->setCheckedItalicButton ( f.italic (), cosmeticChange );
+		_formattingToolBar->setCheckedunderlineButton ( f.underline (), cosmeticChange );
+		_formattingToolBar->setCheckedstrikeThroughButton ( f.strikeOut (), cosmeticChange );
+		_formattingToolBar->setCurrentFontFamily ( format.fontFamily (), cosmeticChange );
+		_formattingToolBar->setCurrentFontSize ( QString ( "%1" ).arg ( format.fontPointSize () ), cosmeticChange );
 	}
 
 	/*!

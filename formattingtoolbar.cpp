@@ -27,7 +27,11 @@ namespace Hovel
 {
 
 	FormattingToolBar::FormattingToolBar(QWidget *parent)
-	 : QWidget(parent)
+	 : QWidget(parent),
+	 _boldButtonCosmeticCheck ( false ),
+	 _italicButtonCosmeticCheck ( false ),
+	 _underlineButtonCosmeticCheck ( false ),
+	 _strikeThroughButtonCosmeticCheck ( false )
 	{
 		_boldButton = new QToolButton();
 		_boldButton->setIcon ( QIcon ( tr ( ":/images/bold" ) ) );
@@ -84,64 +88,94 @@ namespace Hovel
 		setLayout ( layout );
 	}
 
-	void FormattingToolBar::setCheckedBoldButton ( bool checked )
+	void FormattingToolBar::setCheckedBoldButton ( bool checked, bool cosmeticCheck )
 	{
+		_boldButtonCosmeticCheck = cosmeticCheck;
 		_boldButton->setChecked ( checked );
 	}
 
-	void FormattingToolBar::setCheckedItalicButton ( bool checked )
+	void FormattingToolBar::setCheckedItalicButton ( bool checked, bool cosmeticCheck )
 	{
+		_italicButtonCosmeticCheck = cosmeticCheck;
 		_italicButton->setChecked ( checked );
 	}
 
-	void FormattingToolBar::setCheckedunderlineButton ( bool checked )
+	void FormattingToolBar::setCheckedunderlineButton ( bool checked, bool cosmeticCheck )
 	{
+		_underlineButtonCosmeticCheck = cosmeticCheck;
 		_underlineButton->setChecked ( checked );
 	}
 
-	void FormattingToolBar::setCheckedstrikeThroughButton ( bool checked )
+	void FormattingToolBar::setCheckedstrikeThroughButton ( bool checked, bool cosmeticCheck )
 	{
+		_strikeThroughButtonCosmeticCheck = cosmeticCheck;
 		_strikeThroughButton->setChecked ( checked );
 	}
 
-	void FormattingToolBar::setCurrentFontFamily ( const QString& family )
+	void FormattingToolBar::setCurrentFontFamily ( const QString & family, bool cosmeticChange )
 	{
+		_fontComboBoxCosmeticChange = cosmeticChange;
 		_fontComboBox->setCurrentIndex ( _fontComboBox->findText ( family ) );
 	}
 
-	void FormattingToolBar::setCurrentFontSize ( const QString& size )
+	void FormattingToolBar::setCurrentFontSize ( const QString & size, bool cosmeticChange )
 	{
+		_fontSizeComboBoxCosmeticChange = cosmeticChange;
 		_fontSizeComboBox->setCurrentIndex ( _fontSizeComboBox->findText ( size ) );
 	}
 
 	void FormattingToolBar::boldButtonPressed ( bool checked )
 	{
-		emit boldButtonToggled ( checked );
+		if ( !_boldButtonCosmeticCheck )
+			emit boldButtonToggled ( checked );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 	void FormattingToolBar::italicButtonPressed ( bool checked )
 	{
-		emit italicButtonToggled ( checked );
+		if ( !_italicButtonCosmeticCheck )
+			emit italicButtonToggled ( checked );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 	void FormattingToolBar::underlineButtonPressed ( bool checked )
 	{
-		emit underlineButtonToggled ( checked );
+		if ( !_underlineButtonCosmeticCheck )
+			emit underlineButtonToggled ( checked );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 	void FormattingToolBar::strikeThroughButtonPressed ( bool checked )
 	{
-		emit strikeThroughButtonToggled ( checked );
+		if ( !_strikeThroughButtonCosmeticCheck )
+			emit strikeThroughButtonToggled ( checked );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 	void FormattingToolBar::fontFamilySelected ( const QString& family )
 	{
-		emit fontFamilyChanged ( family );
+		if ( !_fontComboBoxCosmeticChange )
+			emit fontFamilyChanged ( family );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 	void FormattingToolBar::fontSizeSelected ( const QString& size )
 	{
-		emit fontSizeChanged ( size );
+		if ( !_fontSizeComboBoxCosmeticChange )
+			emit fontSizeChanged ( size );
+		_boldButtonCosmeticCheck = _italicButtonCosmeticCheck = _underlineButtonCosmeticCheck
+		= _strikeThroughButtonCosmeticCheck = _fontComboBoxCosmeticChange = _fontSizeComboBoxCosmeticChange
+		= false;
 	}
 
 }

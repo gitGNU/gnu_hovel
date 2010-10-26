@@ -45,12 +45,12 @@ namespace Hovel
 		void fontFamilySelected ( const QString& );
 		void fontSizeSelected ( const QString& );
 
-		void setCheckedBoldButton ( bool checked );
-		void setCheckedItalicButton ( bool checked );
-		void setCheckedunderlineButton ( bool checked );
-		void setCheckedstrikeThroughButton ( bool checked );
-		void setCurrentFontFamily ( const QString& );
-		void setCurrentFontSize ( const QString& );
+		void setCheckedBoldButton ( bool checked, bool cosmeticCheck = false );
+		void setCheckedItalicButton ( bool checked, bool cosmeticCheck = false );
+		void setCheckedunderlineButton ( bool checked, bool cosmeticCheck = false );
+		void setCheckedstrikeThroughButton ( bool checked, bool cosmeticCheck = false );
+		void setCurrentFontFamily ( const QString&, bool cosmeticChange = false );
+		void setCurrentFontSize ( const QString&, bool cosmeticChange = false );
 
 	signals:
 		void boldButtonToggled ( bool checked );
@@ -67,6 +67,13 @@ namespace Hovel
 		QToolButton		* _strikeThroughButton;
 		QFontComboBox	* _fontComboBox;
 		QComboBox		* _fontSizeComboBox;
+
+		bool			_boldButtonCosmeticCheck;
+		bool			_italicButtonCosmeticCheck;
+		bool			_underlineButtonCosmeticCheck;
+		bool			_strikeThroughButtonCosmeticCheck;
+		bool			_fontComboBoxCosmeticChange;
+		bool			_fontSizeComboBoxCosmeticChange;
 	};
 
 }
