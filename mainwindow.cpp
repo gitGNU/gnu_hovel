@@ -573,6 +573,7 @@ namespace Hovel
 		_formattingToolBar->setCheckedItalicButton ( f.italic () );
 		_formattingToolBar->setCheckedunderlineButton ( f.underline () );
 		_formattingToolBar->setCheckedstrikeThroughButton ( f.strikeOut () );
+		_formattingToolBar->setCurrentFontFamily ( format.fontFamily () );
 		_formattingToolBar->setCurrentFontSize ( QString ( "%1" ).arg ( format.fontPointSize () ));
 	}
 
