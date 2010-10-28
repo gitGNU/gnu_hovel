@@ -67,11 +67,6 @@ namespace Hovel
 		return p;
 	}
 
-	bool TextItem::isModified()
-	{
-		return true;
-	}
-
 	QDomElement TextItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Text");

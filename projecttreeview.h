@@ -35,6 +35,8 @@ namespace Hovel
 	public:
 		ProjectTreeView();
 
+		void setModel ( QAbstractItemModel * model );
+
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
 		void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );

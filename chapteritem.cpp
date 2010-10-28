@@ -64,11 +64,6 @@ namespace Hovel
 		return p;
 	}
 
-	bool ChapterItem::isModified()
-	{
-		return true;
-	}
-
 	QDomElement ChapterItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Chapter");

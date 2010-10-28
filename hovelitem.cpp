@@ -133,7 +133,31 @@ namespace Hovel
 		_roleData[role] = value;
 		if(role == Qt::EditRole)
 			_roleData[TitleRole] = value;
+		_isModified = true;
 		return true;
+	}
+
+	/*!
+	  Returns true if this, or any children have been modified.
+	 */
+	bool HovelItem::isModified ()
+	{
+		if ( _isModified ) return true;
+
+		foreach(HovelItem * item, _childItems) {
+			if ( item->isModified () )
+				return true;
+		}
+
+		return false;
+	}
+
+	void HovelItem::setSaved ( )
+	{
+		_isModified = false;
+		foreach ( HovelItem * item, _childItems ) {
+			item->setSaved ( );
+		}
 	}
 
 	const QList<HovelItem *> HovelItem::childItems ( ) const

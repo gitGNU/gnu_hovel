@@ -53,6 +53,7 @@ namespace Hovel
 		void createMenus();
 		void createToolBars();
 		QMdiSubWindow * itemIsOpen(const QModelIndex&);
+		bool closeProject();
 
 		void closeEvent(QCloseEvent *event);
 
@@ -88,6 +89,7 @@ namespace Hovel
 
 	private:
 		void mergeFormat(const QTextCharFormat &format);
+		bool checkModified ();
 
 		QString _fileName;
 		HovelModel *_projectModel;

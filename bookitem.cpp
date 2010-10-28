@@ -67,11 +67,6 @@ namespace Hovel
 		return p;
 	}
 
-	bool BookItem::isModified()
-	{
-		return true;
-	}
-
 	QDomElement BookItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Book");

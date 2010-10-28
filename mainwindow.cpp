@@ -40,6 +40,7 @@ namespace Hovel
 	  Creates a MainWindow.
 	 */
 	MainWindow::MainWindow()
+		: _projectModel ( 0 )
 	{
 		_projectModel = new HovelModel();
 
@@ -242,6 +243,51 @@ namespace Hovel
 	}
 
 	/*!
+	  Closes current project, prompting user to save if necessary.
+	  Returns true if project closed.
+	 */
+	bool MainWindow::closeProject ()
+	{
+		foreach ( QMdiSubWindow * sw, _mdiArea->subWindowList () ) {
+			sw->close ();
+		}
+
+		QItemSelectionModel * oldModel = _projectTreeView->selectionModel();
+		_projectModel = new HovelModel ();
+		_projectTreeView->setModel ( _projectModel );
+		_propertiesProxyModel->setSourceModel ( _projectModel );
+		delete oldModel;
+		oldModel = 0;
+		return true;
+	}
+
+	/*!
+	  Checks if project is modified and prompts user to save if necessary.
+	  Returns true if it is safe to forget current project, false otherwise.
+	 */
+	bool MainWindow::checkModified ()
+	{
+		if(_projectModel->isModified()) {
+			QMessageBox prompt;
+			prompt.setText("The project has been modified.");
+			prompt.setInformativeText("Do you want to save your changes?");
+			prompt.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+			prompt.setDefaultButton(QMessageBox::Save);
+			switch(prompt.exec()) {
+				case QMessageBox::Save:
+					saveProject();
+					break;
+				case QMessageBox::Discard:
+					break;
+				case QMessageBox::Cancel:
+					return false;
+					break;
+			}
+		}
+		return true;
+	}
+
+	/*!
 	  Read persistent application settings from storage.
 	  This enables the application to replicate its' previous state on start up.
 	 */
@@ -314,26 +360,9 @@ namespace Hovel
 	 */
 	void MainWindow::newProject()
 	{
-		//Prompt user to save if current project is modified.
-		if(_projectModel->isModified()) {
-			QMessageBox prompt;
-			prompt.setText("The project has been modified.");
-			prompt.setInformativeText("Do you want to save your changes?");
-			prompt.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-			prompt.setDefaultButton(QMessageBox::Save);
-			switch(prompt.exec()) {
-				case QMessageBox::Save:
-					saveProject();
-					break;
-				case QMessageBox::Discard:
-					break;
-				case QMessageBox::Cancel:
-					return;
-					break;
-			}
-		}
+		if ( !checkModified () ) return;
+		closeProject ();
 
-		delete _projectModel;
 		_projectModel = new HovelModel();
 		_propertiesProxyModel->setSourceModel(_projectModel);
 		_projectTreeView->setModel(_projectModel);
@@ -475,12 +504,16 @@ namespace Hovel
 	 */
 	void MainWindow::openProject()
 	{
+		if ( !checkModified () ) return;
+
 		QFileDialog dialog ( this );
 		dialog.setFileMode ( QFileDialog::ExistingFile );
 		dialog.setNameFilter ( tr ( "Hovel Project Files (*.xml)" ) );
 		if ( dialog.exec ( ) ) {
+			closeProject ();
 			_fileName = dialog.selectedFiles ( ).first ( );
 			_projectModel->open ( _fileName );
+			_projectTreeView->setModel ( _projectModel );
 		}
 	}
 

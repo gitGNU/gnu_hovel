@@ -64,11 +64,6 @@ namespace Hovel
 		return p;
 	}
 
-	bool CharacterItem::isModified()
-	{
-		return true;
-	}
-
 	QDomElement CharacterItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Character");

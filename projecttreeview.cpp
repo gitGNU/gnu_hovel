@@ -21,6 +21,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "projecttreeview.h"
+#include "hovelmodel.h"
 #include "hovelitem.h"
 #include "bookitem.h"
 #include "chapteritem.h"
@@ -40,6 +41,13 @@ namespace Hovel
 		setDragEnabled(true);
 		setAcceptDrops(true);
 		setDropIndicatorShown(true);
+	}
+
+	void ProjectTreeView::setModel ( QAbstractItemModel * model )
+	{
+		QTreeView::setModel ( model );
+		HovelModel * hm = dynamic_cast<HovelModel *> ( model );
+		setSelection ( visualRect ( hm->currentBook ( QModelIndexList() ) ), QItemSelectionModel::Select );
 	}
 
 	void ProjectTreeView::keyPressEvent ( QKeyEvent * event )

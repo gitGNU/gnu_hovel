@@ -48,7 +48,9 @@ namespace Hovel
 	 */
 	void HovelModel::newProject()
 	{
+		beginResetModel ();
 		delete _rootItem;
+		endResetModel ();
 		_rootItem = new ProjectItem();
 		QModelIndex rootItemIndex = index(0, 0, QModelIndex());
 		BookItem *bi = new BookItem(_rootItem, "New book");
@@ -57,7 +59,7 @@ namespace Hovel
 		characters->setCanModify( false );
 		FolderItem *locations = new FolderItem(_rootItem, "Locations");
 		locations->setCanModify( false );
-                TextItem *scene = new TextItem(chapter, "New scene", "");
+		TextItem *scene = new TextItem(chapter, "New scene", "");
 
 		insertItem(bi, rootItemIndex, 0);
 		QModelIndex bookItemIndex = index(0, 0, rootItemIndex);
@@ -517,7 +519,8 @@ namespace Hovel
 
 	bool HovelModel::isModified()
 	{
-		if(_rootItem->isModified()) return true;
+		if(_rootItem->isModified())
+			return true;
 
 		return false;
 	}
@@ -537,6 +540,7 @@ namespace Hovel
 
 		_rootItem = new ProjectItem();
 		_rootItem->fromQDomElement(projectElement);
+		_rootItem->setSaved ();
 
 		reset();
 
@@ -557,6 +561,8 @@ namespace Hovel
 		stream << toString();
 
 		outFile->close();
+
+		_rootItem->setSaved ( );
 
 		delete outFile;
 

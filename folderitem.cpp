@@ -45,11 +45,6 @@ namespace Hovel
 		return _roleData.value(role);
 	}
 
-	bool FolderItem::isModified()
-	{
-		return false;
-	}
-
 	QDomElement FolderItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Folder");

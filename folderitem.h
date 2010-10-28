@@ -41,7 +41,6 @@ namespace Hovel
 		QVariant data(int role) const;
 
 		//Serialise functions
-		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 

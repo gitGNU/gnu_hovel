@@ -59,6 +59,8 @@ namespace Hovel
 		bool setData(const QVariant &value, int role);
 		bool canModify() { return _canModify; }
 		void setCanModify( bool modify ) { _canModify = modify; }
+		bool isModified ();
+		void setSaved ( );
 		void removeChildAt ( int i ) { _childItems.removeAt ( i ); }
 		const QList<HovelItem *> childItems ( ) const;
 

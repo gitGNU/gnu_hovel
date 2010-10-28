@@ -43,7 +43,6 @@ namespace Hovel
 		const QList<DataRole> displayableProperties() const;
 
 		//Serialise functions
-		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 

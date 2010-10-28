@@ -44,7 +44,6 @@ namespace Hovel
 		HovelItem * child(int row);
 
 		//Serialise functions
-		bool isModified();
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 

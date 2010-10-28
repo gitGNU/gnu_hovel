@@ -41,11 +41,6 @@ namespace Hovel
 		return _childItems.value(row);
 	}
 
-	bool ProjectItem::isModified()
-	{
-		return true;
-	}
-
 	QDomElement ProjectItem::toQDomElement(QDomDocument& doc)
 	{
 		QDomElement e = doc.createElement("Project");

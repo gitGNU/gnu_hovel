@@ -41,12 +41,14 @@ namespace Hovel
 		//! Reports on modification status.
 		virtual bool isModified() = 0;
 
+		//! Sets save status.
+		virtual void setSaved ( ) = 0;
+
 		//! Returns pointer to self represented by a QDomElement
 		virtual QDomElement toQDomElement(QDomDocument&) = 0;
 
 		//! Populates self from a QDomElement
 		virtual void fromQDomElement(QDomElement&) = 0;
-
 	};
 
 }
