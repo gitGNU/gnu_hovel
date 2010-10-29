@@ -32,12 +32,11 @@ namespace Hovel
 {
 
 	PropertiesView::PropertiesView()
+		: QTableView ()
 	{
 		horizontalHeader()->hide();
 		setAlternatingRowColors(true);
-		setDragEnabled(true);
-		setAcceptDrops(true);
-		setDropIndicatorShown(true);
+		setEditTriggers ( DoubleClicked | SelectedClicked | EditKeyPressed );
 	}
 
 	void PropertiesView::setUpView()
@@ -48,14 +47,6 @@ namespace Hovel
 	void PropertiesView::comboboxClosed ( QWidget * comboBox )
 	{
 		comboBox->close();
-	}
-
-	void PropertiesView::currentChanged ( const QModelIndex & current, const QModelIndex & previous )
-	{
-		QModelIndex selectedCurrent = current;
-		QModelIndex selectedPrevious = previous;
-		reset();
-		QAbstractItemView::currentChanged(selectedCurrent, selectedPrevious);
 	}
 
 	void PropertiesView::dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight )
@@ -78,6 +69,8 @@ namespace Hovel
 			}
 			else {	//Set the default delegate.
 				QStyledItemDelegate *delegate = new QStyledItemDelegate ( this );
+				connect ( delegate, SIGNAL ( closeEditor ( QWidget *, QAbstractItemDelegate::EndEditHint ) ),
+						  this, SLOT ( finishedEditing ( QWidget *, QAbstractItemDelegate::EndEditHint ) ) );
 				setItemDelegateForRow ( i, delegate );
 			}
 		}
@@ -87,6 +80,11 @@ namespace Hovel
 		int viewWidth = size().width();
 		int titleColumnWidth = columnWidth(0);
 		horizontalHeader()->resizeSection(1, viewWidth - titleColumnWidth - 10);
+	}
+
+	void PropertiesView::finishedEditing ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint )
+	{
+		closeEditor ( editor, QAbstractItemDelegate::NoHint );
 	}
 
 }

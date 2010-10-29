@@ -88,7 +88,6 @@ namespace Hovel
 	{
 		QComboBox *editor = (QComboBox*)sender ();
 		emit commitData ( editor );
-		emit closeEditor ( editor );
 	}
 
 }

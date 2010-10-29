@@ -95,12 +95,16 @@ namespace Hovel
 			painter->save();
 
 			QRect rect = option.rect;
-			rect.setX(rect.x() + (painter->fontMetrics().width('x') / 2));
+			//rect.setX(rect.x() + (painter->fontMetrics().width('x') / 2));
+			QPen originalPen = painter->pen ();
+			painter->setPen ( Qt::NoPen );
+			painter->setBrush ( option.palette.mid () );
 			QModelIndex sourceIndex = proxyModel->mapToSource(index);
 			HovelItem *item = static_cast<HovelItem *>(sourceIndex.internalPointer());
 
 			if ( option.state & QStyle::State_Selected )
 				painter->drawRect(rect);
+			painter->setPen ( originalPen );
 			painter->drawText(rect, Qt::AlignVCenter, statusString((Status)item->data(StatusRole).toInt()));
 
 			painter->restore();
@@ -115,7 +119,6 @@ namespace Hovel
 	void StatusComboBoxItemDelegate::statusChanged(int index)
 	{
 		QComboBox *editor = (QComboBox*)sender();
-		emit commitData(editor);
-		emit closeEditor(editor);
+		emit commitData ( editor );
 	}
 }

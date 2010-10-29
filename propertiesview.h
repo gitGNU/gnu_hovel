@@ -24,6 +24,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #define PROPERTIESVIEW_H
 
 #include <QTableView>
+#include <QAbstractItemDelegate>
 
 namespace Hovel
 {
@@ -40,8 +41,8 @@ namespace Hovel
 		void comboboxClosed ( QWidget * );
 
 	protected slots:
-		void currentChanged ( const QModelIndex & current, const QModelIndex & previous );
 		void dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
+		void finishedEditing ( QWidget *, QAbstractItemDelegate::EndEditHint );
 	};
 
 }
