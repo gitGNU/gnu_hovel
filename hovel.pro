@@ -13,52 +13,50 @@
 TEMPLATE = app
 QT += xml
 SOURCES += main.cpp \
-    mainwindow.cpp \
-    hovelmodel.cpp \
-    projecttreeview.cpp \
-    folderitem.cpp \
-    textitem.cpp \
-    projectitem.cpp \
-    bookitem.cpp \
-    hovelitem.cpp \
-    propertiesview.cpp \
-    propertiesproxymodel.cpp \
-    chapteritem.cpp \
-    textedit.cpp \
-    export.cpp \
-    utilities.cpp \
-    statuscomboboxitemdelegate.cpp \
-    hovelitemmimedata.cpp \
-    formattingtoolbar.cpp \
-    characteritem.cpp \
-    povcomboboxitemdelegate.cpp \
-    locationitem.cpp \
-    stringcomboboxitemdelegate.cpp
+	mainwindow.cpp \
+	hovelmodel.cpp \
+	projecttreeview.cpp \
+	folderitem.cpp \
+	textitem.cpp \
+	projectitem.cpp \
+	bookitem.cpp \
+	hovelitem.cpp \
+	propertiesview.cpp \
+	propertiesproxymodel.cpp \
+	chapteritem.cpp \
+	textedit.cpp \
+	export.cpp \
+	utilities.cpp \
+	statuscomboboxitemdelegate.cpp \
+	hovelitemmimedata.cpp \
+	formattingtoolbar.cpp \
+	characteritem.cpp \
+	locationitem.cpp \
+	stringcomboboxitemdelegate.cpp
 HEADERS += mainwindow.h \
-    hovelitem.h \
-    hovelmodel.h \
-    projecttreeview.h \
-    serialise.h \
-    folderitem.h \
-    textitem.h \
-    projectitem.h \
-    bookitem.h \
-    propertiesview.h \
-    propertiesproxymodel.h \
-    chapteritem.h \
-    textedit.h \
-    export.h \
-    utilities.h \
-    hovelitemmimedata.h \
-    statuscomboboxitemdelegate.h \
-    formattingtoolbar.h \
-    characteritem.h \
-    povcomboboxitemdelegate.h \
-    locationitem.h \
-    stringcomboboxitemdelegate.h
+	hovelitem.h \
+	hovelmodel.h \
+	projecttreeview.h \
+	serialise.h \
+	folderitem.h \
+	textitem.h \
+	projectitem.h \
+	bookitem.h \
+	propertiesview.h \
+	propertiesproxymodel.h \
+	chapteritem.h \
+	textedit.h \
+	export.h \
+	utilities.h \
+	hovelitemmimedata.h \
+	statuscomboboxitemdelegate.h \
+	formattingtoolbar.h \
+	characteritem.h \
+	locationitem.h \
+	stringcomboboxitemdelegate.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
-    styles/scene_fullscreen.qss \
-    htmltemplates/head.txt \
-    htmltemplates/body.txt
-FORMS += 
+	styles/scene_fullscreen.qss \
+	htmltemplates/head.txt \
+	htmltemplates/body.txt
+FORMS +=
