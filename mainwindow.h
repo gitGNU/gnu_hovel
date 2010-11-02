@@ -63,10 +63,12 @@ namespace Hovel
 		void newChapter();
 		void newScene();
 		void newCharacter();
+		void newLocation();
 		void openProject();
 		void openItem(const QModelIndex &);
 		void openScene(const QModelIndex &);
 		void openCharacter(const QModelIndex &);
+		void openLocation ( const QModelIndex & );
 		void saveProject();
 		bool saveProjectAs();
 		void toggleProjectDock();
@@ -118,6 +120,7 @@ namespace Hovel
 		QAction *_newChapterAction;
 		QAction *_newSceneAction;
 		QAction *_newCharacterAction;
+		QAction *_newLocationAction;
 		QAction *_openProjectAction;
 		QAction *_saveProjectAction;
 		QAction *_saveProjectAsAction;

@@ -41,8 +41,8 @@ namespace Hovel
 	}
 
 	/*!
-  Return the number of displayable properties.
- */
+	  Return the number of displayable properties.
+	 */
 	int CharacterItem::propertyCount() const
 	{
 		return displayableProperties().count();

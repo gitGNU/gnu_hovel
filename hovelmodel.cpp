@@ -25,6 +25,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "bookitem.h"
 #include "textitem.h"
 #include "characteritem.h"
+#include "locationitem.h"
 #include "folderitem.h"
 #include "chapteritem.h"
 #include "hovelitemmimedata.h"
@@ -355,6 +356,16 @@ namespace Hovel
 		QModelIndex charactersFolderIndex = nodeIndex ( "Characters" );
 		FolderItem *charactersFolderItem = static_cast<FolderItem*> ( charactersFolderIndex.internalPointer () );
 		return insertItem (new CharacterItem(charactersFolderItem, "New character"), charactersFolderIndex );
+	}
+
+	/*!
+	  Inserts a new LocationItem into the project.
+	 */
+	bool HovelModel::newLocation ()
+	{
+		QModelIndex LocationsFolderIndex = nodeIndex ( "Locations" );
+		FolderItem *locationsFolderItem = static_cast<FolderItem*> ( LocationsFolderIndex.internalPointer () );
+		return insertItem ( new LocationItem ( locationsFolderItem, "New location" ), LocationsFolderIndex );
 	}
 
 	/*!

@@ -27,6 +27,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "textedit.h"
 #include "hovelitem.h"
 #include "characteritem.h"
+#include "locationitem.h"
 #include "export.h"
 #include "utilities.h"
 
@@ -114,6 +115,10 @@ namespace Hovel
 		_newCharacterAction->setShortcut(tr("Ctrl+N,H"));
 		connect(_newCharacterAction, SIGNAL(triggered()), this, SLOT(newCharacter()));
 
+		_newLocationAction = new QAction (tr ( "New location" ), this );
+		_newLocationAction->setShortcut ( tr ( "Ctrl+N,L" ) );
+		connect ( _newLocationAction, SIGNAL ( triggered() ), this, SLOT ( newLocation () ) );
+
 		_newProjectAction = new QAction(tr("&New project"), this);
 		_newProjectAction->setShortcut(tr("Ctrl+N,P"));
 		connect(_newProjectAction, SIGNAL(triggered()), this, SLOT(newProject()));
@@ -167,6 +172,7 @@ namespace Hovel
 		_nodeMenu->addAction ( _newSceneAction );
 		_nodeMenu->addSeparator();
 		_nodeMenu->addAction ( _newCharacterAction );
+		_nodeMenu->addAction ( _newLocationAction );
 		_nodeMenu->addSeparator();
 		_nodeMenu->addAction ( _deleteProjectNodeAction );
 	}
@@ -405,11 +411,19 @@ namespace Hovel
 	}
 
 	/*!
-	  Add a new character to a project. The new scene will be added to the characters folder.
+	  Add a new character to a project. The new item will be added to the characters folder.
 	 */
 	void MainWindow::newCharacter()
 	{
 		_projectModel->newCharacter();
+	}
+
+	/*!
+	  Add a new location to a project. The new item will be added to the locations folder.
+	 */
+	void MainWindow::newLocation ()
+	{
+		_projectModel->newLocation ();
 	}
 
 	/*!
@@ -528,6 +542,8 @@ namespace Hovel
 			openScene ( index );
 		else if ( dynamic_cast<CharacterItem *> ( childItem ) )
 			openCharacter ( index );
+		else if ( dynamic_cast<LocationItem *> ( childItem ) )
+			openLocation ( index );
 	}
 
 	/*!
@@ -575,6 +591,35 @@ namespace Hovel
 		if ( !characterItem ) return;
 
 		TextEdit *textEdit = new TextEdit ( index, this, characterItem->data ( TextRole ).toString() );
+		textEdit->document()->setDocumentMargin(4);
+		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
+		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
+		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
+
+		sw = _mdiArea->addSubWindow ( textEdit );
+		_mdiArea->setActiveSubWindow ( sw );
+
+		textEdit->show();
+
+		_formattingToolBar->setEnabled ( true );
+	}
+
+	/*!
+	  Open a location for editing.
+	 */
+	void MainWindow::openLocation ( const QModelIndex & index )
+	{
+		QMdiSubWindow * sw = itemIsOpen ( index );
+		if ( sw ) {
+			_mdiArea->setActiveSubWindow ( sw );
+			return;
+		}
+
+		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
+		LocationItem *locationItem = dynamic_cast<LocationItem *> ( childItem );
+		if ( !locationItem ) return;
+
+		TextEdit *textEdit = new TextEdit ( index, this, locationItem->data ( TextRole ).toString() );
 		textEdit->document()->setDocumentMargin(4);
 		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
 		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));

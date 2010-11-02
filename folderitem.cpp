@@ -23,6 +23,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "folderitem.h"
 #include "textitem.h"
 #include "characteritem.h"
+#include "locationitem.h"
 
 namespace Hovel
 {
@@ -68,6 +69,9 @@ namespace Hovel
 				QDomElement childElement = n.toElement();
 				if(childElement.tagName() == "Character") {
 					newItem = new CharacterItem ( this, childElement.attribute ( "Title" ) );
+				}
+				else if ( childElement.tagName () == "Location" ) {
+					newItem = new LocationItem ( this, childElement.attribute ( "Title" ) );
 				}
 				else continue;
 

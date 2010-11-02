@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     hovelitemmimedata.cpp \
     formattingtoolbar.cpp \
     characteritem.cpp \
-    povcomboboxitemdelegate.cpp
+    povcomboboxitemdelegate.cpp \
+    locationitem.cpp
 HEADERS += mainwindow.h \
     hovelitem.h \
     hovelmodel.h \
@@ -51,7 +52,8 @@ HEADERS += mainwindow.h \
     statuscomboboxitemdelegate.h \
     formattingtoolbar.h \
     characteritem.h \
-    povcomboboxitemdelegate.h
+    povcomboboxitemdelegate.h \
+    locationitem.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
     styles/scene_fullscreen.qss \
