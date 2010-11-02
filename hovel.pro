@@ -10,6 +10,21 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
+
+CONFIG(debug, debug|release) {
+	DESTDIR = ./debug
+	OBJECTS_DIR = ./debug/.objs
+	MOC_DIR = ./debug/.moc
+	RCC_DIR = ./debug/.rcc
+	UI_DIR = ./debug/.ui
+} else {
+	DESTDIR = ./release
+	OBJECTS_DIR = ./release/.objs
+	MOC_DIR = ./release/.moc
+	RCC_DIR = ./release/.rcc
+	UI_DIR = ./release/.ui
+}
+
 TEMPLATE = app
 QT += xml
 SOURCES += main.cpp \
