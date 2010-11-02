@@ -60,7 +60,6 @@ namespace Hovel
 
 	void ProjectTreeView::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected )
 	{
-		QModelIndex i = selectedIndexes()[0];
 		emit newItemSelected ( selected, deselected );
 	}
 
@@ -115,6 +114,12 @@ namespace Hovel
 			dip = QAbstractItemView::OnItem;
 
 		return dip;
+	}
+
+	void ProjectTreeView::dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight )
+	{
+		emit newItemSelected ( QItemSelection ( topLeft, bottomRight ), QItemSelection ( topLeft, bottomRight ) );
+		QTreeView::dataChanged ( topLeft, bottomRight );
 	}
 
 }

@@ -42,6 +42,7 @@ namespace Hovel
 		void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
 		void dragMoveEvent ( QDragMoveEvent * event );
 		DropIndicatorPosition dropIndicatorPosition (const QPoint &pos, const QRect &rect) const;
+		void dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
 
 	signals:
 		void newItemSelected ( const QItemSelection & selected, const QItemSelection & deselected );
