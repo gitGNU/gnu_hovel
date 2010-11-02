@@ -22,7 +22,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "propertiesview.h"
 #include "statuscomboboxitemdelegate.h"
-#include "povcomboboxitemdelegate.h"
+#include "stringcomboboxitemdelegate.h"
 #include "hovelitem.h"
 #include "propertiesproxymodel.h"
 
@@ -63,7 +63,12 @@ namespace Hovel
 				setItemDelegateForRow(i, delegate);
 			}
 			else if ( currentRowTitleIndex.data ().toString () == "POV character" ) {
-				POVComboBoxItemDelegate *delegate = new POVComboBoxItemDelegate ( this );
+				StringComboBoxItemDelegate *delegate = new StringComboBoxItemDelegate ( POVRole, this );
+				connect ( delegate, SIGNAL ( closeEditor ( QWidget* ) ), this, SLOT ( comboboxClosed ( QWidget* ) ) );
+				setItemDelegateForRow(i, delegate);
+			}
+			else if ( currentRowTitleIndex.data ().toString () == "Location" ) {
+				StringComboBoxItemDelegate *delegate = new StringComboBoxItemDelegate ( LocationRole, this );
 				connect ( delegate, SIGNAL ( closeEditor ( QWidget* ) ), this, SLOT ( comboboxClosed ( QWidget* ) ) );
 				setItemDelegateForRow(i, delegate);
 			}

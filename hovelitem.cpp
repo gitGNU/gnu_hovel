@@ -84,6 +84,8 @@ namespace Hovel
 			return "Author";
 		case POVRole:
 			return "POV character";
+		case LocationRole:
+			return "Location";
 		default:
 			return QString();
 		}
@@ -103,6 +105,8 @@ namespace Hovel
 			return AuthorRole;
 		if ( property == "POV character" )
 			return POVRole;
+		if ( property == "Location" )
+			return LocationRole;
 
 		return LastRole;
 	}

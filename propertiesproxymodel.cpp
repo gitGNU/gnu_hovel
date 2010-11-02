@@ -140,9 +140,25 @@ namespace Hovel
 		return HovelItem::propertyRole(title);
 	}
 
+	const QStringList PropertiesProxyModel::values ( int role ) const
+	{
+		if ( role == POVRole )
+			return characters ();
+		else if ( role == LocationRole )
+			return locations ();
+		else
+			return QStringList ();
+	}
+
 	const QStringList PropertiesProxyModel::characters () const
 	{
 		HovelModel *sm = (HovelModel*)sourceModel ();
 		return sm->characterNames();
+	}
+
+	const QStringList PropertiesProxyModel::locations () const
+	{
+		HovelModel *sm = (HovelModel*)sourceModel ();
+		return sm->locationNames();
 	}
 }

@@ -35,6 +35,7 @@ namespace Hovel
 		_roleData[StatusRole] = NewStatus;
 		_roleData[SummaryRole] = QString();
 		_roleData[POVRole] = QString();
+		_roleData[LocationRole] = QString ();
 		_canModify = true;
 	}
 
@@ -62,7 +63,7 @@ namespace Hovel
 	const QList<DataRole> TextItem::displayableProperties() const
 	{
 		QList<DataRole> p;
-		p << TitleRole << StatusRole << SummaryRole << POVRole;
+		p << TitleRole << StatusRole << SummaryRole << POVRole << LocationRole;
 
 		return p;
 	}
@@ -75,6 +76,7 @@ namespace Hovel
 		e.setAttribute("CanModify", QVariant(_canModify).toString());
 		e.setAttribute("Status", _roleData[StatusRole].toString());
 		e.setAttribute("POV", _roleData[POVRole].toString());
+		e.setAttribute("Location", _roleData[LocationRole].toString());
 
 		QDomElement summaryElement = doc.createElement("Summary");
 		QDomText summaryTextNode = doc.createTextNode(_roleData[SummaryRole].toString());
@@ -92,6 +94,7 @@ namespace Hovel
 		_canModify = QVariant(el.attribute("CanModify", "true")).toBool();
 		_roleData[StatusRole] = QVariant(el.attribute("Status", "0")).toInt();
 		_roleData[POVRole] = QVariant(el.attribute("POV", "")).toString();
+		_roleData[LocationRole] = QVariant(el.attribute ( "Location", "" ) ).toString ();
 
 		QDomNode n = el.firstChild();
 		while (!n.isNull()) {

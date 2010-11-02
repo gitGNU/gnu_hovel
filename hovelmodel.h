@@ -71,6 +71,7 @@ namespace Hovel
 		QModelIndex currentChapter(QModelIndexList selectedItems);
 		QModelIndex nodeIndex ( QString title, HovelItem *parent = 0 );
 		const QStringList characterNames() const;
+		const QStringList locationNames() const;
 
 		bool isModified();
 

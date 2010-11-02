@@ -47,7 +47,9 @@ namespace Hovel
 		QVariant data ( const QModelIndex &proxyIndex, int role = Qt::DisplayRole ) const;
 		Qt::ItemFlags flags(const QModelIndex &index) const;
 		bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+		const QStringList values ( int role ) const;
 		const QStringList characters () const;
+		const QStringList locations () const;
 
 	private:
 		DataRole indexDataRole(const QModelIndex &index) const;

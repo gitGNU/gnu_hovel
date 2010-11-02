@@ -498,6 +498,27 @@ namespace Hovel
 		return names;
 	}
 
+	/*! Returns a list of all location names. */
+	const QStringList HovelModel::locationNames() const
+	{
+		HovelItem * locationsFolderItem = 0;
+		foreach ( HovelItem * item, _rootItem->children () ) {
+			if ( item->data ( TitleRole ).toString () == "Locations" ) {
+				locationsFolderItem = item;
+				break;
+			}
+		}
+
+		QStringList locations;
+		if ( locationsFolderItem ) {
+			foreach ( HovelItem *location, locationsFolderItem->childItems () ) {
+				locations.append ( location->data ( TitleRole ).toString () );
+			}
+		}
+
+		return locations;
+	}
+
 	/*!
 	  Returns the number of books in the project.
 	 */
