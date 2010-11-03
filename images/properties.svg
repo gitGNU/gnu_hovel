@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="744.09448819"
    height="1052.3622047"
    id="svg3183"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="properties.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/jon/development/c++/qt4/hovel/images/properties.png"
    inkscape:export-xdpi="16.4"
-   inkscape:export-ydpi="16.4">
+   inkscape:export-ydpi="16.4"
+   version="1.1">
   <defs
      id="defs3185">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4158">
+      <stop
+         style="stop-color:#00a1d2;stop-opacity:1;"
+         offset="0"
+         id="stop4160" />
+      <stop
+         style="stop-color:#00a1d2;stop-opacity:0;"
+         offset="1"
+         id="stop4162" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 526.18109 : 1"
@@ -27,6 +42,27 @@
        inkscape:vp_z="744.09448 : 526.18109 : 1"
        inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
        id="perspective3191" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4158"
+       id="linearGradient4164"
+       x1="1085.3843"
+       y1="690.38281"
+       x2="20.362501"
+       y2="469.77118"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       inkscape:collect="always"
+       id="filter4182"
+       x="-0.4344576"
+       width="1.8689152"
+       y="-0.10552912"
+       height="1.2110582">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="18.157852"
+         id="feGaussianBlur4184" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -38,16 +74,17 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.53783765"
-     inkscape:cx="370.18794"
-     inkscape:cy="526.18109"
+     inkscape:zoom="0.39435816"
+     inkscape:cx="363.31551"
+     inkscape:cy="545.54271"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1014"
-     inkscape:window-height="773"
-     inkscape:window-x="177"
-     inkscape:window-y="40" />
+     inkscape:window-width="671"
+     inkscape:window-height="613"
+     inkscape:window-x="605"
+     inkscape:window-y="319"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3188">
     <rdf:RDF>
@@ -56,6 +93,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,7 +103,7 @@
      id="layer1">
     <path
        sodipodi:type="arc"
-       style="fill:#00a1d2;fill-opacity:1;stroke:#006a8a;stroke-width:35;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:url(#linearGradient4164);fill-opacity:1;stroke:#2388b2;stroke-width:35;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path2476"
        sodipodi:cx="424.8172"
        sodipodi:cy="520.48651"
@@ -73,22 +111,38 @@
        sodipodi:ry="333.70358"
        d="M 758.52078,520.48651 A 333.70358,333.70358 0 1 1 91.113617,520.48651 A 333.70358,333.70358 0 1 1 758.52078,520.48651 z"
        transform="translate(-61.501687,-13.667043)"
-       inkscape:export-filename="/home/jon/development/c++/qt4/hovel/images/properties.png"
-       inkscape:export-xdpi="8.1999998"
-       inkscape:export-ydpi="8.1999998" />
+       inkscape:export-filename="c:\temp\hovel\images\properties.png"
+       inkscape:export-xdpi="16.4"
+       inkscape:export-ydpi="16.4" />
     <text
        xml:space="preserve"
-       style="font-size:694.05145264px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
-       x="240.94444"
-       y="755.47943"
-       id="text3248"
-       sodipodi:linespacing="100%"
-       inkscape:export-filename="/home/jon/development/c++/qt4/hovel/images/properties.png"
-       inkscape:export-xdpi="8.1999998"
-       inkscape:export-ydpi="8.1999998"><tspan
+       style="font-size:2159.27709961px;font-style:normal;font-weight:bold;line-height:125%;fill:#484848;fill-opacity:1;stroke:none;filter:url(#filter4182);font-family:Arial;-inkscape-font-specification:Arial"
+       x="307.0181"
+       y="732.65497"
+       id="text4166"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="c:\temp\hovel\images\properties.png"
+       inkscape:export-xdpi="16.4"
+       inkscape:export-ydpi="16.4"><tspan
          sodipodi:role="line"
-         id="tspan3250"
-         x="240.94444"
-         y="755.47943">I</tspan></text>
+         id="tspan4168"
+         x="307.0181"
+         y="732.65497"
+         style="font-size:560.32006836px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#484848;fill-opacity:1;font-family:Co Headline Bd;-inkscape-font-specification:Co Headline Bd">i</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4170"
+       y="701.2973"
+       x="272.5889"
+       style="font-size:2159.27709961px;font-style:normal;font-weight:bold;line-height:125%;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       xml:space="preserve"
+       inkscape:export-filename="c:\temp\hovel\images\properties.png"
+       inkscape:export-xdpi="16.4"
+       inkscape:export-ydpi="16.4"><tspan
+         style="font-size:560.32006836px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Co Headline Bd;-inkscape-font-specification:Co Headline Bd"
+         y="701.2973"
+         x="272.5889"
+         id="tspan4172"
+         sodipodi:role="line">i</tspan></text>
   </g>
 </svg>
