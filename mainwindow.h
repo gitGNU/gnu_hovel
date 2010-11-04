@@ -66,9 +66,6 @@ namespace Hovel
 		void newLocation();
 		void openProject();
 		void openItem(const QModelIndex &);
-		void openScene(const QModelIndex &);
-		void openCharacter(const QModelIndex &);
-		void openLocation ( const QModelIndex & );
 		void saveProject();
 		bool saveProjectAs();
 		void toggleProjectDock();

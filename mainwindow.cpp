@@ -532,25 +532,10 @@ namespace Hovel
 	}
 
 	/*!
-	 Determine the item type associated with \a index, and open the
-	 item for editing.
+	 Open the item referred to by \a index for editing.
 	*/
 	void MainWindow::openItem ( const QModelIndex & index )
 	{
-		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
-		if ( dynamic_cast<TextItem *> ( childItem ) )
-			openScene ( index );
-		else if ( dynamic_cast<CharacterItem *> ( childItem ) )
-			openCharacter ( index );
-		else if ( dynamic_cast<LocationItem *> ( childItem ) )
-			openLocation ( index );
-	}
-
-	/*!
-	  Open a scene for editing.
-	 */
-	void MainWindow::openScene ( const QModelIndex & index )
-	{
 		QMdiSubWindow * sw = itemIsOpen ( index );
 		if ( sw ) {
 			_mdiArea->setActiveSubWindow ( sw );
@@ -558,70 +543,15 @@ namespace Hovel
 		}
 
 		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
-		TextItem *textItem = dynamic_cast<TextItem *> ( childItem );
-		if ( !textItem ) return;
 
-		TextEdit *textEdit = new TextEdit ( index, this, textItem->data ( TextRole ).toString() );
-		textEdit->document()->setDocumentMargin(4);
-		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
-		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
-		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
-
-		sw = _mdiArea->addSubWindow ( textEdit );
-		_mdiArea->setActiveSubWindow ( sw );
-
-		textEdit->show();
-
-		_formattingToolBar->setEnabled ( true );
-	}
-
-	/*!
-	  Open a character for editing.
-	 */
-	void MainWindow::openCharacter ( const QModelIndex & index )
-	{
-		QMdiSubWindow * sw = itemIsOpen ( index );
-		if ( sw ) {
-			_mdiArea->setActiveSubWindow ( sw );
+		if (	!dynamic_cast<TextItem*>(childItem) &&
+				!dynamic_cast<CharacterItem*>(childItem) &&
+				!dynamic_cast<LocationItem*>(childItem) )
 			return;
-		}
 
-		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
-		CharacterItem *characterItem = dynamic_cast<CharacterItem *> ( childItem );
-		if ( !characterItem ) return;
-
-		TextEdit *textEdit = new TextEdit ( index, this, characterItem->data ( TextRole ).toString() );
+		TextEdit *textEdit = new TextEdit ( index, this, childItem->data ( TextRole ).toString() );
 		textEdit->document()->setDocumentMargin(4);
-		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
-		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
-		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
-
-		sw = _mdiArea->addSubWindow ( textEdit );
-		_mdiArea->setActiveSubWindow ( sw );
-
-		textEdit->show();
-
-		_formattingToolBar->setEnabled ( true );
-	}
-
-	/*!
-	  Open a location for editing.
-	 */
-	void MainWindow::openLocation ( const QModelIndex & index )
-	{
-		QMdiSubWindow * sw = itemIsOpen ( index );
-		if ( sw ) {
-			_mdiArea->setActiveSubWindow ( sw );
-			return;
-		}
-
-		HovelItem *childItem = static_cast<HovelItem*> ( index.internalPointer() );
-		LocationItem *locationItem = dynamic_cast<LocationItem *> ( childItem );
-		if ( !locationItem ) return;
-
-		TextEdit *textEdit = new TextEdit ( index, this, locationItem->data ( TextRole ).toString() );
-		textEdit->document()->setDocumentMargin(4);
-		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&,QString& )), this, SLOT ( textEditContentsChanged(QPersistentModelIndex&,QString& )));
+		connect ( textEdit, SIGNAL ( contentChanged ( QPersistentModelIndex&, QString& )), this, SLOT ( textEditContentsChanged ( QPersistentModelIndex&, QString& )));
 		connect ( textEdit, SIGNAL( currentCharFormatChanged ( const QTextCharFormat& )), this, SLOT ( currentCharFormatChanged ( const QTextCharFormat& )));
 		connect ( textEdit, SIGNAL ( closing() ), this, SLOT ( textEditClosing() ));
 
@@ -779,6 +709,7 @@ namespace Hovel
 			QTextCursor cursor = activeTextEdit->textCursor();
 			cursor.setPosition( activeTextEdit->textCursor().position() );
 			connect ( te, SIGNAL(exitFullScreenPressed()), this, SLOT(toggleFullScreen()) );
+			connect ( te, SIGNAL ( finalCursorPosition ( int ) ), activeTextEdit, SLOT ( setCursorPosition ( int ) ) );
 			te->setDocument( activeTextEdit->document() );
 			te->setFullScreenState();
 			te->setTextCursor ( cursor );

@@ -22,6 +22,7 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QApplication>
 #include <QKeyEvent>
+#include <QTextFrame>
 
 #include "textedit.h"
 
@@ -59,9 +60,9 @@ namespace Hovel
 		cursor.setPosition(originalPosition);
 		setTextCursor(cursor);
 
-		showFullScreen();
+		document()->setDocumentMargin ( 250 );
 
-		document()->setDocumentMargin ( 300 );
+		showFullScreen();
 	}
 
 	void TextEdit::setNormalState ( )
@@ -70,6 +71,7 @@ namespace Hovel
 		setVerticalScrollBarPolicy ( Qt::ScrollBarAsNeeded );
 
 		QTextCursor cursor = textCursor();
+		int originalPosition = cursor.position();
 
 		cursor.movePosition ( QTextCursor::Start );
 		cursor.movePosition ( QTextCursor::End, QTextCursor::KeepAnchor );
@@ -77,6 +79,9 @@ namespace Hovel
 		QTextCharFormat format;
 		format.setFontPointSize ( QApplication::font().pointSize() );
 		cursor.mergeCharFormat ( format );
+
+		cursor.setPosition(originalPosition);
+		setTextCursor(cursor);
 
 		//Reset the document
 		document()->setDocumentMargin(4);
@@ -107,6 +112,15 @@ namespace Hovel
 	void TextEdit::closeEvent ( QCloseEvent * event )
 	{
 		emit closing ();
+		emit finalCursorPosition ( textCursor ().position () );
 		QWidget::closeEvent ( event );
 	}
+
+	void TextEdit::setCursorPosition ( int pos )
+	{
+		QTextCursor cursor = textCursor();
+		cursor.setPosition ( pos, QTextCursor::MoveAnchor );
+		setTextCursor ( cursor );
+	}
+
 }

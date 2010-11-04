@@ -51,11 +51,13 @@ namespace Hovel
 
 	protected slots:
 		void closeEvent ( QCloseEvent * event );
+		void setCursorPosition ( int );
 
 	signals:
 		void contentChanged ( QPersistentModelIndex&, QString& );
 		void exitFullScreenPressed ( );
 		void closing ();
+		void finalCursorPosition ( int pos );
 
 	private:
 		QPersistentModelIndex _index;
