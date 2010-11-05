@@ -45,6 +45,8 @@ namespace Hovel
 
 	public slots:
 		void textChanged ( );
+		void zoomIn ( int range = 1 );
+		void zoomOut ( int range = 1 );
 
 	protected:
 		void keyPressEvent ( QKeyEvent * event );
@@ -52,6 +54,7 @@ namespace Hovel
 	protected slots:
 		void closeEvent ( QCloseEvent * event );
 		void setCursorPosition ( int );
+		void zoomTextSize ( int );
 
 	signals:
 		void contentChanged ( QPersistentModelIndex&, QString& );

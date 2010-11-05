@@ -708,11 +708,11 @@ namespace Hovel
 			TextEdit *te = new TextEdit(activeTextEdit->index(), 0, "");
 			QTextCursor cursor = activeTextEdit->textCursor();
 			cursor.setPosition( activeTextEdit->textCursor().position() );
-			connect ( te, SIGNAL(exitFullScreenPressed()), this, SLOT(toggleFullScreen()) );
+			connect ( te, SIGNAL ( exitFullScreenPressed() ), this, SLOT ( toggleFullScreen() ) );
 			connect ( te, SIGNAL ( finalCursorPosition ( int ) ), activeTextEdit, SLOT ( setCursorPosition ( int ) ) );
 			te->setDocument( activeTextEdit->document() );
-			te->setFullScreenState();
 			te->setTextCursor ( cursor );
+			te->setFullScreenState();
 			_fullScreen = true;
 			hide();
 		}

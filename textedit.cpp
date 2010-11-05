@@ -42,6 +42,16 @@ namespace Hovel
 		emit contentChanged( _index, html );
 	}
 
+	void TextEdit::zoomIn ( int range )
+	{
+		zoomTextSize ( range );
+	}
+
+	void TextEdit::zoomOut ( int range )
+	{
+		zoomTextSize ( range );
+	}
+
 	void TextEdit::setFullScreenState ( )
 	{
 		setStyleSheet ( "background: dimgrey; color: lightsteelblue; border: none;" );
@@ -50,17 +60,11 @@ namespace Hovel
 		QTextCursor cursor = textCursor();
 		int originalPosition = cursor.position();
 
-		cursor.movePosition(QTextCursor::Start);
-		cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-
-		QTextCharFormat format;
-		format.setFontPointSize(13);
-		cursor.mergeCharFormat ( format );
+		document()->setDocumentMargin ( 250 );
+		zoomIn ( 8 );
 
 		cursor.setPosition(originalPosition);
 		setTextCursor(cursor);
-
-		document()->setDocumentMargin ( 250 );
 
 		showFullScreen();
 	}
@@ -73,19 +77,12 @@ namespace Hovel
 		QTextCursor cursor = textCursor();
 		int originalPosition = cursor.position();
 
-		cursor.movePosition ( QTextCursor::Start );
-		cursor.movePosition ( QTextCursor::End, QTextCursor::KeepAnchor );
-
-		QTextCharFormat format;
-		format.setFontPointSize ( QApplication::font().pointSize() );
-		cursor.mergeCharFormat ( format );
-
-		cursor.setPosition(originalPosition);
-		setTextCursor(cursor);
-
 		//Reset the document
-		document()->setDocumentMargin(4);
-		setDocument(document());
+		document()->setDocumentMargin ( 4 );
+		setDocument ( document() );
+		zoomOut ( -8 );
+		cursor.setPosition ( originalPosition );
+		setTextCursor ( cursor );
 	}
 
 	/*!
@@ -99,6 +96,7 @@ namespace Hovel
 		}
 
 		if ( event->key() == Qt::Key_Escape) {
+			emit finalCursorPosition ( textCursor ().position () );
 			emit exitFullScreenPressed();
 			close();
 		}
@@ -112,7 +110,6 @@ namespace Hovel
 	void TextEdit::closeEvent ( QCloseEvent * event )
 	{
 		emit closing ();
-		emit finalCursorPosition ( textCursor ().position () );
 		QWidget::closeEvent ( event );
 	}
 
@@ -121,6 +118,22 @@ namespace Hovel
 		QTextCursor cursor = textCursor();
 		cursor.setPosition ( pos, QTextCursor::MoveAnchor );
 		setTextCursor ( cursor );
+	}
+
+	void TextEdit::zoomTextSize ( int inc )
+	{
+		QString html = document ()->toHtml ();
+		QRegExp fontSizeRE ( "font-size:([\\d.]+)pt", Qt::CaseInsensitive );
+		QStringList tokens = html.split ( fontSizeRE );
+		int tokenIndex = 0;
+		QString newHtml = tokens[tokenIndex++];
+
+		int pos = 0;
+		while ( ( pos = fontSizeRE.indexIn ( html, pos ) ) != -1 ) {
+			newHtml += ( "font-size:" + (QString("%1").arg(fontSizeRE.cap (1).toDouble () + inc)) + "pt" + tokens[tokenIndex++] );
+			pos += fontSizeRE.matchedLength ();
+		}
+		document ()->setHtml ( newHtml );
 	}
 
 }
