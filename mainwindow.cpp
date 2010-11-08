@@ -653,7 +653,7 @@ namespace Hovel
 	void MainWindow::textEditContentsChanged( QPersistentModelIndex& index, QString& newText )
 	{
 		HovelItem *item = static_cast<HovelItem*>(index.internalPointer());
-		if ( !dynamic_cast<TextItem *>(item) && !dynamic_cast<CharacterItem *>(item) )
+		if ( !dynamic_cast<TextItem *>(item) && !dynamic_cast<CharacterItem *>(item) && !dynamic_cast<LocationItem *>(item) )
 			return;
 
 		item->setData(newText, TextRole);
