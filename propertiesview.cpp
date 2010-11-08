@@ -21,8 +21,9 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "propertiesview.h"
-#include "statuscomboboxitemdelegate.h"
 #include "stringcomboboxitemdelegate.h"
+#include "statuscomboboxitemdelegate.h"
+#include "multilineitemdelegate.h"
 #include "hovelitem.h"
 #include "propertiesproxymodel.h"
 
@@ -70,6 +71,12 @@ namespace Hovel
 			else if ( currentRowTitleIndex.data ().toString () == "Location" ) {
 				StringComboBoxItemDelegate *delegate = new StringComboBoxItemDelegate ( LocationRole, this );
 				connect ( delegate, SIGNAL ( closeEditor ( QWidget* ) ), this, SLOT ( comboboxClosed ( QWidget* ) ) );
+				setItemDelegateForRow(i, delegate);
+			}
+			else if ( currentRowTitleIndex.data ().toString () == "Summary" ) {
+				MultiLineItemDelegate *delegate = new MultiLineItemDelegate ( this );
+				connect ( delegate, SIGNAL ( closeEditor ( QWidget *, QAbstractItemDelegate::EndEditHint ) ),
+						  this, SLOT ( finishedEditing ( QWidget *, QAbstractItemDelegate::EndEditHint ) ) );
 				setItemDelegateForRow(i, delegate);
 			}
 			else {	//Set the default delegate.
