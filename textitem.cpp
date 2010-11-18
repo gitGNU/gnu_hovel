@@ -116,7 +116,7 @@ namespace Hovel
 
 	QString TextItem::toHtmlParagraphs()
 	{
-		return data(TextRole).toString();
+		return data ( TextRole ).toString ();
 	}
 
 }

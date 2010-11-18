@@ -139,6 +139,9 @@ namespace Hovel
 		_exportHtmlFileAction = new QAction(tr("to single &Html file"), this);
 		connect(_exportHtmlFileAction, SIGNAL(triggered()), this, SLOT(exportHtmlFile()));
 
+		_exportManuscriptPDFAction = new QAction ( tr ( "to Manuscript PDF file" ), this );
+		connect( _exportManuscriptPDFAction, SIGNAL ( triggered () ), this, SLOT ( exportManuscriptPDFFile () ) );
+
 		_exitAction = new QAction(tr("E&xit"), this);
 		_exitAction->setShortcut(tr("Ctrl+Q"));
 		connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -155,6 +158,7 @@ namespace Hovel
 	{
 		_exportMenu = new QMenu(tr("Export . . ."));
 		_exportMenu->addAction(_exportHtmlFileAction);
+		_exportMenu->addAction ( _exportManuscriptPDFAction );
 
 		_projectMenu = new QMenu(tr("Project"));
 		_projectMenu->addAction(_newProjectAction);
@@ -664,13 +668,27 @@ namespace Hovel
 	 */
 	void MainWindow::exportHtmlFile()
 	{
-		Export exporter(this, _projectModel);
 		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
 		if ( !currentBookIndex.isValid() )
 			return;
 
 		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
+		Export exporter(this, _projectModel);
 		exporter.toHtmlFile ( currentBook );
+	}
+
+	/*!
+	  Exports the project to a Manuscript format PDF file.
+	 */
+	void MainWindow::exportManuscriptPDFFile ()
+	{
+		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
+		if ( !currentBookIndex.isValid() )
+			return;
+
+		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
+		Export exporter ( this, _projectModel );
+		exporter.toManuscriptPDF ( currentBook );
 	}
 
 	/*!

@@ -23,9 +23,14 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTextStream>
 #include <QRegExp>
 #include <QXmlStreamReader>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QPainter>
+#include <QTextBlock>
 
 #include "export.h"
 #include "utilities.h"
+#include "manuscriptpdfdocumentlayout.h"
 
 namespace Hovel
 {
@@ -41,20 +46,14 @@ namespace Hovel
 
 	bool Export::getExportFilename(QString nameFilter)
 	{
-		QFileDialog dialog( _parent );
-		dialog.setFileMode ( QFileDialog::AnyFile );
-		dialog.setAcceptMode ( QFileDialog::AcceptSave );
-		dialog.setNameFilter ( nameFilter );
-		if ( dialog.exec ( ) ) {
-			_fileName = dialog.selectedFiles ( ).first ( );
-			return true;
-		}
+		_fileName = QFileDialog::getSaveFileName ( 0, QString ( "Export" ), QString (), nameFilter );
+		if ( _fileName.length () > 0 ) return true;
 
 		return false;
 	}
 
 	/*!
-	  Exports a \c HovelModel as a single HTML file.
+	  Exports a \c BookItem as a single HTML file.
 	 */
 	bool Export::toHtmlFile(BookItem * bookItem)
 	{
@@ -80,11 +79,84 @@ namespace Hovel
 			}
 		}
 
-		stream << headText << QString(_htmlBodyTemplate).arg(bodyText);
+		QTextDocument document;
+		document.setHtml ( headText + bodyText );
+		stream << document.toHtml ();
 
-		outFile->close();
+		outFile->close ();
 
 		delete outFile;
+
+		return true;
+	}
+
+	/*!
+	  Exports a \c BookItem in Manuscript format as a PDF file.
+	 */
+	bool Export::toManuscriptPDF ( BookItem * bookItem )
+	{
+		if( !getExportFilename( tr ( "PDF files (*.pdf)" ) ) )
+			return false;
+
+		QRegExp regexpSuffix("\\.pdf$$", Qt::CaseInsensitive);
+		if(regexpSuffix.indexIn(_fileName) == -1)
+			_fileName += ".pdf";
+
+		QPrinter printer;
+		printer.setOutputFileName ( _fileName );
+		printer.setOutputFormat ( QPrinter::PdfFormat );
+		QPainter painter ( &printer );
+		QRectF pageRect ( printer.pageRect() );
+		QRectF body = QRectF ( 0, 0, pageRect.width (), pageRect.height () );
+
+		foreach ( ChapterItem * chapterItem, bookItem->chapterItems() ) {
+			QTextDocument doc;
+			QTextCursor cursor ( &doc );
+			doc.setPageSize ( body.size () );
+			int pageNumber = 1;
+
+			foreach ( TextItem * textItem, chapterItem->textItems() ) {
+				cursor.insertHtml ( textItem->data ( TextRole ).toString () );
+				cursor.insertHtml ( "<BR><BR><center>*</center><BR><BR>" );
+			}
+
+			QTextDocument * clonedDoc = doc.clone ();
+			ManuscriptPDFDocumentLayout * manLayout = new ManuscriptPDFDocumentLayout ( clonedDoc );
+			clonedDoc->setDocumentLayout ( manLayout );
+
+			/*for ( QTextBlock currentBlock = doc.begin (); currentBlock != doc.end (); currentBlock = currentBlock.next () ) {
+				for (QTextBlock::iterator fragmentIterator = currentBlock.begin(); !( fragmentIterator.atEnd () ); ++fragmentIterator) {
+					QTextFragment currentFragment = fragmentIterator.fragment();
+					if (currentFragment.isValid()) {
+						QTextCursor clonedDocCursor ( clonedDoc );
+						clonedDocCursor.setPosition ( currentFragment.position () );
+						clonedDocCursor.setPosition ( currentFragment.position () + currentFragment.length (), QTextCursor::KeepAnchor );
+						QTextCharFormat fmt;
+						fmt.setFontFamily ( "Courier" );
+						fmt.setFontPointSize ( 12 );
+						fmt.setFontWeight ( QFont::Normal );
+						clonedDocCursor.setCharFormat ( fmt );
+					}
+				}
+			}*/
+
+			int tempDebug = clonedDoc->pageCount ();
+			while ( pageNumber - 1 < clonedDoc->pageCount () ) {
+				//ManuscriptPDFDocumentLayout * layout = dynamic_cast<ManuscriptPDFDocumentLayout*> ( clonedDoc->documentLayout () );
+				QAbstractTextDocumentLayout::PaintContext paintContext;
+				painter.save ();
+				painter.translate ( body.left (), body.top () - ( pageNumber - 1 ) * body.height () );
+				QRectF view ( 0, ( pageNumber - 1 ) * body.height (), body.width (), body.height () );
+				painter.setClipRect( view );
+				paintContext.clip = view;
+				paintContext.palette.setColor ( QPalette::Text, Qt::black );
+				manLayout->draw ( &painter, paintContext );
+				painter.restore ();
+
+				++pageNumber;
+				printer.newPage ();
+			}
+		}
 
 		return true;
 	}
