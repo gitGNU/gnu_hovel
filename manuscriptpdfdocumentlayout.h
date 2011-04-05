@@ -19,44 +19,35 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#ifndef MANUSCRIPTPDFDOCUMENTLAYOUT_H
+#define MANUSCRIPTPDFDOCUMENTLAYOUT_H
 
-
-#ifndef EXPORT_H
-#define EXPORT_H
-
-#include <QWidget>
-#include <QPrinter>
-
-#include "hovelmodel.h"
-#include "bookitem.h"
+#include <QAbstractTextDocumentLayout>
 
 namespace Hovel
 {
 
-	class Export : public QObject
+	class ManuscriptPDFDocumentLayout : public QAbstractTextDocumentLayout
 	{
-		Q_OBJECT
-
 	public:
-		explicit Export(QWidget *, HovelModel *);
+		explicit ManuscriptPDFDocumentLayout ( QTextDocument * );
 
-		bool getExportFilename ( QString nameFilter );
+		void draw ( QPainter *, const PaintContext & );
+		int hitTest ( const QPointF &, Qt::HitTestAccuracy ) const;
 
-		bool toHtmlFile(BookItem *);
-		bool toManuscriptPDF ( BookItem * );
-		bool toPrinter ( BookItem *, QPrinter::OutputFormat );
+		int pageCount () const;
+		QSizeF documentSize () const;
 
-	private:
-		void loadExportTemplates();
+		QRectF frameBoundingRect ( QTextFrame * ) const;
+		QRectF blockBoundingRect ( const QTextBlock & ) const;
 
-		QWidget				*_parent;
-		HovelModel			*_model;
-		QString				_fileName;
 
-		QString				_htmlHeadTemplate;
-		QString				_htmlBodyTemplate;
+	protected:
+		void documentChanged ( int position, int charsRemoved, int charsAdded );
+
+		int _pageCount;
 	};
 
 }
 
-#endif // EXPORT_H
+#endif // MANUSCRIPTPDFDOCUMENTLAYOUT_H

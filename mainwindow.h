@@ -72,6 +72,7 @@ namespace Hovel
 		void togglePropertiesDock();
 		void textEditContentsChanged( QPersistentModelIndex&, QString& );
 		void exportHtmlFile();
+		void exportManuscriptPDFFile ();
 		void toggleFullScreen();
 		void deleteProjectNode();
 		void textBold ( bool checked );
@@ -123,6 +124,7 @@ namespace Hovel
 		QAction *_saveProjectAsAction;
 		QAction *_exitAction;
 		QAction *_exportHtmlFileAction;
+		QAction *_exportManuscriptPDFAction;
 		QAction *_deleteProjectNodeAction;
 
 		bool _fullScreen;

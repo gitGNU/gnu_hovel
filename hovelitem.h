@@ -63,6 +63,7 @@ namespace Hovel
 		void setSaved ( );
 		void removeChildAt ( int i ) { _childItems.removeAt ( i ); }
 		const QList<HovelItem *> childItems ( ) const;
+		bool isLastItem () const;
 
 	protected:
 		QList<HovelItem *>	_childItems;

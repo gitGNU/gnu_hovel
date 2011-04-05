@@ -48,7 +48,8 @@ SOURCES += main.cpp \
 	characteritem.cpp \
 	locationitem.cpp \
 	stringcomboboxitemdelegate.cpp \
-    multilineitemdelegate.cpp
+    multilineitemdelegate.cpp \
+    manuscriptpdfdocumentlayout.cpp
 HEADERS += mainwindow.h \
 	hovelitem.h \
 	hovelmodel.h \
@@ -70,7 +71,8 @@ HEADERS += mainwindow.h \
 	characteritem.h \
 	locationitem.h \
 	stringcomboboxitemdelegate.h \
-    multilineitemdelegate.h
+    multilineitemdelegate.h \
+    manuscriptpdfdocumentlayout.h
 RESOURCES += hovel.qrc
 OTHER_FILES += styles/default.qss \
 	styles/scene_fullscreen.qss \
