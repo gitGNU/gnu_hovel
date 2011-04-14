@@ -43,6 +43,8 @@ namespace Hovel
 		QTextFrame * rootFrame = doc->rootFrame ();
 		qreal ySize =  doc->pageSize ().height ();
 		qreal yPosition = 0;
+		qreal lineSpacing = 2;
+		qreal bottomOfPageY = ySize;
 
 		//Each chapter has been placed in its own frame in export.cpp. Now iterate through them.
 		foreach ( QTextFrame* frame, rootFrame->childFrames () ) {
@@ -88,7 +90,14 @@ namespace Hovel
 
 					line.setPosition ( QPointF ( leftIndent, yPosition ) );
 
-					yPosition += ( line.height ()* 2 );
+					yPosition += ( line.height () * lineSpacing );
+
+					//Eject page if not enough room for next line.
+					if ( yPosition + line.height () > bottomOfPageY ) {
+						yPosition += ( bottomOfPageY - yPosition );
+						bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
+					}
+
 				}
 
 				textLayout->endLayout ();
@@ -98,8 +107,9 @@ namespace Hovel
 
 			//If the frame requires a page eject.
 			if ( frame->frameFormat ().pageBreakPolicy () & QTextFormat::PageBreak_AlwaysAfter ) {
-				qreal bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
+				bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
 				yPosition += ( bottomOfPageY - yPosition );
+				bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
 			}
 		}
 

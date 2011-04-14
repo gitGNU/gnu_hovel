@@ -140,7 +140,7 @@ namespace Hovel
 			foreach ( TextItem * textItem, chapterItem->textItems() ) {
 				cursor.insertHtml ( textItem->data ( TextRole ).toString () );
 				cursor.setBlockFormat ( blockFormat );
-				if ( !textItem->isLastItem () ) {
+				if ( !textItem->IsLastItem () ) {
 					cursor.insertBlock ();
 					cursor.setBlockFormat ( separatorBlockFormat );
 					cursor.insertHtml ( "*" );
@@ -150,6 +150,13 @@ namespace Hovel
 			}
 			cursor = mainFrame->lastCursorPosition ();
 		}
+
+//		QFile data("e:\\tmp\\output.txt");
+//		if (data.open(QFile::WriteOnly | QFile::Truncate)) {
+//			QTextStream out(&data);
+//			out << doc.toHtml ();
+//		}
+//		data.close ();
 
 		QTextCharFormat fmt;
 		fmt.setFontFamily ( "Courier" );
@@ -170,7 +177,6 @@ namespace Hovel
 			painter.translate ( 0, -( pageNumber * pageRect.height () ) );
 			QRectF view ( 0, pageNumber * pageRect.height (), pageRect.width (), pageRect.height () );
 			painter.setClipRect( view );
-			paintContext.clip = view;
 
 			doc.documentLayout ()->draw ( &painter, paintContext );
 			painter.restore ();

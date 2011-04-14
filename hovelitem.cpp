@@ -169,12 +169,11 @@ namespace Hovel
 		return _childItems;
 	}
 
-	bool HovelItem::isLastItem () const
+	bool HovelItem::IsLastItem () const
 	{
 		if ( this == _parentItem->childItems ().back () )
 			return true;
 		return false;
 	}
-
 
 }
