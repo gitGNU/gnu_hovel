@@ -40,16 +40,15 @@ namespace Hovel
 		Q_OBJECT
 
 	public:
-		explicit Export(QWidget *, HovelModel *);
+		explicit Export ( QWidget *, HovelModel * );
 
 		bool getExportFilename ( QString nameFilter );
 
-		bool toHtmlFile(BookItem *);
-		bool toManuscriptPDF ( BookItem * );
+		bool toHtmlFile ( BookItem * );
 		bool toPrinter ( BookItem *, QPrinter::OutputFormat );
 
 	private:
-		void loadExportTemplates();
+		void loadExportTemplates ();
 		void setupPrinter ( QPrinter &, QPrinter::OutputFormat );
 		void convertToUnderlineEmphasis ( QTextDocument& );
 

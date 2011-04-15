@@ -131,6 +131,7 @@ namespace Hovel
 			cursor = mainFrame->lastCursorPosition ();
 		}
 
+		//Set output font style.
 		QTextCharFormat fmt;
 		fmt.setFontFamily ( "Courier" );
 		fmt.setFontPointSize ( 12 );
@@ -149,13 +150,25 @@ namespace Hovel
 		int pageNumber = 0;
 		QRectF pageRect = printer.pageRect ();
 
+		qreal left, top, right, bottom;
+		printer.getPageMargins ( &left, &top, &right,&bottom , QPrinter::DevicePixel );
+		painter.setFont ( QFont ("Courier", 12 ) );
+
 		while ( pageNumber < doc.pageCount () ) {
 			painter.save ();
 			painter.translate ( 0, -( pageNumber * pageRect.height () ) );
+
+			QString header = QString ("%1/%2/%3")	.arg ( book->propertyData ( Hovel::AuthorRole ).toString () )
+													.arg ( book->propertyData ( Hovel::TitleRole ).toString () )
+													.arg ( pageNumber + 1 );
+
+			painter.drawText (	QPointF ( pageRect.width () - 150, pageNumber * pageRect.height () -top + 15 ), header );
+
 			QRectF view ( 0, pageNumber * pageRect.height (), pageRect.width (), pageRect.height () );
 			painter.setClipRect( view );
 
 			doc.documentLayout ()->draw ( &painter, paintContext );
+
 			painter.restore ();
 
 			++pageNumber;
@@ -199,6 +212,10 @@ namespace Hovel
 		}
 	}
 
+	/*!
+	  Converts empahsised text ( bold and italic ) in a document to normal,
+	  underlined text.
+	 */
 	void Export::convertToUnderlineEmphasis ( QTextDocument& doc )
 	{
 		QTextCharFormat underlineFormat;
@@ -207,9 +224,9 @@ namespace Hovel
 		underlineFormat.setFontItalic ( false );
 
 		for ( QTextBlock currentBlock = doc.begin (); currentBlock != doc.end (); currentBlock = currentBlock.next () ) {
-			for (QTextBlock::iterator fragmentIterator = currentBlock.begin(); ! fragmentIterator.atEnd (); ++fragmentIterator) {
-				QTextFragment currentFragment = fragmentIterator.fragment();
-				if (currentFragment.isValid()) {
+			for ( QTextBlock::iterator fragmentIterator = currentBlock.begin (); ! fragmentIterator.atEnd (); ++fragmentIterator ) {
+				QTextFragment currentFragment = fragmentIterator.fragment ();
+				if ( currentFragment.isValid () ) {
 					if (	currentFragment.charFormat ().fontWeight () == QFont::Bold ||
 							currentFragment.charFormat ().fontItalic () ) {
 						QTextCursor cursor ( &doc );
@@ -220,76 +237,6 @@ namespace Hovel
 				}
 			}
 		}
-	}
-
-	/*!
-	  Exports a \c BookItem in Manuscript format as a PDF file.
-	 */
-	bool Export::toManuscriptPDF ( BookItem * bookItem )
-	{
-		if( !getExportFilename( tr ( "PDF files (*.pdf)" ) ) )
-			return false;
-
-		QRegExp regexpSuffix("\\.pdf$$", Qt::CaseInsensitive);
-		if(regexpSuffix.indexIn(_fileName) == -1)
-			_fileName += ".pdf";
-
-		QPrinter printer;
-		printer.setOutputFileName ( _fileName );
-		printer.setOutputFormat ( QPrinter::PdfFormat );
-		QPainter painter ( &printer );
-		QRectF pageRect ( printer.pageRect() );
-		QRectF body = QRectF ( 0, 0, pageRect.width (), pageRect.height () );
-
-		foreach ( ChapterItem * chapterItem, bookItem->chapterItems() ) {
-			QTextDocument doc;
-			QTextCursor cursor ( &doc );
-			doc.setPageSize ( body.size () );
-			int pageNumber = 1;
-
-			foreach ( TextItem * textItem, chapterItem->textItems() ) {
-				cursor.insertHtml ( textItem->data ( TextRole ).toString () );
-				cursor.insertHtml ( "<BR><BR><center>*</center><BR><BR>" );
-			}
-
-			QTextDocument * clonedDoc = doc.clone ();
-			ManuscriptPDFDocumentLayout * manLayout = new ManuscriptPDFDocumentLayout ( clonedDoc );
-			clonedDoc->setDocumentLayout ( manLayout );
-
-			for ( QTextBlock currentBlock = doc.begin (); currentBlock != doc.end (); currentBlock = currentBlock.next () ) {
-				for (QTextBlock::iterator fragmentIterator = currentBlock.begin(); !( fragmentIterator.atEnd () ); ++fragmentIterator) {
-					QTextFragment currentFragment = fragmentIterator.fragment();
-					if (currentFragment.isValid()) {
-						QTextCursor clonedDocCursor ( clonedDoc );
-						clonedDocCursor.setPosition ( currentFragment.position () );
-						clonedDocCursor.setPosition ( currentFragment.position () + currentFragment.length (), QTextCursor::KeepAnchor );
-						QTextCharFormat fmt;
-						fmt.setFontFamily ( "Courier" );
-						fmt.setFontPointSize ( 12 );
-						fmt.setFontWeight ( QFont::Normal );
-						clonedDocCursor.setCharFormat ( fmt );
-					}
-				}
-			}
-
-			while ( pageNumber - 1 < clonedDoc->pageCount () ) {
-				QAbstractTextDocumentLayout * layout = clonedDoc->documentLayout ();
-				QAbstractTextDocumentLayout::PaintContext paintContext;
-				painter.save ();
-				painter.translate ( body.left (), body.top () - ( pageNumber - 1 ) * body.height () );
-				QRectF view ( 0, ( pageNumber - 1 ) * body.height (), body.width (), body.height () );
-				painter.setClipRect( view );
-				paintContext.clip = view;
-				paintContext.palette.setColor ( QPalette::Text, Qt::black );
-				layout->draw ( &painter, paintContext );
-				painter.restore ();
-
-				++pageNumber;
-				printer.newPage ();
-			}
-		}
-
-		return true;
 	}
 
 	void Export::loadExportTemplates()
