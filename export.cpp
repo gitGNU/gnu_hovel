@@ -38,13 +38,15 @@ namespace Hovel
 	/*!
 	  Construct an \c Export object for \a model.
 	 */
-	Export::Export(QWidget * parent, HovelModel * model)
-		: _parent(parent), _model ( model )
+	Export::Export ( QWidget * parent, HovelModel * model )
+		:	_parent ( parent ),
+			_model ( model ),
+			_convertToUnderlineEmphasis ( true )
 	{
-		loadExportTemplates();
+		loadExportTemplates ();
 	}
 
-	bool Export::getExportFilename(QString nameFilter)
+	bool Export::getExportFilename ( QString nameFilter )
 	{
 		_fileName = QFileDialog::getSaveFileName ( 0, QString ( "Export" ), QString (), nameFilter );
 		if ( _fileName.length () > 0 ) return true;
@@ -93,47 +95,25 @@ namespace Hovel
 	bool Export::toPrinter ( BookItem * book, QPrinter::OutputFormat outputFormat )
 	{
 		QPrinter printer;
-		printer.setOutputFormat ( outputFormat );
-		printer.setPaperSize ( QPrinter::A4 );
-		printer.setPageMargins ( 25.4, 25.4, 25.4, 25.4, QPrinter::Millimeter );
+		setupPrinter ( printer, outputFormat );
 
-		if ( outputFormat == QPrinter::NativeFormat ) {
-		}
-		else {
-			QString filter;
-			QString suffix;
-
-			if ( outputFormat == QPrinter::PdfFormat ) {
-				filter = tr ( "PDF files (*.pdf)" );
-				suffix = "pdf";
-			}
-			else if ( outputFormat == QPrinter::PostScriptFormat ) {
-				filter = tr ( "Postscript files (*.ps)" );
-				suffix = "ps";
-			}
-			else
-				return false;
-
-			if ( !getExportFilename ( filter ) )
-				return false;
-			QRegExp regexpSuffix ( "\\." + suffix + "$$", Qt::CaseInsensitive );
-			if ( regexpSuffix.indexIn ( _fileName ) == -1 )
-				_fileName += suffix;
-
-			printer.setOutputFileName ( _fileName );
-		}
-
-		//Reformat the text, suitable for output.
 		QTextDocument doc;
 		doc.setPageSize ( QSizeF ( printer.pageRect ().width (), printer.pageRect ().height () ) );
+
+		//Reformat the text, suitable for output.
 		QTextCursor cursor ( &doc );
 		QTextFrameFormat frameFormat;
 		frameFormat.setPageBreakPolicy ( QTextFormat::PageBreak_AlwaysAfter );
+
+		//Format for text paragraphs.
 		QTextBlockFormat blockFormat;
 		blockFormat.setAlignment ( Qt::AlignLeft );
+
+		//Format for the separator.
 		QTextBlockFormat separatorBlockFormat;
 		separatorBlockFormat.setAlignment ( Qt::AlignHCenter );
 
+		//Create the document contents, one chaper per frame.
 		foreach ( ChapterItem * chapterItem, book->chapterItems() ) {
 			QTextFrame * mainFrame = cursor.currentFrame();
 			cursor.insertFrame ( frameFormat );
@@ -151,19 +131,16 @@ namespace Hovel
 			cursor = mainFrame->lastCursorPosition ();
 		}
 
-//		QFile data("e:\\tmp\\output.txt");
-//		if (data.open(QFile::WriteOnly | QFile::Truncate)) {
-//			QTextStream out(&data);
-//			out << doc.toHtml ();
-//		}
-//		data.close ();
-
 		QTextCharFormat fmt;
 		fmt.setFontFamily ( "Courier" );
 		fmt.setFontPointSize ( 12 );
-		fmt.setFontWeight ( QFont::Normal );
 		cursor.select ( QTextCursor::Document );
-		cursor.setCharFormat ( fmt );
+		cursor.mergeCharFormat ( fmt );
+
+		//Convert bold/italic to underline if requested.
+		if ( _convertToUnderlineEmphasis ) {
+			convertToUnderlineEmphasis ( doc );
+		}
 
 		doc.setDocumentLayout ( new ManuscriptPDFDocumentLayout ( &doc ) );
 		QPainter painter ( &printer );
@@ -189,6 +166,61 @@ namespace Hovel
 		return true;
 	}
 
+	void Export::setupPrinter ( QPrinter & printer, QPrinter::OutputFormat outputFormat )
+	{
+		printer.setOutputFormat ( outputFormat );
+		printer.setPaperSize ( QPrinter::A4 );
+		printer.setPageMargins ( 25.4, 25.4, 25.4, 25.4, QPrinter::Millimeter );
+
+		if ( outputFormat == QPrinter::NativeFormat ) {
+		}
+		else {
+			QString filter;
+			QString suffix;
+
+			if ( outputFormat == QPrinter::PdfFormat ) {
+				filter = tr ( "PDF files (*.pdf)" );
+				suffix = "pdf";
+			}
+			else if ( outputFormat == QPrinter::PostScriptFormat ) {
+				filter = tr ( "Postscript files (*.ps)" );
+				suffix = "ps";
+			}
+			else
+				return;
+
+			if ( !getExportFilename ( filter ) )
+				return;
+			QRegExp regexpSuffix ( "\\." + suffix + "$$", Qt::CaseInsensitive );
+			if ( regexpSuffix.indexIn ( _fileName ) == -1 )
+				_fileName += suffix;
+
+			printer.setOutputFileName ( _fileName );
+		}
+	}
+
+	void Export::convertToUnderlineEmphasis ( QTextDocument& doc )
+	{
+		QTextCharFormat underlineFormat;
+		underlineFormat.setFontWeight ( QFont::Normal );
+		underlineFormat.setFontUnderline ( true );
+		underlineFormat.setFontItalic ( false );
+
+		for ( QTextBlock currentBlock = doc.begin (); currentBlock != doc.end (); currentBlock = currentBlock.next () ) {
+			for (QTextBlock::iterator fragmentIterator = currentBlock.begin(); ! fragmentIterator.atEnd (); ++fragmentIterator) {
+				QTextFragment currentFragment = fragmentIterator.fragment();
+				if (currentFragment.isValid()) {
+					if (	currentFragment.charFormat ().fontWeight () == QFont::Bold ||
+							currentFragment.charFormat ().fontItalic () ) {
+						QTextCursor cursor ( &doc );
+						cursor.setPosition ( currentFragment.position () );
+						cursor.movePosition ( QTextCursor::NextCharacter, QTextCursor::KeepAnchor, currentFragment.length () );
+						cursor.mergeCharFormat ( underlineFormat );
+					}
+				}
+			}
+		}
+	}
 
 	/*!
 	  Exports a \c BookItem in Manuscript format as a PDF file.

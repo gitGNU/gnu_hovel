@@ -30,6 +30,8 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "hovelmodel.h"
 #include "bookitem.h"
 
+class QTextDocument;
+
 namespace Hovel
 {
 
@@ -48,6 +50,8 @@ namespace Hovel
 
 	private:
 		void loadExportTemplates();
+		void setupPrinter ( QPrinter &, QPrinter::OutputFormat );
+		void convertToUnderlineEmphasis ( QTextDocument& );
 
 		QWidget				*_parent;
 		HovelModel			*_model;
@@ -55,6 +59,8 @@ namespace Hovel
 
 		QString				_htmlHeadTemplate;
 		QString				_htmlBodyTemplate;
+
+		bool				_convertToUnderlineEmphasis;
 	};
 
 }

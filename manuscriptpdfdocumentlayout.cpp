@@ -67,10 +67,11 @@ namespace Hovel
 				//Create each line in the paragraph
 				textLayout->beginLayout ();
 				forever {
-					qreal lineWidth = doc->pageSize ().width ();
 					QTextLine line = textLayout->createLine ();
 					if ( !line.isValid () )
 						break;
+
+					qreal lineWidth = doc->pageSize ().width ();
 
 					if ( newParagraph ) {
 						leftIndent = 30;
@@ -116,8 +117,8 @@ namespace Hovel
 		//Calculate page count.
 		_pageCount = static_cast<int>(yPosition) / static_cast<int>(ySize);
 
-		emit pageCountChanged ( 1 );
-		emit documentSizeChanged ( QSizeF ( 500, 500 ) );
+		emit pageCountChanged ( _pageCount );
+		emit documentSizeChanged ( QSizeF ( doc->pageSize ().width (), yPosition ) );
 		emit update ();
 
 	}
