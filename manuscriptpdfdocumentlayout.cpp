@@ -42,9 +42,11 @@ namespace Hovel
 		QTextDocument *doc = document ();
 		QTextFrame * rootFrame = doc->rootFrame ();
 		qreal ySize =  doc->pageSize ().height ();
-		qreal yPosition = 0;
 		qreal lineSpacing = 2;
 		qreal bottomOfPageY = ySize;
+		qreal yPosition = ySize / 2 ;
+		int pageNumber = 0;
+		_pagesWithHeader.clear ();
 
 		//Each chapter has been placed in its own frame in export.cpp. Now iterate through them.
 		foreach ( QTextFrame* frame, rootFrame->childFrames () ) {
@@ -97,6 +99,7 @@ namespace Hovel
 					if ( yPosition + line.height () > bottomOfPageY ) {
 						yPosition += ( bottomOfPageY - yPosition );
 						bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
+						_pagesWithHeader.push_back ( ++pageNumber );
 					}
 
 				}
@@ -109,8 +112,9 @@ namespace Hovel
 			//If the frame requires a page eject.
 			if ( frame->frameFormat ().pageBreakPolicy () & QTextFormat::PageBreak_AlwaysAfter ) {
 				bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
-				yPosition += ( bottomOfPageY - yPosition );
+				yPosition += ( bottomOfPageY - yPosition + ySize / 2 );
 				bottomOfPageY = ( static_cast<int>(yPosition) / static_cast<int>(ySize) + 1 ) * ySize;
+				++pageNumber;
 			}
 		}
 
@@ -164,6 +168,14 @@ namespace Hovel
 	QRectF ManuscriptPDFDocumentLayout::blockBoundingRect ( const QTextBlock & block ) const
 	{
 		return QRectF();
+	}
+
+	/*!
+	  Determines if \a page requires a header to be output.
+	 */
+	bool ManuscriptPDFDocumentLayout::pageRequiresHeader ( int page )
+	{
+		return _pagesWithHeader.contains ( page ) ? true : false;
 	}
 
 }

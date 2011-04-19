@@ -41,11 +41,15 @@ namespace Hovel
 		QRectF frameBoundingRect ( QTextFrame * ) const;
 		QRectF blockBoundingRect ( const QTextBlock & ) const;
 
+		bool pageRequiresHeader ( int );
+
 
 	protected:
 		void documentChanged ( int position, int charsRemoved, int charsAdded );
 
-		int _pageCount;
+	private:
+		int				_pageCount;
+		QVector<int>	_pagesWithHeader;
 	};
 
 }

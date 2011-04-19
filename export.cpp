@@ -110,19 +110,28 @@ namespace Hovel
 		blockFormat.setAlignment ( Qt::AlignLeft );
 
 		//Format for the separator.
-		QTextBlockFormat separatorBlockFormat;
-		separatorBlockFormat.setAlignment ( Qt::AlignHCenter );
+		QTextBlockFormat centeredBlockFormat;
+		centeredBlockFormat.setAlignment ( Qt::AlignHCenter );
 
 		//Create the document contents, one chaper per frame.
 		foreach ( ChapterItem * chapterItem, book->chapterItems() ) {
 			QTextFrame * mainFrame = cursor.currentFrame();
 			cursor.insertFrame ( frameFormat );
+
+			//Add the chapter title
+			cursor.setBlockFormat ( centeredBlockFormat );
+			cursor.insertHtml ( chapterItem->data ( Hovel::TitleRole ).toString () );
+
+			//Add the scenes
+			cursor.insertBlock ();
+			cursor.setBlockFormat ( blockFormat );
+
 			foreach ( TextItem * textItem, chapterItem->textItems() ) {
 				cursor.insertHtml ( textItem->data ( TextRole ).toString () );
 				cursor.setBlockFormat ( blockFormat );
 				if ( !textItem->IsLastItem () ) {
 					cursor.insertBlock ();
-					cursor.setBlockFormat ( separatorBlockFormat );
+					cursor.setBlockFormat ( centeredBlockFormat );
 					cursor.insertHtml ( "*" );
 					cursor.insertBlock ();
 					cursor.setBlockFormat ( blockFormat );
@@ -143,7 +152,8 @@ namespace Hovel
 			convertToUnderlineEmphasis ( doc );
 		}
 
-		doc.setDocumentLayout ( new ManuscriptPDFDocumentLayout ( &doc ) );
+		ManuscriptPDFDocumentLayout * layout = new ManuscriptPDFDocumentLayout ( &doc );
+		doc.setDocumentLayout ( layout );
 		QPainter painter ( &printer );
 		QAbstractTextDocumentLayout::PaintContext paintContext;
 
@@ -158,11 +168,15 @@ namespace Hovel
 			painter.save ();
 			painter.translate ( 0, -( pageNumber * pageRect.height () ) );
 
-			QString header = QString ("%1/%2/%3")	.arg ( book->propertyData ( Hovel::AuthorRole ).toString () )
-													.arg ( book->propertyData ( Hovel::TitleRole ).toString () )
-													.arg ( pageNumber + 1 );
+			if ( layout->pageRequiresHeader ( pageNumber ) ) {
+				QString header = QString ("%1/%2/%3")	.arg ( book->data ( Hovel::AuthorRole ).toString () )
+														.arg ( book->data ( Hovel::TitleRole ).toString () )
+														.arg ( pageNumber + 1 );
 
-			painter.drawText (	QPointF ( pageRect.width () - 150, pageNumber * pageRect.height () -top + 15 ), header );
+				QRectF headerRect ( 0, pageNumber * pageRect.height () -top + 15,
+									pageRect.width (), pageRect.height () );
+				painter.drawText ( headerRect, Qt::AlignRight, header);
+			}
 
 			QRectF view ( 0, pageNumber * pageRect.height (), pageRect.width (), pageRect.height () );
 			painter.setClipRect( view );
