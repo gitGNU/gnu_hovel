@@ -11,11 +11,33 @@
 # You should have received a copy of the GNU General Public License
 # along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
-CONFIG += warn_on
+TEMPLATE = lib
+QT += xml
+TARGET = hovel
 
-TEMPLATE = subdirs
+!include( ../common.pri ):error( "Couldn't find common.pri" )
 
-SUBDIRS =	lib \
-			app
+HEADERS +=	bookitem.h \
+			chapteritem.h \
+			characteritem.h \
+			folderitem.h \
+			hovelitem.h \
+			hovelitemmimedata.h \
+			hovelmodel.h \
+			locationitem.h \
+			projectitem.h \
+			serialise.h \
+			textitem.h
 
-CONFIG += ordered
+
+SOURCES +=	bookitem.cpp \
+			chapteritem.cpp \
+			characteritem.cpp \
+			folderitem.cpp \
+			hovelitem.cpp \
+			hovelitemmimedata.cpp \
+			hovelmodel.cpp \
+			locationitem.cpp \
+			projectitem.cpp \
+			textitem.cpp
+
