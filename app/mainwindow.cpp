@@ -28,11 +28,12 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 #include "hovelitem.h"
 #include "characteritem.h"
 #include "locationitem.h"
-#include "export.h"
 #include "utilities.h"
+#include "exportinterface.h"
 
 #include <QSettings>
 #include <QtGui>
+#include <QDir>
 
 namespace Hovel
 {
@@ -52,6 +53,7 @@ namespace Hovel
 
 		createActions();
 		createMenus();
+		loadPlugins ();
 		createToolBars();
 		createDockWidgets();
 
@@ -136,12 +138,6 @@ namespace Hovel
 		_saveProjectAsAction = new QAction(tr("Save project &as"), this);
 		connect(_saveProjectAsAction, SIGNAL(triggered()), this, SLOT(saveProjectAs()));
 
-		_exportHtmlFileAction = new QAction(tr("to single &Html file"), this);
-		connect(_exportHtmlFileAction, SIGNAL(triggered()), this, SLOT(exportHtmlFile()));
-
-		_exportManuscriptPDFAction = new QAction ( tr ( "to Manuscript PDF file" ), this );
-		connect( _exportManuscriptPDFAction, SIGNAL ( triggered () ), this, SLOT ( exportManuscriptPDFFile () ) );
-
 		_exitAction = new QAction(tr("E&xit"), this);
 		_exitAction->setShortcut(tr("Ctrl+Q"));
 		connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -157,8 +153,6 @@ namespace Hovel
 	void MainWindow::createMenus()
 	{
 		_exportMenu = new QMenu(tr("Export . . ."));
-		_exportMenu->addAction(_exportHtmlFileAction);
-		_exportMenu->addAction ( _exportManuscriptPDFAction );
 
 		_projectMenu = new QMenu(tr("Project"));
 		_projectMenu->addAction(_newProjectAction);
@@ -268,6 +262,47 @@ namespace Hovel
 		_propertiesProxyModel->setSourceModel ( _projectModel );
 		delete oldModel;
 		oldModel = 0;
+		return true;
+	}
+
+	/*!
+	  Loads plugins.
+	 */
+	void MainWindow::loadPlugins ()
+	{
+		//First, load any static plugins.
+		foreach ( QObject * plugin, QPluginLoader::staticInstances () ) {
+			addPluginToMenu ( plugin );
+		}
+
+		//Now load dynamic plugins.
+		QDir pluginsDir = QDir ( qApp->applicationDirPath () );
+		pluginsDir.cd ("plugins" );
+
+		foreach ( QString fileName, pluginsDir.entryList ( QDir::Files ) ) {
+			QPluginLoader loader ( pluginsDir.absoluteFilePath ( fileName ) );
+			QObject * plugin = loader.instance ();
+			if ( plugin ) {
+				addPluginToMenu ( plugin );
+			}
+		}
+	}
+
+	/*!
+	  Adds a plugin to the correct menu.
+	 */
+	bool MainWindow::addPluginToMenu ( QObject * plugin )
+	{
+		//Find out the type of plugin.
+		ExportInterface * iExport = qobject_cast<ExportInterface *> ( plugin );
+		if ( iExport ) {
+			QAction * action = new QAction ( iExport->menuText (), plugin );
+			connect ( action, SIGNAL ( triggered () ), this, SLOT ( doExport () ) );
+			_exportMenu->addAction ( action );
+		}
+		else
+			return false;	//Unrecognised plugin type.
+
 		return true;
 	}
 
@@ -663,31 +698,19 @@ namespace Hovel
 	}
 
 	/*!
-	  Exports the project to an HTML file.
+	  Carries out the required export action.
 	 */
-	void MainWindow::exportHtmlFile()
+	void MainWindow::doExport ()
 	{
-		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
-		if ( !currentBookIndex.isValid() )
+		QModelIndex currentBookIndex = _projectModel->currentBook ( _projectTreeView->selectionModel ()->selectedIndexes () );
+		if ( !currentBookIndex.isValid () )
 			return;
 
-		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
-		Export exporter(this, _projectModel);
-		exporter.toHtmlFile ( currentBook );
-	}
+		BookItem * currentBook = static_cast<BookItem *> ( currentBookIndex.internalPointer () );
 
-	/*!
-	  Exports the project to a Manuscript format PDF file.
-	 */
-	void MainWindow::exportManuscriptPDFFile ()
-	{
-		QModelIndex currentBookIndex = _projectModel->currentBook(_projectTreeView->selectionModel()->selectedIndexes());
-		if ( !currentBookIndex.isValid() )
-			return;
-
-		BookItem * currentBook = static_cast<BookItem *>(currentBookIndex.internalPointer());
-		Export exporter ( this, _projectModel );
-		exporter.toPrinter ( currentBook, QPrinter::PdfFormat );
+		QAction *action = qobject_cast<QAction *> ( sender() );
+		ExportInterface *iExport = qobject_cast<ExportInterface *> ( action->parent () );
+		iExport->exportBook ( currentBook );
 	}
 
 	/*!

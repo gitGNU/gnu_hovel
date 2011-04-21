@@ -36,9 +36,9 @@ namespace Hovel
 		_canModify = true;
 	}
 
-	HovelItem * FolderItem::child(int row)
+	HovelItem * FolderItem::child ( int row ) const
 	{
-		return _childItems.value(row);
+		return _childItems.value ( row );
 	}
 
 	QVariant FolderItem::data(int role) const

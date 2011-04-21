@@ -37,7 +37,7 @@ namespace Hovel
 		BookItem(HovelItem * parent, QString title, QString author = "");
 
 		//HovelItem functions
-		HovelItem * child(int row);
+		HovelItem * child ( int row ) const;
 		int propertyCount() const;
 		QVariant propertyData(int role) const;
 		const QList<DataRole> displayableProperties() const;
@@ -46,7 +46,7 @@ namespace Hovel
 		QDomElement toQDomElement(QDomDocument&);
 		void fromQDomElement(QDomElement &);
 
-		QList<ChapterItem *> chapterItems();
+		QList<ChapterItem *> chapterItems() const;
 
 	private:
 	};

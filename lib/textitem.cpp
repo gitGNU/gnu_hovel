@@ -39,9 +39,9 @@ namespace Hovel
 		_canModify = true;
 	}
 
-	HovelItem * TextItem::child(int row)
+	HovelItem * TextItem::child ( int row ) const
 	{
-		return _childItems.value(row);
+		return _childItems.value ( row );
 	}
 
 	/*!

@@ -36,9 +36,9 @@ namespace Hovel
 		_canModify = true;
 	}
 
-	HovelItem * ProjectItem::child(int row)
+	HovelItem * ProjectItem::child ( int row ) const
 	{
-		return _childItems.value(row);
+		return _childItems.value ( row );
 	}
 
 	QDomElement ProjectItem::toQDomElement(QDomDocument& doc)

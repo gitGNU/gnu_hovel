@@ -41,7 +41,7 @@ namespace Hovel
 		const QList<HovelItem *> children() const { return _childItems; }
 
 		//HovelItem functions
-		HovelItem * child(int row);
+		HovelItem * child ( int row ) const;
 
 		//Serialise functions
 		QDomElement toQDomElement(QDomDocument&);

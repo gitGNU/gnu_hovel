@@ -1,6 +1,6 @@
 /****************************************************************************
 
-Copyright (C) 2010 Jonathan Crowe.
+Copyright (C) 2011 Jonathan Crowe.
 
 This file is part of Hovel.
 
@@ -19,33 +19,29 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#ifndef EXPORTINTERFACE_H
+#define EXPORTINTERFACE_H
 
-
-#ifndef HOVELITEMMIMEDATA_H
-#define HOVELITEMMIMEDATA_H
-
-#include <QMimeData>
-#include <QList>
-
-#include "hovelitem.h"
+#include <QString>
+#include <QFileDialog>
 
 namespace Hovel
 {
+	class BookItem;
 
-	class HovelItemMimeData : public QMimeData
+	class ExportInterface
 	{
-		Q_OBJECT
 	public:
-		explicit HovelItemMimeData();
+		virtual ~ExportInterface () {}
 
-		QStringList formats () const;
-		const QList<HovelItem *> items() const;
-		void appendItem(HovelItem *);
+		virtual QString name () const = 0;
+		virtual QString menuText () const = 0;
 
-	private:
-		QList<HovelItem *> _items;
+		virtual bool exportBook ( const BookItem * ) = 0;
 	};
 
 }
 
-#endif // HOVELITEMMIMEDATA_H
+Q_DECLARE_INTERFACE ( Hovel::ExportInterface, "Hovel.ExportInterface/1.0" )
+
+#endif // EXPORTINTERFACE_H

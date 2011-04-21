@@ -38,9 +38,9 @@ namespace Hovel
 		_canModify = true;
 	}
 
-	HovelItem * BookItem::child(int row)
+	HovelItem * BookItem::child ( int row ) const
 	{
-		return _childItems.value(row);
+		return _childItems.value ( row );
 	}
 
 	/*!
@@ -102,7 +102,7 @@ namespace Hovel
 		}
 	}
 
-	QList<ChapterItem *> BookItem::chapterItems()
+	QList<ChapterItem *> BookItem::chapterItems() const
 	{
 		QList<ChapterItem *> chapters;
 

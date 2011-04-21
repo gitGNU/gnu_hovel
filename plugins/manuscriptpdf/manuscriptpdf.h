@@ -1,6 +1,6 @@
 /****************************************************************************
 
-Copyright (C) 2010 Jonathan Crowe.
+Copyright (C) 2011 Jonathan Crowe.
 
 This file is part of Hovel.
 
@@ -19,33 +19,29 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#ifndef MANUSCRIPTPDF_H
+#define MANUSCRIPTPDF_H
 
+#include <QObject>
+#include <QPrinter>
 
-#ifndef HOVELITEMMIMEDATA_H
-#define HOVELITEMMIMEDATA_H
+#include "exportinterface.h"
 
-#include <QMimeData>
-#include <QList>
+class QTextDocument;
 
-#include "hovelitem.h"
-
-namespace Hovel
+class ManuscriptPdf :	public QObject,
+						public Hovel::ExportInterface
 {
+	Q_OBJECT
+	Q_INTERFACES ( Hovel::ExportInterface )
+public:
+	QString name () const { return "ManuscriptPdf"; }
+	QString menuText () const { return "to manuscript PDF"; }
+	bool exportBook ( const Hovel::BookItem * );
 
-	class HovelItemMimeData : public QMimeData
-	{
-		Q_OBJECT
-	public:
-		explicit HovelItemMimeData();
+private:
+	void convertToUnderlineEmphasis ( QTextDocument& doc );
+	void setupPrinter ( QPrinter & printer, QPrinter::OutputFormat outputFormat );
+};
 
-		QStringList formats () const;
-		const QList<HovelItem *> items() const;
-		void appendItem(HovelItem *);
-
-	private:
-		QList<HovelItem *> _items;
-	};
-
-}
-
-#endif // HOVELITEMMIMEDATA_H
+#endif // MANUSCRIPTPDF_H

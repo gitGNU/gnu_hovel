@@ -34,7 +34,7 @@ namespace Hovel
 		_canModify = true;
 	}
 
-	HovelItem * LocationItem::child(int row)
+	HovelItem * LocationItem::child ( int row ) const
 	{
 		return _childItems.value ( row );
 	}

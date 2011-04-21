@@ -1,6 +1,6 @@
 /****************************************************************************
 
-Copyright (C) 2010 Jonathan Crowe.
+Copyright (C) 2011 Jonathan Crowe.
 
 This file is part of Hovel.
 
@@ -19,33 +19,29 @@ along with Hovel.  If not, see <http://www.gnu.org/licenses/>.
 
 ****************************************************************************/
 
+#ifndef EXPORTHTML_H
+#define EXPORTHTML_H
 
+#include <QObject>
 
-#ifndef HOVELITEMMIMEDATA_H
-#define HOVELITEMMIMEDATA_H
+#include "exportinterface.h"
 
-#include <QMimeData>
-#include <QList>
-
-#include "hovelitem.h"
-
-namespace Hovel
+class ExportHtml :	public QObject,
+					public Hovel::ExportInterface
 {
+    Q_OBJECT
+	Q_INTERFACES ( Hovel::ExportInterface )
+public:
+	QString name () const { return "ExportHTML"; }
+	QString menuText () const { return "to single HTML file"; }
 
-	class HovelItemMimeData : public QMimeData
-	{
-		Q_OBJECT
-	public:
-		explicit HovelItemMimeData();
+	bool exportBook ( const Hovel::BookItem * );
 
-		QStringList formats () const;
-		const QList<HovelItem *> items() const;
-		void appendItem(HovelItem *);
+private:
+	QString loadTextResource ( QString resource ) const;
 
-	private:
-		QList<HovelItem *> _items;
-	};
+	QString				_htmlHeadTemplate;
+	QString				_htmlBodyTemplate;
+};
 
-}
-
-#endif // HOVELITEMMIMEDATA_H
+#endif // EXPORTHTML_H

@@ -37,7 +37,7 @@ namespace Hovel
 		FolderItem(HovelItem * parent, QString title);
 
 		//HovelItem functions
-		HovelItem * child(int row);
+		HovelItem * child ( int row ) const;
 		QVariant data(int role) const;
 
 		//Serialise functions

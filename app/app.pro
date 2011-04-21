@@ -1,4 +1,4 @@
-# Copyright (C) 2010 Jonathan Crowe.
+# Copyright (C) 2011 Jonathan Crowe.
 # This file is part of Hovel.
 # Hovel is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +21,7 @@ INCLUDEPATH += ../lib \
 CONFIG(debug, debug|release) {
 	PRE_TARGETDEPS = ../build/debug/libhovel.a
 
-	LIBS += -L../build/debug \
-		-lhovel
+	LIBS += -L../build/debug -lhovel
 }
 else {
 	PRE_TARGETDEPS = ../build/release/libhovel.a
@@ -31,10 +30,9 @@ else {
 		-lhovel
 }
 
-HEADERS +=	export.h \
+HEADERS +=	\
 			formattingtoolbar.h \
 			mainwindow.h \
-			manuscriptpdfdocumentlayout.h \
 			multilineitemdelegate.h \
 			projecttreeview.h \
 			propertiesproxymodel.h \
@@ -45,10 +43,8 @@ HEADERS +=	export.h \
 			utilities.h
 
 SOURCES +=	main.cpp \
-			export.cpp \
 			formattingtoolbar.cpp \
 			mainwindow.cpp \
-			manuscriptpdfdocumentlayout.cpp \
 			multilineitemdelegate.cpp \
 			projecttreeview.cpp \
 			propertiesproxymodel.cpp \
@@ -61,7 +57,5 @@ SOURCES +=	main.cpp \
 RESOURCES += hovel.qrc
 
 OTHER_FILES +=	styles/default.qss \
-				styles/scene_fullscreen.qss \
-				htmltemplates/head.txt \
-				htmltemplates/body.txt
+				styles/scene_fullscreen.qss
 FORMS +=

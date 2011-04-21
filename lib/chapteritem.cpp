@@ -35,9 +35,9 @@ namespace Hovel
 		_canModify = true;;
 	}
 
-	HovelItem * ChapterItem::child(int row)
+	HovelItem * ChapterItem::child ( int row ) const
 	{
-		return _childItems.value(row);
+		return _childItems.value ( row );
 	}
 
 	/*!

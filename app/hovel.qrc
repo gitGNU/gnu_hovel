@@ -20,8 +20,4 @@
         <file alias="default_style">styles/default.qss</file>
         <file alias="scene_fullscreen">styles/scene_fullscreen.qss</file>
     </qresource>
-    <qresource prefix="/htmltemplates">
-        <file alias="head">htmltemplates/head.txt</file>
-        <file alias="body">htmltemplates/body.txt</file>
-    </qresource>
 </RCC>

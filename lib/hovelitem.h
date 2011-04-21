@@ -43,7 +43,7 @@ namespace Hovel
 	public:
 		virtual ~HovelItem();
 
-		virtual HovelItem * child(int row) = 0;
+		virtual HovelItem * child ( int row ) const = 0;
 		HovelItem *parent() { return _parentItem; }
 		int row() const;
 		int childCount() const;

@@ -37,7 +37,7 @@ namespace Hovel
 		ChapterItem(HovelItem * parent, QString title);
 
 		//HovelItem functions
-		HovelItem * child(int row);
+		HovelItem * child ( int row ) const;
 		int propertyCount() const;
 		QVariant propertyData(int role) const;
 		const QList<DataRole> displayableProperties() const;
