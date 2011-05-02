@@ -19,13 +19,9 @@ INCLUDEPATH += ../lib \
 !include( ../common.pri ):error( "Couldn't find common.pri" )
 
 CONFIG(debug, debug|release) {
-	#PRE_TARGETDEPS = ../build/debug/libhovel.so
-
 	LIBS += -L../build/debug -lhovel
 }
 else {
-	#PRE_TARGETDEPS = ../build/release/libhovel.so
-
 	LIBS += -L../build/release \
 		-lhovel
 }
