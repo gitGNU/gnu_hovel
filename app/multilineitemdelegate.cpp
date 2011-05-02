@@ -35,7 +35,7 @@ namespace Hovel
 	/*!
 	  Create and populate the QTextEdit used for editing the role.
 	 */
-	QWidget * MultiLineItemDelegate::createEditor ( QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const
+	QWidget * MultiLineItemDelegate::createEditor ( QWidget *parent, const QStyleOptionViewItem & /*option*/, const QModelIndex & index ) const
 	{
 		QTextEdit *editor = new QTextEdit ( parent );
 
@@ -60,7 +60,7 @@ namespace Hovel
 	  Resize the editors geometry to show more text than the table
 	  cell will allow.
 	 */
-	void MultiLineItemDelegate::updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+	void MultiLineItemDelegate::updateEditorGeometry ( QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & /*index*/ ) const
 	{
 		QRect editingRect = option.rect;
 		editingRect.adjust ( 0, 0, 0, 100 );
