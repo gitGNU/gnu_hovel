@@ -35,7 +35,7 @@ namespace Hovel
 {
 
 	//! \see Qt::ItemDataRole
-	enum DataRole { TitleRole = 0, TextRole = 32, StatusRole, SummaryRole, AuthorRole, POVRole, LocationRole, LastRole };
+	enum DataRole { TitleRole = 0, TextRole = 32, StatusRole, SummaryRole, AuthorRole, POVRole, LocationRole, ExportRole, LastRole };
 	enum Status { NewStatus, OutlineStatus, DraftStatus, RevisingStatus, CompleteStatus };
 
 	class HovelItem : public Serialise
