@@ -98,7 +98,7 @@ namespace Hovel
 		_roleData[StatusRole] = QVariant(el.attribute("Status", "0")).toInt();
 		_roleData[POVRole] = QVariant(el.attribute("POV", "")).toString();
 		_roleData[LocationRole] = QVariant(el.attribute ( "Location", "" ) ).toString ();
-		_roleData[ExportRole] = QVariant ( el.attribute ( "Export", "false" ) ).toBool ();
+		_roleData[ExportRole] = QVariant ( el.attribute ( "Export", "true" ) ).toBool ();
 
 		QDomNode n = el.firstChild();
 		while (!n.isNull()) {
