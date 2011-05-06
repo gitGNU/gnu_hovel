@@ -145,7 +145,7 @@ namespace Hovel
 	  Since the document this layout is for will never be displayed, this function need
 	  not be implemented.
 	 */
-	int ManuscriptPDFDocumentLayout::hitTest ( const QPointF &point, Qt::HitTestAccuracy accuracy ) const
+	int ManuscriptPDFDocumentLayout::hitTest ( const QPointF &/*point*/, Qt::HitTestAccuracy /*accuracy*/ ) const
 	{
 		return -1;
 	}
@@ -160,12 +160,12 @@ namespace Hovel
 		return QSizeF();
 	}
 
-	QRectF ManuscriptPDFDocumentLayout::frameBoundingRect ( QTextFrame * frame ) const
+	QRectF ManuscriptPDFDocumentLayout::frameBoundingRect ( QTextFrame * /*frame*/ ) const
 	{
 		return QRectF();
 	}
 
-	QRectF ManuscriptPDFDocumentLayout::blockBoundingRect ( const QTextBlock & block ) const
+	QRectF ManuscriptPDFDocumentLayout::blockBoundingRect ( const QTextBlock & /*block*/ ) const
 	{
 		return QRectF();
 	}

@@ -38,12 +38,12 @@ namespace Hovel
 		return createIndex(row, column, parent.internalPointer());
 	}
 
-	QModelIndex PropertiesProxyModel::parent(const QModelIndex &child) const
+	QModelIndex PropertiesProxyModel::parent ( const QModelIndex & /*child*/ ) const
 	{
 		return QModelIndex();
 	}
 
-	int PropertiesProxyModel::rowCount(const QModelIndex &parent) const
+	int PropertiesProxyModel::rowCount ( const QModelIndex & /*parent*/ ) const
 	{
 		if( !_selectedItem.isValid() )
 			return 0;
@@ -51,7 +51,7 @@ namespace Hovel
 		return item->propertyCount();
 	}
 
-	int PropertiesProxyModel::columnCount(const QModelIndex &parent) const
+	int PropertiesProxyModel::columnCount ( const QModelIndex & /*parent*/ ) const
 	{
 		return 2;
 	}
@@ -106,7 +106,7 @@ namespace Hovel
 			return Qt::ItemIsEnabled;
 	}
 
-	bool PropertiesProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+	bool PropertiesProxyModel::setData (const QModelIndex & index, const QVariant & value, int /*role*/ )
 	{
 		QModelIndex sourceIndex = mapToSource(index);
 		if (!sourceIndex.isValid()) return false;
@@ -119,7 +119,7 @@ namespace Hovel
 		return true;
 	}
 
-	void PropertiesProxyModel::selectionChanged(const QItemSelection& newSelection, const QItemSelection& previousSelection)
+	void PropertiesProxyModel::selectionChanged ( const QItemSelection & newSelection, const QItemSelection & /*previousSelection*/ )
 	{
 		_selectedItem = newSelection.indexes()[0];
 		HovelItem *item = static_cast<HovelItem *>(mapToSource(_selectedItem).internalPointer());

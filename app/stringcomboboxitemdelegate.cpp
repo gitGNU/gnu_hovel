@@ -39,7 +39,7 @@ namespace Hovel
 	/*!
 	  Create and populate the QComboBox used for editing the role.
 	 */
-	QWidget *StringComboBoxItemDelegate::createEditor ( QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const
+	QWidget *StringComboBoxItemDelegate::createEditor ( QWidget *parent, const QStyleOptionViewItem & /*option*/, const QModelIndex & index ) const
 	{
 		QComboBox *editor = new QComboBox ( parent );
 		connect ( editor, SIGNAL ( currentIndexChanged ( const QString & ) ), this, SLOT ( valueChanged ( const QString & ) ) );
@@ -77,7 +77,7 @@ namespace Hovel
 	/*!
 	  Resize the combobox's geometry to fit in the table cell.
 	 */
-	void StringComboBoxItemDelegate::updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+	void StringComboBoxItemDelegate::updateEditorGeometry ( QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & /*index*/ ) const
 	{
 		editor->setGeometry ( option.rect );
 	}
@@ -86,7 +86,7 @@ namespace Hovel
 	  Makes sure that the newly selected value is committed to the model. For some reason, data is not
 	  committed until the focus moves away from the combo box otherwise.
 	 */
-	void StringComboBoxItemDelegate::valueChanged ( const QString & text )
+	void StringComboBoxItemDelegate::valueChanged ( const QString & /*text*/ )
 	{
 		QComboBox *editor = (QComboBox*)sender ();
 		emit commitData ( editor );

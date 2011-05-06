@@ -38,7 +38,7 @@ namespace Hovel
 	/*!
 	  Create and populate the QComboBox used for editing the Status.
 	 */
-	QWidget *StatusComboBoxItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+	QWidget *StatusComboBoxItemDelegate::createEditor ( QWidget * parent, const QStyleOptionViewItem & /*option*/, const QModelIndex & /*index*/ ) const
 	{
 		QComboBox *editor = new QComboBox(parent);
 		connect(editor, SIGNAL(currentIndexChanged(int)), this, SLOT(statusChanged(int)));
@@ -78,7 +78,7 @@ namespace Hovel
 	/*!
 	  Resize the combobox's geometry to fit in the table cell.
 	 */
-	void StatusComboBoxItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+	void StatusComboBoxItemDelegate::updateEditorGeometry ( QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & /*index*/ ) const
 	{
 		editor->setGeometry(option.rect);
 	}
@@ -116,7 +116,7 @@ namespace Hovel
 	  Makes sure that the newly selected status is committed to the model. For some reason, data is not
 	  committed until the focus moves away from the combo box otherwise.
 	 */
-	void StatusComboBoxItemDelegate::statusChanged(int index)
+	void StatusComboBoxItemDelegate::statusChanged ( int /*index*/ )
 	{
 		QComboBox *editor = (QComboBox*)sender();
 		emit commitData ( editor );

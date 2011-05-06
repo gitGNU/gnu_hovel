@@ -265,7 +265,7 @@ namespace Hovel
 	/*!
 	  Insert a hierarchy of HovelItems into the model.
 	 */
-	void HovelModel::insertTree ( const HovelItem * rootItem, const QModelIndex & parent, int row, int column )
+	void HovelModel::insertTree ( const HovelItem * rootItem, const QModelIndex & parent, int row, int /*column*/ )
 	{
 		insertRows ( row, 1, parent );
 		QModelIndex newRootIndex = parent.child(row, 0);

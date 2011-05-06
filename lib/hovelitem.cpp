@@ -64,7 +64,7 @@ namespace Hovel
 		return QVariant();
 	}
 
-	QVariant HovelItem::propertyData(int role) const
+	QVariant HovelItem::propertyData ( int /*role*/ ) const
 	{
 		return QVariant();
 	}

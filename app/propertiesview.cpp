@@ -94,7 +94,7 @@ namespace Hovel
 		horizontalHeader()->resizeSection(1, viewWidth - titleColumnWidth - 10);
 	}
 
-	void PropertiesView::finishedEditing ( QWidget * editor, QAbstractItemDelegate::EndEditHint hint )
+	void PropertiesView::finishedEditing ( QWidget * editor, QAbstractItemDelegate::EndEditHint /*hint*/ )
 	{
 		closeEditor ( editor, QAbstractItemDelegate::NoHint );
 	}
