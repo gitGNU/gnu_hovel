@@ -33,4 +33,4 @@ object_script.lib*
 qrc_hovel.cpp
 
 #qt creator files
-hovel.pro.user.1.3
+hovel.pro.user.*
